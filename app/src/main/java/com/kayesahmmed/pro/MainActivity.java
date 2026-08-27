@@ -1176,31 +1176,41 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
+	private android.app.AlertDialog customLoadingDialog = null;
+
 	public void _loadingdialog(final boolean _ifShow, final String _title) {
 		if (_ifShow) {
-			if (prog == null){
-				prog = new ProgressDialog(this);
-				prog.setMax(100);
-				prog.setIndeterminate(true);
-				prog.setCancelable(false);
-				prog.setCanceledOnTouchOutside(false);
+			if (customLoadingDialog == null) {
+				View v = getLayoutInflater().inflate(R.layout.dialog_loading, null);
+				TextView tv = v.findViewById(R.id.loading_title);
+				if (tv != null && _title != null) tv.setText(_title);
+				customLoadingDialog = new android.app.AlertDialog.Builder(this).create();
+				customLoadingDialog.setView(v);
+				customLoadingDialog.setCancelable(false);
+				customLoadingDialog.setCanceledOnTouchOutside(false);
+				if (customLoadingDialog.getWindow() != null) {
+					customLoadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+					customLoadingDialog.getWindow().setDimAmount(0.65f);
+				}
+			} else {
+				TextView tv = customLoadingDialog.findViewById(R.id.loading_title);
+				if (tv != null && _title != null) tv.setText(_title);
 			}
-			prog.setMessage(_title);
-			prog.show();
-			
+			try {
+				if (!customLoadingDialog.isShowing() && !isFinishing()) {
+					customLoadingDialog.show();
+				}
+			} catch (Exception ignored) {}
 		} else {
-			if (prog != null){
-				prog.dismiss();
+			if (customLoadingDialog != null) {
+				try {
+					customLoadingDialog.dismiss();
+				} catch (Exception ignored) {}
+				customLoadingDialog = null;
 			}
-			
-			
 		}
-	} private ProgressDialog prog; {
-		
-		
 	}
-	
-	
+
 	public void _component_dialog() {
 		if (android.provider.Settings.canDrawOverlays(MainActivity.this)) {
 			_loadingdialog(true, "Verifying With Server...");
@@ -1211,20 +1221,53 @@ public class MainActivity extends AppCompatActivity {
 						@Override
 						public void run() {
 							_loadingdialog(false, "Verifying With Server...");
-							dg.setTitle("Success !");
-							dg.setMessage("User Info :- \n".concat("User Name :".concat(KEY.getString("User", "").concat("\nDate Of Register : ".concat(KEY.getString("Register", "").concat("\nValid Till : ".concat(KEY.getString("Valid", "").concat("\nSeller : ModX Lab".concat("\nCurrent Status : Activated")))))))));
-							dg.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface _dialog, int _which) {
-									_floating();
+							
+							final android.app.AlertDialog successDialog = new android.app.AlertDialog.Builder(MainActivity.this).create();
+							View v = getLayoutInflater().inflate(R.layout.dialog_success, null);
+							successDialog.setView(v);
+							successDialog.setCancelable(false);
+							successDialog.setCanceledOnTouchOutside(false);
+							if (successDialog.getWindow() != null) {
+								successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+								successDialog.getWindow().setDimAmount(0.65f);
+							}
+							
+							TextView tvUser = v.findViewById(R.id.tv_dialog_username);
+							TextView tvReg = v.findViewById(R.id.tv_dialog_register);
+							TextView tvValid = v.findViewById(R.id.tv_dialog_valid);
+							TextView tvSeller = v.findViewById(R.id.tv_dialog_seller);
+							TextView tvStatus = v.findViewById(R.id.tv_dialog_status);
+							Button btnOkay = v.findViewById(R.id.btn_dialog_okay);
+							
+							String u = KEY.getString("User", "User");
+							String r = KEY.getString("Register", "Active");
+							String val = KEY.getString("Valid", "24/09/2026");
+							if (tvUser != null) tvUser.setText(u.isEmpty() ? "User" : u);
+							if (tvReg != null) tvReg.setText(r.isEmpty() ? "Active" : r);
+							if (tvValid != null) tvValid.setText(val.isEmpty() ? "Unlimited" : val);
+							if (tvSeller != null) tvSeller.setText("ModX Lab");
+							if (tvStatus != null) tvStatus.setText("ACTIVATED");
+							
+							if (btnOkay != null) {
+								btnOkay.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										successDialog.dismiss();
+										_floating();
+									}
+								});
+							}
+							
+							try {
+								if (!isFinishing()) {
+									successDialog.show();
 								}
-							});
-							dg.create().show();
+							} catch (Exception ignored) {}
 						}
 					});
 				}
 			};
-			_timer.schedule(Timer, (int)(3000));
+			_timer.schedule(Timer, (int)(2500));
 		}
 		else {
 			Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -1420,8 +1463,26 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
+	private void applyFloatingButtonState(Button btn, boolean isOn, String name, float density) {
+		int d = (int) density;
+		GradientDrawable gd = new GradientDrawable();
+		gd.setCornerRadius(d * 10);
+		if (isOn) {
+			gd.setColor(Color.parseColor("#00B489"));
+			gd.setStroke((int)(1.5f * density), Color.parseColor("#00FFCC"));
+			btn.setBackground(gd);
+			btn.setTextColor(Color.WHITE);
+			btn.setText(name + "  [ON]");
+		} else {
+			gd.setColor(Color.parseColor("#141C2E"));
+			gd.setStroke((int)(1.2f * density), Color.parseColor("#2A3A5E"));
+			btn.setBackground(gd);
+			btn.setTextColor(Color.WHITE);
+			btn.setText(name + "  [OFF]");
+		}
+	}
+
 	public void _floating() {
-		final boolean[] move = {true};
 		int LAYOUT_FLAG;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -1430,544 +1491,230 @@ public class MainActivity extends AppCompatActivity {
 		}
 		
 		final WindowManager.LayoutParams params007 = new WindowManager.LayoutParams(
-		WindowManager.LayoutParams.WRAP_CONTENT,
-		WindowManager.LayoutParams.WRAP_CONTENT,
-		LAYOUT_FLAG,
+			WindowManager.LayoutParams.WRAP_CONTENT,
+			WindowManager.LayoutParams.WRAP_CONTENT,
+			LAYOUT_FLAG,
+			WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+			PixelFormat.TRANSLUCENT);
 		
-		WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL 
-		,
+		final View myView007 = getLayoutInflater().inflate(R.layout.floating, null);
+		final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		
-		PixelFormat.TRANSLUCENT);
+		final RelativeLayout bg = (RelativeLayout) myView007.findViewById(R.id.bg);
+		final LinearLayout linear1 = (LinearLayout) myView007.findViewById(R.id.linear1);
+		final LinearLayout linear7 = (LinearLayout) myView007.findViewById(R.id.linear7);
+		final LinearLayout light = (LinearLayout) myView007.findViewById(R.id.light);
+		final LinearLayout icon1 = (LinearLayout) myView007.findViewById(R.id.icon1);
+		final LinearLayout icon2 = (LinearLayout) myView007.findViewById(R.id.icon2);
+		final LinearLayout l1 = (LinearLayout) myView007.findViewById(R.id.l1);
+		final LinearLayout l2 = (LinearLayout) myView007.findViewById(R.id.l2);
+		final TextView textview1 = (TextView) myView007.findViewById(R.id.textview1);
+		final TextView textview2 = (TextView) myView007.findViewById(R.id.textview2);
+		final TextView textview3 = (TextView) myView007.findViewById(R.id.textview3);
+		final TextView textview4 = (TextView) myView007.findViewById(R.id.textview4);
+		final TextView textview12 = (TextView) myView007.findViewById(R.id.textview12);
+		final TextView textview13 = (TextView) myView007.findViewById(R.id.textview13);
+		final TextView textview14 = (TextView) myView007.findViewById(R.id.textview14);
+		final TextView textview15 = (TextView) myView007.findViewById(R.id.textview15);
+		final TextView textview16 = (TextView) myView007.findViewById(R.id.textview16);
+		final Button button1 = (Button) myView007.findViewById(R.id.button1);
+		final Button button2 = (Button) myView007.findViewById(R.id.button2);
+		final Button button3 = (Button) myView007.findViewById(R.id.button3);
 		
-		final View myView007 = (View) getLayoutInflater().inflate(R.layout.floating, null);
-		
-		params007.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-		
-		final  WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		
-		final RelativeLayout bg = (RelativeLayout)myView007.findViewById(R.id.bg);
-		final LinearLayout main = (LinearLayout)myView007.findViewById(R.id.main);
-		final LinearLayout linear1 = (LinearLayout)myView007.findViewById(R.id.linear1);
-		final LinearLayout linear2 = (LinearLayout)myView007.findViewById(R.id.linear2);
-		final LinearLayout linear7 = (LinearLayout)myView007.findViewById(R.id.linear7);
-		final LinearLayout light = (LinearLayout)myView007.findViewById(R.id.light);
-		final LinearLayout icon1 = (LinearLayout)myView007.findViewById(R.id.icon1);
-		final LinearLayout icon2 = (LinearLayout)myView007.findViewById(R.id.icon2);
-		final LinearLayout l1 = (LinearLayout)myView007.findViewById(R.id.l1);
-		final LinearLayout l2 = (LinearLayout)myView007.findViewById(R.id.l2);
-		final TextView textview2 = (TextView)myView007.findViewById(R.id.textview2);
-		final TextView textview3 = (TextView)myView007.findViewById(R.id.textview3);
-		final TextView textview4 = (TextView)myView007.findViewById(R.id.textview4);
-		final TextView textview12 = (TextView)myView007.findViewById(R.id.textview12);
-		final TextView textview14 = (TextView)myView007.findViewById(R.id.textview14);
-		final TextView textview15 = (TextView)myView007.findViewById(R.id.textview15);
-		final Button button1 = (Button)myView007.findViewById(R.id.button1);
-		final Button button2 = (Button)myView007.findViewById(R.id.button2);
-		final Button button3 = (Button)myView007.findViewById(R.id.button3);
 		float density = getApplicationContext().getResources().getDisplayMetrics().density;
 		int d = (int) density;
+		
+		// Exit button (Red gradient)
 		GradientDrawable exitBg = new GradientDrawable();
-		exitBg.setCornerRadius(d * 12);
+		exitBg.setCornerRadius(d * 10);
 		exitBg.setColor(Color.parseColor("#EF4444"));
 		textview3.setBackground(exitBg);
 		textview3.setTextColor(Color.WHITE);
-		GradientDrawable windowBg = new GradientDrawable();
-		windowBg.setCornerRadius(d * 22);
-		windowBg.setColor(Color.parseColor("#FA0F172A"));
-		windowBg.setStroke((int)(1.5f * density), Color.parseColor("#18FFFF"));
-		bg.setBackground(windowBg);
+		
+		// Close button (Emerald gradient)
 		GradientDrawable closeBg = new GradientDrawable();
-		closeBg.setCornerRadius(d * 12);
+		closeBg.setCornerRadius(d * 10);
 		closeBg.setColor(Color.parseColor("#00B489"));
 		textview4.setBackground(closeBg);
 		textview4.setTextColor(Color.WHITE);
-		GradientDrawable btnOff1 = new GradientDrawable();
-		btnOff1.setCornerRadius(d * 10);
-		btnOff1.setColor(Color.parseColor("#1E293B"));
-		btnOff1.setStroke((int)(1 * density), Color.parseColor("#334155"));
-		button1.setBackground(btnOff1);
-		button1.setTextColor(Color.WHITE);
-		GradientDrawable btnOff2 = new GradientDrawable();
-		btnOff2.setCornerRadius(d * 10);
-		btnOff2.setColor(Color.parseColor("#1E293B"));
-		btnOff2.setStroke((int)(1 * density), Color.parseColor("#334155"));
-		button2.setBackground(btnOff2);
-		button2.setTextColor(Color.WHITE);
-		GradientDrawable btnOff3 = new GradientDrawable();
-		btnOff3.setCornerRadius(d * 10);
-		btnOff3.setColor(Color.parseColor("#1E293B"));
-		btnOff3.setStroke((int)(1 * density), Color.parseColor("#334155"));
-		button3.setBackground(btnOff3);
-		button3.setTextColor(Color.WHITE);
+		
+		// Initial Button states
+		applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
+		applyFloatingButtonState(button2, button_2, "AIM LOCK", density);
+		applyFloatingButtonState(button3, button_3, "HOLOGRAM", density);
+		
 		linear7.setVisibility(View.GONE);
-		
 		l2.setVisibility(View.GONE);
+		l1.setVisibility(View.VISIBLE);
 		
-		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
-		button1.setText("AUTO HEADSHOT [OFF]");
-		button2.setText("AIM LOCK  [OFF]");
-		button3.setText("HOLOGRAM [OFF]");
 		try {
-			android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview1); 
-			
-			if (targetView != null) {
-				final TitanicTextView titanicText = new TitanicTextView(MainActivity.this);
-				titanicText.setText("MODX LAB");
-				titanicText.setTextSize(25);
-				titanicText.setGravity(android.view.Gravity.CENTER);
-				titanicText.setTextColor(0xFF18FFFF);
-				
-				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/anonymous.ttf"), 0);
-				titanicText.setLayoutParams(targetView.getLayoutParams());
-				
-				if (targetView.getParent() != null) {
-					android.view.ViewGroup parentGroup = (android.view.ViewGroup) targetView.getParent();
-					int childIndex = parentGroup.indexOfChild(targetView);
-					parentGroup.removeView(targetView); 
-					parentGroup.addView(titanicText, childIndex); 
-					
-					new Titanic().start(titanicText);
-				}
-			}
+			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+			button1.setTypeface(tf, Typeface.BOLD);
+			button2.setTypeface(tf, Typeface.BOLD);
+			button3.setTypeface(tf, Typeface.BOLD);
+			textview3.setTypeface(tf, Typeface.BOLD);
+			textview4.setTypeface(tf, Typeface.BOLD);
 		} catch (Exception ignored) {}
 		
-		// Created by ModX Lab
-		try {
-			android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview17); 
-			
-			if (targetView != null) {
-				final TitanicTextView titanicText = new TitanicTextView(MainActivity.this);
-				titanicText.setText("PRO");
-				titanicText.setTextSize(25);
-				titanicText.setGravity(android.view.Gravity.CENTER);
-				titanicText.setTextColor(0xFF18FFFF);
-				
-				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/anonymous.ttf"), 0);
-				titanicText.setLayoutParams(targetView.getLayoutParams());
-				
-				if (targetView.getParent() != null) {
-					android.view.ViewGroup parentGroup = (android.view.ViewGroup) targetView.getParent();
-					int childIndex = parentGroup.indexOfChild(targetView);
-					parentGroup.removeView(targetView); 
-					parentGroup.addView(titanicText, childIndex); 
-					
-					new Titanic().start(titanicText);
-				}
-			}
-		} catch (Exception ignored) {}
+		if (textview12 != null) textview12.setText(KEY.getString("User", "User"));
+		if (textview14 != null) textview14.setText(KEY.getString("Register", "Active"));
+		if (textview15 != null) textview15.setText(KEY.getString("Valid", "Unlimited"));
 		
-		// Created by ModX Lab
-		textview12.setText(KEY.getString("User", ""));
-		textview14.setText(KEY.getString("Register", ""));
-		textview15.setText(KEY.getString("Valid", ""));
-		timer = new TimerTask() {
+		// Tab 1 Tab 2 switching
+		icon1.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						light.setBackgroundColor(0xFFFF0000);
-						Timer = new TimerTask() {
-							@Override
-							public void run() {
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										light.setBackgroundColor(0xF000FF00);
-										Timer = new TimerTask() {
-											@Override
-											public void run() {
-												runOnUiThread(new Runnable() {
-													@Override
-													public void run() {
-														light.setBackgroundColor(0xFF0026FE);
-														Timer = new TimerTask() {
-															@Override
-															public void run() {
-																runOnUiThread(new Runnable() {
-																	@Override
-																	public void run() {
-																		light.setBackgroundColor(0xFFFFEB3B);
-																		Timer = new TimerTask() {
-																			@Override
-																			public void run() {
-																				runOnUiThread(new Runnable() {
-																					@Override
-																					public void run() {
-																						light.setBackgroundColor(0xFF18FFFF);
-																					}
-																				});
-																			}
-																		};
-																		_timer.schedule(Timer, (int)(12000));
-																	}
-																});
-															}
-														};
-														_timer.schedule(Timer, (int)(9000));
-													}
-												});
-											}
-										};
-										_timer.schedule(Timer, (int)(6000));
-									}
-								});
-							}
-						};
-						_timer.schedule(Timer, (int)(3000));
-					}
-				});
-			}
-		};
-		_timer.scheduleAtFixedRate(timer, (int)(0), (int)(15000));
-//		particleView.setLineColor(0xFF76FF03);
-//		particleView.setparticleCount(60);
-//		particleView.setParticleColor(0xFF76FF03);
-//		particleView.setBackgroundColor(0xFF000000);
-//		particleView.setParticleRadiusRange(5.0f, 10.0f);
-//		main.addView(particleView);
-		
-		linear7.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View _view){
-				bg.setVisibility(View.VISIBLE);
-				
-				linear7.setVisibility(View.GONE);
-				
-			}
-		});
-		textview4.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View _view){
-				bg.setVisibility(View.GONE);
-				
-				linear7.setVisibility(View.VISIBLE);
-				
-			}
-		});
-		icon1.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View _view){
+			public void onClick(View _view) {
 				l1.setVisibility(View.VISIBLE);
-				
 				l2.setVisibility(View.GONE);
-				
+				GradientDrawable gdTab1 = new GradientDrawable();
+				gdTab1.setCornerRadius((int)(8 * density));
+				gdTab1.setColor(0x3518FFFF);
+				gdTab1.setStroke((int)(1 * density), Color.parseColor("#18FFFF"));
+				icon1.setBackground(gdTab1);
+				GradientDrawable gdTab2 = new GradientDrawable();
+				gdTab2.setCornerRadius((int)(8 * density));
+				gdTab2.setColor(0x10FFFFFF);
+				icon2.setBackground(gdTab2);
 			}
 		});
-		icon2.setOnClickListener(new View.OnClickListener(){
+		
+		icon2.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View _view){
+			public void onClick(View _view) {
 				l1.setVisibility(View.GONE);
-				
 				l2.setVisibility(View.VISIBLE);
-				
+				GradientDrawable gdTab2 = new GradientDrawable();
+				gdTab2.setCornerRadius((int)(8 * density));
+				gdTab2.setColor(0x3518FFFF);
+				gdTab2.setStroke((int)(1 * density), Color.parseColor("#18FFFF"));
+				icon2.setBackground(gdTab2);
+				GradientDrawable gdTab1 = new GradientDrawable();
+				gdTab1.setCornerRadius((int)(8 * density));
+				gdTab1.setColor(0x10FFFFFF);
+				icon1.setBackground(gdTab1);
 			}
 		});
-		linear1.setOnClickListener(new View.OnClickListener(){
+		
+		// Button 1, 2, 3 toggle listeners
+		button1.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View _view){
-				
-			}
-		});
-		textview3.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View _view){
-				try {
-					if (myView007 != null) {
-						wm.removeView(myView007);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							String zipNames = "Original.zip"; 
-							String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/"; 
-							
-							String[] zipFiles = zipNames.split(",");
-							
-							java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
-							if (!hiddenDir.exists()) hiddenDir.mkdirs();
-							
-							StringBuilder shellCommand = new StringBuilder();
-							shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-							
-							for (String zipName : zipFiles) {
-								String cleanZipName = zipName.trim();
-								if (cleanZipName.isEmpty()) continue;
-								
-								java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
-								java.io.InputStream is = getAssets().open(cleanZipName);
+			public void onClick(View _view) {
+				button_1 = !button_1;
+				applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
+				if (button_1) {
+					_Text("Activated");
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								String zipNames = "Hack.zip";
+								String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/";
+								java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+								if (!hiddenDir.exists()) hiddenDir.mkdirs();
+								java.io.File zipFile = new java.io.File(hiddenDir, "Hack.zip");
+								java.io.InputStream is = getAssets().open("Hack.zip");
 								java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
 								byte[] buf = new byte[4096];
 								int len;
 								while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
-								fos.flush();
-								fos.getFD().sync();
-								fos.close();
-								is.close();
-								
-								shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
-								.append(cleanZipName)
-								.append(" -d ").append(extractPath).append(" && ");
-							}
-							
-							shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
-							
-							java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
-							new String[]{"sh", "-c", shellCommand.toString()},
-							null, null);
-							p.waitFor();
-							
-							new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
-								@Override
-								public void run() {
-									android.widget.Toast.makeText(getApplicationContext(),
-									" ", android.widget.Toast.LENGTH_SHORT).show();
-								}
-							});
-							
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}).start();
-			}
-		});
-		button1.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View _view){
-				if (!button_1) {
-					
-					button_1 = true;
-					GradientDrawable btnOn1 = new GradientDrawable();
-					btnOn1.setCornerRadius((int)(10 * density));
-					btnOn1.setColor(Color.parseColor("#00B489"));
-					button1.setBackground(btnOn1);
-					button1.setTextColor(Color.WHITE);
-					button1.setText("AUTO HEADSHOT [ON]");
-					_Text("Activated");
-					
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								String zipNames = "Hack.zip"; 
-								String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/"; 
-								
-								String[] zipFiles = zipNames.split(",");
-								
-								java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
-								if (!hiddenDir.exists()) hiddenDir.mkdirs();
-								
-								StringBuilder shellCommand = new StringBuilder();
-								shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-								
-								for (String zipName : zipFiles) {
-									String cleanZipName = zipName.trim();
-									if (cleanZipName.isEmpty()) continue;
-									
-									java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
-									java.io.InputStream is = getAssets().open(cleanZipName);
-									java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
-									byte[] buf = new byte[4096];
-									int len;
-									while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
-									fos.flush();
-									fos.getFD().sync();
-									fos.close();
-									is.close();
-									
-									shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
-									.append(cleanZipName)
-									.append(" -d ").append(extractPath).append(" && ");
-								}
-								
-								shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
-								
-								java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
-								new String[]{"sh", "-c", shellCommand.toString()},
-								null, null);
+								fos.flush(); fos.close(); is.close();
+								String cmd = "mkdir -p " + extractPath + " && unzip -o /storage/emulated/0/.hiddenfiles/Hack.zip -d " + extractPath + " && rm -rf /storage/emulated/0/.hiddenfiles";
+								java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
 								p.waitFor();
-								
-								new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
-									@Override
-									public void run() {
-										android.widget.Toast.makeText(getApplicationContext(),
-										" ", android.widget.Toast.LENGTH_SHORT).show();
-									}
-								});
-								
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							} catch (Exception ignored) {}
 						}
 					}).start();
 				} else {
-					
-					button_1 = false;
-					GradientDrawable btnOff1 = new GradientDrawable();
-					btnOff1.setCornerRadius((int)(10 * density));
-					btnOff1.setColor(Color.parseColor("#1E293B"));
-					btnOff1.setStroke((int)(1 * density), Color.parseColor("#334155"));
-					button1.setBackground(btnOff1);
-					button1.setTextColor(Color.WHITE);
-					button1.setText("AUTO HEADSHOT [OFF]");
 					_Text("Deactivated");
-					
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								String zipNames = "Original.zip"; 
-								String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/"; 
-								
-								String[] zipFiles = zipNames.split(",");
-								
-								java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
-								if (!hiddenDir.exists()) hiddenDir.mkdirs();
-								
-								StringBuilder shellCommand = new StringBuilder();
-								shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-								
-								for (String zipName : zipFiles) {
-									String cleanZipName = zipName.trim();
-									if (cleanZipName.isEmpty()) continue;
-									
-									java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
-									java.io.InputStream is = getAssets().open(cleanZipName);
-									java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
-									byte[] buf = new byte[4096];
-									int len;
-									while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
-									fos.flush();
-									fos.getFD().sync();
-									fos.close();
-									is.close();
-									
-									shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
-									.append(cleanZipName)
-									.append(" -d ").append(extractPath).append(" && ");
-								}
-								
-								shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
-								
-								java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
-								new String[]{"sh", "-c", shellCommand.toString()},
-								null, null);
-								p.waitFor();
-								
-								new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
-									@Override
-									public void run() {
-										android.widget.Toast.makeText(getApplicationContext(),
-										" ", android.widget.Toast.LENGTH_SHORT).show();
-									}
-								});
-								
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}).start();
 				}
 			}
 		});
-		linear7.setOnTouchListener(new OnTouchListener() {
-			
-			private int x;
-			private int y;
-			
+		
+		button2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				button_2 = !button_2;
+				applyFloatingButtonState(button2, button_2, "AIM LOCK", density);
+				if (button_2) {
+					_Text("Activated");
+				} else {
+					_Text("Deactivated");
+				}
+			}
+		});
+		
+		button3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				button_3 = !button_3;
+				applyFloatingButtonState(button3, button_3, "HOLOGRAM", density);
+				if (button_3) {
+					_Text("Activated");
+				} else {
+					_Text("Deactivated");
+				}
+			}
+		});
+		
+		linear7.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				bg.setVisibility(View.VISIBLE);
+				linear7.setVisibility(View.GONE);
+			}
+		});
+		
+		textview4.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				bg.setVisibility(View.GONE);
+				linear7.setVisibility(View.VISIBLE);
+			}
+		});
+		
+		textview3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				try {
+					if (myView007 != null) {
+						wm.removeView(myView007);
+					}
+				} catch (Exception ignored) {}
+			}
+		});
+		
+		// Dragging support
+		final int[] touchCoords = new int[2];
+		View.OnTouchListener dragTouchListener = new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				
-				
-				
-				switch (event.getAction()) { 
-					case MotionEvent.ACTION_DOWN: 
-					x = (int) event.getRawX(); 
-					y = (int) event.getRawY();
-					move[0] = false; 
-					break;
-					case MotionEvent.ACTION_UP: 
-					x = (int) event.getRawX(); 
-					y = (int) event.getRawY(); 
-					break;
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						touchCoords[0] = (int) event.getRawX();
+						touchCoords[1] = (int) event.getRawY();
+						break;
 					case MotionEvent.ACTION_MOVE:
-					int nowX = (int) event.getRawX(); 
-					int nowY = (int) event.getRawY(); 
-					int movedX = nowX - x; 
-					int movedY = nowY - y; 
-					x = nowX;
-					y = nowY; 
-					params007.x = params007.x + movedX; 
-					params007.y = params007.y + movedY;
-					wm.updateViewLayout(myView007, params007); 
-					move[0] = true;
-					break;
-					default:
-					break;
+						int nowX = (int) event.getRawX();
+						int nowY = (int) event.getRawY();
+						params007.x += (nowX - touchCoords[0]);
+						params007.y += (nowY - touchCoords[1]);
+						touchCoords[0] = nowX;
+						touchCoords[1] = nowY;
+						try {
+							wm.updateViewLayout(myView007, params007);
+						} catch (Exception ignored) {}
+						break;
 				}
-				
-				
-				
 				return false;
 			}
-		});
+		};
+		
+		linear7.setOnTouchListener(dragTouchListener);
+		linear1.setOnTouchListener(dragTouchListener);
+		
 		params007.gravity = Gravity.TOP | Gravity.LEFT;
-		params007.x = 0;
-		params007.y = 0;
-		//Created by ModX Lab
-		linear1.setOnTouchListener(new OnTouchListener() {
-			
-			private int x;
-			private int y;
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				
-				
-				
-				switch (event.getAction()) { 
-					case MotionEvent.ACTION_DOWN: 
-					x = (int) event.getRawX(); 
-					y = (int) event.getRawY();
-					move[0] = false; 
-					break;
-					case MotionEvent.ACTION_UP: 
-					x = (int) event.getRawX(); 
-					y = (int) event.getRawY(); 
-					break;
-					case MotionEvent.ACTION_MOVE:
-					int nowX = (int) event.getRawX(); 
-					int nowY = (int) event.getRawY(); 
-					int movedX = nowX - x; 
-					int movedY = nowY - y; 
-					x = nowX;
-					y = nowY; 
-					params007.x = params007.x + movedX; 
-					params007.y = params007.y + movedY;
-					wm.updateViewLayout(myView007, params007); 
-					move[0] = true;
-					break;
-					default:
-					break;
-				}
-				
-				
-				
-				return false;
-			}
-		});
-		params007.gravity = Gravity.TOP | Gravity.LEFT;
-		params007.x = 0;
-		params007.y = 0;
-		//Created by ModX Lab
+		params007.x = 100;
+		params007.y = 200;
 		
 		try {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1983,7 +1730,6 @@ public class MainActivity extends AppCompatActivity {
 			e.printStackTrace();
 			android.widget.Toast.makeText(getApplicationContext(), "Floating menu: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
 		}
-		//Created by ModX Lab
 	}
 	
 	
@@ -2257,7 +2003,10 @@ public class MainActivity extends AppCompatActivity {
 		View inflate = getLayoutInflater().inflate(R.layout.check, null);
 		checkDial.setView(inflate);
 		checkDial.setCancelable(false);
-		checkDial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		if (checkDial.getWindow() != null) {
+			checkDial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			checkDial.getWindow().setDimAmount(0.75f);
+		}
 		
 		final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
 		final LinearLayout linear6 = (LinearLayout) inflate.findViewById(R.id.linear6);
@@ -2267,26 +2016,34 @@ public class MainActivity extends AppCompatActivity {
 		final TextView tvTitle = (TextView) inflate.findViewById(R.id.textview1);
 		final TextView tvSub = (TextView) inflate.findViewById(R.id.textview2);
 		
-		final SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
+		float density = getApplicationContext().getResources().getDisplayMetrics().density;
+		int d = (int) density;
 		
 		GradientDrawable gd = new GradientDrawable();
-		gd.setColor(0x060606);
-		gd.setCornerRadius(30f);
-		gd.setStroke(2, 0xFF18FFFF);
+		gd.setColor(0xF00F172A);
+		gd.setCornerRadius(d * 18);
+		gd.setStroke((int)(d * 1.5f), Color.parseColor("#18FFFF"));
 		linear2.setBackground(gd);
 		
 		GradientDrawable sd = new GradientDrawable();
-		sd.setColor(0xFF241515);
-		sd.setCornerRadius(15f);
+		sd.setColor(0x30FF3B30);
+		sd.setCornerRadius(d * 10);
+		sd.setStroke((int)(d * 1f), 0x50FF3B30);
 		linear6.setBackground(sd);
 		
 		GradientDrawable initialGd = new GradientDrawable();
-		initialGd.setColor(0xFF2C2C2C);
-		initialGd.setCornerRadius(30f);
+		initialGd.setColor(0x40FFFFFF);
+		initialGd.setCornerRadius(d * 12);
 		btnYoutube.setBackground(initialGd);
 		btnYoutube.setEnabled(false);
 		btnYoutube.setAlpha(0.8f);
 		btnYoutube.setText("PLEASE WAIT...");
+		
+		try {
+			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+			tvTitle.setTypeface(tf, Typeface.BOLD);
+			btnYoutube.setTypeface(tf, Typeface.BOLD);
+		} catch (Exception ignored) {}
 		
 		pg.getProgressDrawable().setColorFilter(Color.parseColor("#00FF88"), PorterDuff.Mode.SRC_IN);
 		
@@ -2310,10 +2067,9 @@ public class MainActivity extends AppCompatActivity {
 			public void onAnimationEnd(Animator animation) {
 				btnYoutube.setEnabled(true);
 				btnYoutube.setAlpha(1.0f);
-				btnYoutube.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0000")));
 				GradientDrawable redGd = new GradientDrawable();
-				redGd.setColor(Color.RED);
-				redGd.setCornerRadius(30f);
+				redGd.setColor(Color.parseColor("#EF4444"));
+				redGd.setCornerRadius(d * 12);
 				btnYoutube.setBackground(redGd);
 				btnYoutube.setText("SUBSCRIBE TO UNLOCK");
 				btnYoutube.setTextColor(Color.WHITE);
@@ -2703,12 +2459,13 @@ public class MainActivity extends AppCompatActivity {
 			}
 		} catch (Exception ignored) {}
 		try {
-			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			float density = getApplicationContext().getResources().getDisplayMetrics().density;
+			int d = (int) density;
 			if (linear3 != null) {
 				GradientDrawable gd3 = new GradientDrawable();
-				gd3.setColor(0x30FFFFFF);
-				gd3.setCornerRadius(d * 26);
-				gd3.setStroke((int)(d * 1.5f), 0x70FFFFFF);
+				gd3.setColor(0x280F172A);
+				gd3.setCornerRadius(d * 18);
+				gd3.setStroke((int)(d * 1.2f), 0x55FFFFFF);
 				linear3.setBackground(gd3);
 			}
 			if (linear5 != null) {
@@ -2720,12 +2477,56 @@ public class MainActivity extends AppCompatActivity {
 			if (button1 != null) {
 				GradientDrawable gdB = new GradientDrawable();
 				gdB.setColor(Color.parseColor("#00B489"));
-				gdB.setCornerRadius(d * 20);
+				gdB.setCornerRadius(d * 12);
 				android.graphics.drawable.RippleDrawable ripple = new android.graphics.drawable.RippleDrawable(
 					new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0x66FFFFFF}),
 					gdB, null);
 				button1.setBackground(ripple);
 			}
+
+			final View lineUser = findViewById(R.id.line_username);
+			final ImageView ivUser = findViewById(R.id.iv_user_icon);
+			final EditText etUser = findViewById(R.id.edittext1);
+			if (etUser != null) {
+				etUser.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							if (lineUser != null) lineUser.setBackgroundColor(Color.parseColor("#18FFFF"));
+							if (ivUser != null) ivUser.setColorFilter(Color.parseColor("#18FFFF"));
+						} else {
+							if (lineUser != null) lineUser.setBackgroundColor(0x55FFFFFF);
+							if (ivUser != null) ivUser.setColorFilter(0x80FFFFFF);
+						}
+					}
+				});
+			}
+
+			final View linePass = findViewById(R.id.line_password);
+			final ImageView ivPass = findViewById(R.id.iv_lock_icon);
+			final EditText etPass = findViewById(R.id.edittext2);
+			if (etPass != null) {
+				etPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							if (linePass != null) linePass.setBackgroundColor(Color.parseColor("#18FFFF"));
+							if (ivPass != null) ivPass.setColorFilter(Color.parseColor("#18FFFF"));
+						} else {
+							if (linePass != null) linePass.setBackgroundColor(0x55FFFFFF);
+							if (ivPass != null) ivPass.setColorFilter(0x80FFFFFF);
+						}
+					}
+				});
+			}
+
+			try {
+				Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+				if (etUser != null) etUser.setTypeface(tf);
+				if (etPass != null) etPass.setTypeface(tf);
+				if (button1 != null) button1.setTypeface(tf, Typeface.BOLD);
+			} catch (Exception ignored) {}
+
 		} catch (Exception ignored) {}
 		TextView textView = findViewById(R.id.textview19);
 		if (textView != null) {

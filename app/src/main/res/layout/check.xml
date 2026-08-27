@@ -1,102 +1,115 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:padding="20dp">
+
 	<LinearLayout
 		android:id="@+id/linear1"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:paddingLeft="35dp"
-		android:paddingRight="35dp"
-		android:gravity="center_horizontal|center_vertical"
+		android:layout_width="320dp"
+		android:layout_height="wrap_content"
+		android:gravity="center"
 		android:orientation="vertical">
+
 		<LinearLayout
 			android:id="@+id/linear2"
 			android:layout_width="match_parent"
-			android:layout_height="200dp"
-			android:orientation="horizontal">
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_dialog_glass"
+			android:elevation="14dp"
+			android:orientation="vertical"
+			android:paddingLeft="20dp"
+			android:paddingRight="20dp"
+			android:paddingTop="22dp"
+			android:paddingBottom="22dp">
+
 			<LinearLayout
 				android:id="@+id/linear3"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:padding="8dp"
-				android:gravity="center_horizontal|top"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
 				android:orientation="vertical">
+
+				<!-- Header Title -->
 				<TextView
 					android:id="@+id/textview1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="6dp"
-					android:layout_marginBottom="5dp"
+					android:gravity="center"
 					android:text="SYSTEM VERIFICATION"
-					android:textSize="20sp"
+					android:textSize="18sp"
 					android:textStyle="bold"
 					android:textColor="#00FF88"
-					android:focusable="false"
-					android:letterSpacing="0.1" />
+					android:letterSpacing="0.06" />
+
+				<!-- Warning / Message banner -->
 				<LinearLayout
 					android:id="@+id/linear6"
 					android:layout_width="match_parent"
-					android:layout_height="42dp"
-					android:background="#241515"
-					android:gravity="center_horizontal|center_vertical"
-					android:orientation="horizontal"
-					android:layout_gravity="center_horizontal|center_vertical">
+					android:layout_height="wrap_content"
+					android:layout_marginTop="14dp"
+					android:background="#22FF3B30"
+					android:padding="12dp"
+					android:gravity="center"
+					android:orientation="vertical">
+
 					<TextView
 						android:id="@+id/textview2"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:padding="3dp"
-						android:gravity="center_horizontal|center_vertical"
+						android:gravity="center"
 						android:text="First Subscribe Our Youtube Channel Otherwise You Will Get Ban !!"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#FFFFFF"
-						android:layout_gravity="center_horizontal|center_vertical"
-						android:focusable="false" />
+						android:lineSpacingExtra="2dp" />
 				</LinearLayout>
+
+				<!-- Progress bar Row -->
 				<LinearLayout
 					android:id="@+id/linear7"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="10dp"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="14dp"
 					android:gravity="center_vertical"
 					android:orientation="horizontal">
+
 					<ProgressBar
 						android:id="@+id/progressbar1"
 						android:layout_width="0dp"
-						android:layout_height="12dp"
-						android:layout_marginTop="10dp"
-						android:layout_marginBottom="10dp"
-						android:indeterminate="false"
-						style="?android:progressBarStyleHorizontal"
+						android:layout_height="8dp"
 						android:layout_weight="1"
-						android:focusable="false" />
+						android:indeterminate="false"
+						android:progress="0"
+						style="?android:progressBarStyleHorizontal" />
+
 					<TextView
 						android:id="@+id/tv_progress_percent"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:paddingLeft="8dp"
-						android:text="100%"
+						android:paddingLeft="10dp"
+						android:text="0%"
 						android:textSize="12sp"
 						android:textStyle="bold"
-						android:textColor="#FFFFFF"
-						android:focusable="false" />
+						android:textColor="#00FF88" />
 				</LinearLayout>
+
+				<!-- Action Button -->
 				<Button
 					android:id="@+id/button1"
 					android:layout_width="match_parent"
-					android:layout_height="47dp"
+					android:layout_height="44dp"
 					android:text="PLEASE WAIT..."
-					android:textSize="14sp"
+					android:textSize="13sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF"
-					android:backgroundTint="#2C2C2C"
+					android:letterSpacing="0.04"
 					android:elevation="4dp" />
+
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
