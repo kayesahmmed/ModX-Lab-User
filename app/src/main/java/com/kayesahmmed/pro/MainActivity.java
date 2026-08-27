@@ -1,6 +1,5 @@
 package com.kayesahmmed.pro;
 
-import Master.Animation.Text.TextViewAnimation;
 import android.animation.*;
 import android.app.*;
 import android.app.Activity;
@@ -61,7 +60,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.sdsmdg.tastytoast.*;
 import com.shashank.sony.fancytoastlib.*;
 import java.io.*;
 import java.io.InputStream;
@@ -85,7 +83,6 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import androidx.documentfile.provider.DocumentFile;
 import android.provider.Settings.Secure;
-import androidX.Master12.AnimatedParticleView;
 import android.content.pm.PackageManager;
 import rikka.shizuku.api.*;
 import rikka.shizuku.provider.*;
@@ -181,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
 	private TimerTask Timer;
 	private TimerTask timer;
 	private MediaPlayer DJREMIX;
-	private TextViewAnimation textanimation;
 	private DatabaseReference update = _firebase.getReference("update");
 	private ChildEventListener _update_child_listener;
 	private AlertDialog.Builder dial;
@@ -542,19 +538,14 @@ public class MainActivity extends AppCompatActivity {
 		edittext2.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { Window w = getWindow();  w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); };
 		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ft1.ttf"), 3);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 0);
-		textview0.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 0);
-		//import Master.Animation.Text.TextViewAnimation;
-		TextViewAnimation textanimation = new TextViewAnimation(MainActivity.this);
-		textanimation.apply3DBoxEffect(textview4);
-		AnimatedParticleView particleView = new AnimatedParticleView(MainActivity.this);
-		particleView.setLineColor(0xFF03A9F4);
-		particleView.setparticleCount(100);
-		particleView.setParticleColor(0xFF03A9F4);
-		particleView.setBackgroundColor(0xFF000000);
-		particleView.setParticleRadiusRange(5.0f, 10.0f);
-		particleView.setAnimationMode(AnimatedParticleView.MODE_BOUNCE);
-		linear2.addView(particleView);
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 0);
+		textview0.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 0);
+//		particleView.setLineColor(0xFF03A9F4);
+//		particleView.setparticleCount(100);
+//		particleView.setParticleColor(0xFF03A9F4);
+//		particleView.setBackgroundColor(0xFF000000);
+//		particleView.setParticleRadiusRange(5.0f, 10.0f);
+//		linear2.addView(particleView);
 		_ModX();
 		_Oncreate();
 		linear47.addView(new AutoTypeTextView(MainActivity.this));
@@ -627,7 +618,7 @@ public class MainActivity extends AppCompatActivity {
 				
 			}
 		} else {
-			TastyToast.makeText(getApplicationContext(), "GIVE PERMISSION", TastyToast.LENGTH_LONG, TastyToast.DEFAULT);
+			android.widget.Toast.makeText(getApplicationContext(), "GIVE PERMISSION", android.widget.Toast.LENGTH_LONG).show();
 		}
 		switch (_requestCode) {
 			
@@ -831,10 +822,10 @@ public class MainActivity extends AppCompatActivity {
 			if (copyFileFromAssets2(_asset, desturi)) {
 				
 			} else {
-				TastyToast.makeText(getApplicationContext(), "Something Went Wrong", TastyToast.LENGTH_LONG, TastyToast.DEFAULT);
+				android.widget.Toast.makeText(getApplicationContext(), "Something Went Wrong", android.widget.Toast.LENGTH_LONG).show();
 			}
 		}catch(Exception e){
-			TastyToast.makeText(getApplicationContext(), e.getMessage(), TastyToast.LENGTH_LONG, TastyToast.DEFAULT);
+			android.widget.Toast.makeText(getApplicationContext(), e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -943,7 +934,7 @@ public class MainActivity extends AppCompatActivity {
 		if (!SketchwareUtil.isConnected(getApplicationContext())) {
 			loginInProgress = false;
 			button1.setEnabled(true);
-			SketchwareUtil.showMessage(getApplicationContext(), "Connection Error !");
+			SketchwareUtil.showMessage(getApplicationContext(), "No internet connection. Please turn on your internet connection to log in.");
 			return;
 		}
 		
@@ -1499,19 +1490,19 @@ public class MainActivity extends AppCompatActivity {
 		final Button button1 = (Button)myView007.findViewById(R.id.button1);
 		final Button button2 = (Button)myView007.findViewById(R.id.button2);
 		final Button button3 = (Button)myView007.findViewById(R.id.button3);
-		textview3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, 0xFF000000, Color.TRANSPARENT));
-		bg.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)8, (int)4, 0xFFFFFFFF, 0xFF212121));
-		textview4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, 0xFF000000, Color.TRANSPARENT));
-		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
-		button2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
-		button3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
+		textview3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)2, 0x50FFFFFF, 0x80FF1744));
+		bg.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)3, 0x60FFFFFF, 0xCC121212));
+		textview4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)2, 0x50FFFFFF, 0x80F44336));
+		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
+		button2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
+		button3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
 		linear7.setVisibility(View.GONE);
 		
 		l2.setVisibility(View.GONE);
 		
-		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
+		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
 		button1.setText("AUTO HEADSHOT [OFF]");
 		button2.setText("AIM LOCK  [OFF]");
 		button3.setText("HOLOGRAM [OFF]");
@@ -1525,7 +1516,7 @@ public class MainActivity extends AppCompatActivity {
 				titanicText.setGravity(android.view.Gravity.CENTER);
 				titanicText.setTextColor(0xFF18FFFF);
 				
-				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/satisfy.ttf"), 0);
+				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/anonymous.ttf"), 0);
 				titanicText.setLayoutParams(targetView.getLayoutParams());
 				
 				if (targetView.getParent() != null) {
@@ -1550,7 +1541,7 @@ public class MainActivity extends AppCompatActivity {
 				titanicText.setGravity(android.view.Gravity.CENTER);
 				titanicText.setTextColor(0xFF18FFFF);
 				
-				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/satisfy.ttf"), 0);
+				titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/anonymous.ttf"), 0);
 				titanicText.setLayoutParams(targetView.getLayoutParams());
 				
 				if (targetView.getParent() != null) {
@@ -1628,14 +1619,12 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		_timer.scheduleAtFixedRate(timer, (int)(0), (int)(15000));
-		AnimatedParticleView particleView = new AnimatedParticleView(MainActivity.this);
-		particleView.setLineColor(0xFF76FF03);
-		particleView.setparticleCount(60);
-		particleView.setParticleColor(0xFF76FF03);
-		particleView.setBackgroundColor(0xFF000000);
-		particleView.setParticleRadiusRange(5.0f, 10.0f);
-		particleView.setAnimationMode(AnimatedParticleView.MODE_SWIRL);
-		main.addView(particleView);
+//		particleView.setLineColor(0xFF76FF03);
+//		particleView.setparticleCount(60);
+//		particleView.setParticleColor(0xFF76FF03);
+//		particleView.setBackgroundColor(0xFF000000);
+//		particleView.setParticleRadiusRange(5.0f, 10.0f);
+//		main.addView(particleView);
 		
 		linear7.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -2359,14 +2348,11 @@ public class MainActivity extends AppCompatActivity {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
 			if (!android.os.Environment.isExternalStorageManager()) {
 				
-				if (allFilesAlertDialog != null && allFilesAlertDialog.isShowing()) {
-					return;
-				}
+				android.content.SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+				boolean isFirstTime = prefs.getBoolean("all_files_first_time", true);
 				
-				if (allFilesFirstTime) {
-					allFilesFirstTime = false;
-					getSharedPreferences("data", MODE_PRIVATE)
-					.edit()
+				if (isFirstTime) {
+					prefs.edit()
 					.putBoolean("all_files_first_time", false)
 					.apply();
 					
@@ -2382,37 +2368,37 @@ public class MainActivity extends AppCompatActivity {
 					}
 					
 				} else {
-					android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-					builder.setTitle("All Files Access Required");
-					builder.setIcon(android.R.drawable.ic_dialog_alert);
-					builder.setMessage("All files access permission is required to activate the app features. Please allow it to continue.");
-					builder.setCancelable(false);
-					builder.setPositiveButton("OPEN SETTINGS", null);
-					
-					allFilesAlertDialog = builder.create();
-					allFilesAlertDialog.show();
-					
-					android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
-					bg.setColor(android.graphics.Color.WHITE);
-					bg.setCornerRadius(60f);
-					allFilesAlertDialog.getWindow().setBackgroundDrawable(bg);
-					
-					final android.widget.Button btn = allFilesAlertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-					if (btn != null) {
-						int[] clr = new int[]{0xFF1A73E8, 0xFF5A95F5};
-						android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable(
-						android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT, clr);
-						shape.setCornerRadius(100f);
-						btn.setBackground(new android.graphics.drawable.RippleDrawable(
-						android.content.res.ColorStateList.valueOf(0x25FFFFFF), shape, null));
-						btn.setTextColor(android.graphics.Color.WHITE);
-						btn.setTextSize(12.5f);
-						btn.setMinHeight(0);
-						btn.setMinimumHeight(0);
-						btn.setPadding(53, 25, 53, 25);
-						btn.setAllCaps(false);
-						btn.setOnClickListener(v -> {
-							allFilesAlertDialog.dismiss();
+					allFilesAlertDialog = new android.app.AlertDialog.Builder(this).create();
+                    android.view.View inflate = getLayoutInflater().inflate(R.layout.dialog, null);
+                    allFilesAlertDialog.setView(inflate);
+                    allFilesAlertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    allFilesAlertDialog.setCancelable(false);
+                    
+                    android.widget.TextView title = inflate.findViewById(R.id.textview6);
+                    android.widget.TextView msg = inflate.findViewById(R.id.textview5);
+                    android.widget.TextView btnText = inflate.findViewById(R.id.textview4);
+                    android.widget.LinearLayout btnLayout = inflate.findViewById(R.id.linear3);
+                    android.widget.LinearLayout linear2 = inflate.findViewById(R.id.linear2);
+                    android.widget.LinearLayout linear5 = inflate.findViewById(R.id.linear5);
+
+                    if (title != null) title.setText("All Files Access Required");
+                    if (msg != null) msg.setText("All files access permission is required to activate the app features. Please allow it to continue.");
+                    if (btnText != null) {
+                        btnText.setText("OPEN SETTINGS");
+                        btnText.setTextColor(0xFFFFFFFF);
+                    }
+
+                    int d = (int) getResources().getDisplayMetrics().density;
+                    if (linear2 != null) {
+                        android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
+                        gd2.setColor(0xFFFFFFFF); gd2.setCornerRadius(d * 20); linear2.setBackground(gd2);
+                    }
+                    if (btnLayout != null) {
+                        android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
+                        gd3.setColor(android.graphics.Color.parseColor("#00B489")); gd3.setCornerRadius(d * 25);
+                        btnLayout.setBackground(gd3);
+                        btnLayout.setOnClickListener(v -> {
+                            allFilesAlertDialog.dismiss();
 							allFilesAlertDialog = null;
 							try {
 								android.content.Intent intent = new android.content.Intent(
@@ -2424,8 +2410,13 @@ public class MainActivity extends AppCompatActivity {
 								android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
 								startActivity(intent);
 							}
-						});
-					}
+                        });
+                    }
+                    if (linear5 != null) {
+                        android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
+                        gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+                    }
+					allFilesAlertDialog.show();
 				}
 			}
 		}
@@ -2440,37 +2431,37 @@ public class MainActivity extends AppCompatActivity {
 					return;
 				}
 				
-				android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-				builder.setTitle("All Files Access Required");
-				builder.setIcon(android.R.drawable.ic_dialog_alert);
-				builder.setMessage("All files access permission is required. Please allow it to continue.");
-				builder.setCancelable(false);
-				builder.setPositiveButton("OPEN SETTINGS", null);
-				
-				allFilesAlertDialog = builder.create();
-				allFilesAlertDialog.show();
-				
-				android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
-				bg.setColor(android.graphics.Color.WHITE);
-				bg.setCornerRadius(60f);
-				allFilesAlertDialog.getWindow().setBackgroundDrawable(bg);
-				
-				final android.widget.Button btn = allFilesAlertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-				if (btn != null) {
-					int[] clr = new int[]{0xFF1A73E8, 0xFF5A95F5};
-					android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable(
-					android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT, clr);
-					shape.setCornerRadius(100f);
-					btn.setBackground(new android.graphics.drawable.RippleDrawable(
-					android.content.res.ColorStateList.valueOf(0x25FFFFFF), shape, null));
-					btn.setTextColor(android.graphics.Color.WHITE);
-					btn.setTextSize(12.5f);
-					btn.setMinHeight(0);
-					btn.setMinimumHeight(0);
-					btn.setPadding(53, 25, 53, 25);
-					btn.setAllCaps(false);
-					btn.setOnClickListener(v -> {
-						allFilesAlertDialog.dismiss();
+				allFilesAlertDialog = new android.app.AlertDialog.Builder(this).create();
+                android.view.View inflate = getLayoutInflater().inflate(R.layout.dialog, null);
+                allFilesAlertDialog.setView(inflate);
+                allFilesAlertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                allFilesAlertDialog.setCancelable(false);
+                
+                android.widget.TextView title = inflate.findViewById(R.id.textview6);
+                android.widget.TextView msg = inflate.findViewById(R.id.textview5);
+                android.widget.TextView btnText = inflate.findViewById(R.id.textview4);
+                android.widget.LinearLayout btnLayout = inflate.findViewById(R.id.linear3);
+                android.widget.LinearLayout linear2 = inflate.findViewById(R.id.linear2);
+                android.widget.LinearLayout linear5 = inflate.findViewById(R.id.linear5);
+
+                if (title != null) title.setText("All Files Access Required");
+                if (msg != null) msg.setText("All files access permission is required. Please allow it to continue.");
+                if (btnText != null) {
+                    btnText.setText("OPEN SETTINGS");
+                    btnText.setTextColor(0xFFFFFFFF);
+                }
+
+                int d = (int) getResources().getDisplayMetrics().density;
+                if (linear2 != null) {
+                    android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
+                    gd2.setColor(0xFFFFFFFF); gd2.setCornerRadius(d * 20); linear2.setBackground(gd2);
+                }
+                if (btnLayout != null) {
+                    android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
+                    gd3.setColor(android.graphics.Color.parseColor("#00B489")); gd3.setCornerRadius(d * 25);
+                    btnLayout.setBackground(gd3);
+                    btnLayout.setOnClickListener(v -> {
+                        allFilesAlertDialog.dismiss();
 						allFilesAlertDialog = null;
 						try {
 							android.content.Intent intent = new android.content.Intent(
@@ -2482,11 +2473,17 @@ public class MainActivity extends AppCompatActivity {
 							android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
 							startActivity(intent);
 						}
-					});
-				}
+                    });
+                }
+                if (linear5 != null) {
+                    android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
+                    gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+                }
+				allFilesAlertDialog.show();
 			}
 		}
 	}
+	
 	
 	
 	public void showShizukuDeniedDialog(String message) {
@@ -2501,67 +2498,68 @@ public class MainActivity extends AppCompatActivity {
 			shizukuListener = null;
 		}
 		
-		android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-		builder.setTitle("Permission Required");
-		builder.setIcon(android.R.drawable.ic_dialog_alert);
-		builder.setMessage(message);
-		builder.setCancelable(false);
-		builder.setPositiveButton("RETRY", null);
+		shizukuDeniedAlertDialog = new android.app.AlertDialog.Builder(this).create();
+		android.view.View inflate = getLayoutInflater().inflate(R.layout.dialog, null);
+		shizukuDeniedAlertDialog.setView(inflate);
+		shizukuDeniedAlertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		shizukuDeniedAlertDialog.setCancelable(false);
 		
-		shizukuDeniedAlertDialog = builder.create();
-		shizukuDeniedAlertDialog.show();
+		android.widget.TextView title = inflate.findViewById(R.id.textview6);
+		android.widget.TextView msg = inflate.findViewById(R.id.textview5);
+		android.widget.TextView btnText = inflate.findViewById(R.id.textview4);
+		android.widget.LinearLayout btnLayout = inflate.findViewById(R.id.linear3);
+		android.widget.LinearLayout linear2 = inflate.findViewById(R.id.linear2);
+		android.widget.LinearLayout linear5 = inflate.findViewById(R.id.linear5);
 		
-		android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
-		bg.setColor(android.graphics.Color.WHITE);
-		bg.setCornerRadius(60f);
-		shizukuDeniedAlertDialog.getWindow().setBackgroundDrawable(bg);
+		if (title != null) title.setText("Permission Required");
+		if (msg != null) msg.setText(message);
+		if (btnText != null) {
+            btnText.setText("RETRY");
+            btnText.setTextColor(0xFFFFFFFF);
+        }
 		
-		final android.widget.Button btn = shizukuDeniedAlertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-		if (btn != null) {
-			btn.setTextColor(android.graphics.Color.parseColor("#1A73E8"));
-			btn.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-			android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
-			shape.setCornerRadius(20f);
-			shape.setColor(android.graphics.Color.TRANSPARENT);
-			android.content.res.ColorStateList rippleColor = android.content.res.ColorStateList.valueOf(
-			android.graphics.Color.parseColor("#201A73E8"));
-			btn.setBackground(new android.graphics.drawable.RippleDrawable(rippleColor, shape, null));
-			
-			btn.setOnClickListener(v -> {
-				
-				
+		int d = (int) getResources().getDisplayMetrics().density;
+		if (linear2 != null) {
+			android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
+			gd2.setColor(0xFFFFFFFF); gd2.setCornerRadius(d * 20); linear2.setBackground(gd2);
+		}
+		if (btnLayout != null) {
+			android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
+			gd3.setColor(android.graphics.Color.parseColor("#00B489")); gd3.setCornerRadius(d * 25);
+			btnLayout.setBackground(gd3);
+			btnLayout.setOnClickListener(v -> {
 				final android.app.AlertDialog ref = shizukuDeniedAlertDialog;
 				shizukuDeniedAlertDialog = null;
 				if (ref != null) {
 					try { ref.dismiss(); } catch (Exception ignored) {}
 				}
-				
-				
 				if (shizukuListener != null) {
 					try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
 					shizukuListener = null;
 				}
-				
 				shizukuListener = new rikka.shizuku.Shizuku.OnRequestPermissionResultListener() {
 					@Override
 					public void onRequestPermissionResult(int requestCode, int grantResult) {
-						
-						try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
-						shizukuListener = null;
-						
-						if (grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-							MainActivity.this.checkAllFilesPermission();
-						} else {
-							MainActivity.this.showShizukuDeniedDialog(
-							"Shizuku permission is required to activate the app features. Click retry to grant permission.");
+						if (requestCode == 100) {
+							try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
+							shizukuListener = null;
+							if (grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+								MainActivity.this.runOnUiThread(() -> android.widget.Toast.makeText(getApplicationContext(), "Shizuku is running ✅", android.widget.Toast.LENGTH_SHORT).show());
+							} else {
+								MainActivity.this.runOnUiThread(() -> MainActivity.this.showShizukuDeniedDialog("Shizuku permission is required to activate the app features. Click retry to grant permission."));
+							}
 						}
 					}
 				};
-				
 				rikka.shizuku.Shizuku.addRequestPermissionResultListener(shizukuListener);
 				rikka.shizuku.Shizuku.requestPermission(100);
 			});
 		}
+		if (linear5 != null) {
+			android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
+			gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+		}
+        shizukuDeniedAlertDialog.show();
 	}
 	
 	{ // Created by ModX Lab
@@ -2580,56 +2578,54 @@ public class MainActivity extends AppCompatActivity {
 		int currentState = (isInstalled) ? (isRunning ? 0 : 2) : 1;
 		
 		if (myDialog != null && myDialog.isShowing()) {
-			
 			if (lastShizukuState == currentState) {
 				return; 
 			} else {
-				
 				myDialog.dismiss();
 				myDialog = null;
 			}
 		}
 		
-		
 		lastShizukuState = currentState;
-		
 		
 		if (currentState != 0) {
 			toastShown = false;
 			
-			android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
-			builder.setTitle(currentState == 1 ? "Shizuku Required" : "Start Shizuku");
-			builder.setIcon(currentState == 1 ? android.R.drawable.ic_dialog_alert : android.R.drawable.ic_dialog_info);
-			builder.setMessage(currentState == 1 ? "Shizuku is not installed. Please install it to continue." : "Shizuku service is not running. Please start it.");
-			builder.setCancelable(false);
-			builder.setPositiveButton(currentState == 1 ? "GO TO PLAY STORE" : "OPEN SHIZUKU", null);
-			
-			myDialog = builder.create();
+			myDialog = new android.app.AlertDialog.Builder(MainActivity.this).create();
+            android.view.View inflate = getLayoutInflater().inflate(R.layout.dialog, null);
+            myDialog.setView(inflate);
+            myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            myDialog.setCancelable(false);
 			
 			myDialog.setOnDismissListener(dialog -> {
 				myDialog = null;
 			});
 			
-			myDialog.show();
-			
-			android.graphics.drawable.GradientDrawable dialogBg = new android.graphics.drawable.GradientDrawable();
-			dialogBg.setColor(android.graphics.Color.WHITE);
-			dialogBg.setCornerRadius(60f);
-			myDialog.getWindow().setBackgroundDrawable(dialogBg);
-			
-			final android.widget.Button btn = myDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
-			if (btn != null) {
-				int[] clr = (currentState == 1) ? new int[]{0xFF1A73E8, 0xFF5A95F5} : new int[]{0xFF34A853, 0xFF66BB6A};
-				android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable(
-				android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT, clr);
-				shape.setCornerRadius(120f);
-				btn.setBackground(new android.graphics.drawable.RippleDrawable(
-				android.content.res.ColorStateList.valueOf(0x25FFFFFF), shape, null));
-				btn.setTextColor(android.graphics.Color.WHITE);
-				btn.setPadding(55, 16, 55, 16);
-				btn.setAllCaps(false);
-				btn.setOnClickListener(v -> {
-					if (currentState == 1) {
+			android.widget.TextView title = inflate.findViewById(R.id.textview6);
+            android.widget.TextView msg = inflate.findViewById(R.id.textview5);
+            android.widget.TextView btnText = inflate.findViewById(R.id.textview4);
+            android.widget.LinearLayout btnLayout = inflate.findViewById(R.id.linear3);
+            android.widget.LinearLayout linear2 = inflate.findViewById(R.id.linear2);
+            android.widget.LinearLayout linear5 = inflate.findViewById(R.id.linear5);
+
+            if (title != null) title.setText(currentState == 1 ? "Shizuku Required" : "Start Shizuku");
+            if (msg != null) msg.setText(currentState == 1 ? "Shizuku is not installed. Please install it to continue." : "Shizuku service is not running. Please start it.");
+            if (btnText != null) {
+                btnText.setText(currentState == 1 ? "GO TO PLAY STORE" : "OPEN SHIZUKU");
+                btnText.setTextColor(0xFFFFFFFF);
+            }
+
+            int d = (int) getResources().getDisplayMetrics().density;
+            if (linear2 != null) {
+                android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
+                gd2.setColor(0xFFFFFFFF); gd2.setCornerRadius(d * 20); linear2.setBackground(gd2);
+            }
+            if (btnLayout != null) {
+                android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
+                gd3.setColor(android.graphics.Color.parseColor("#00B489")); gd3.setCornerRadius(d * 25);
+                btnLayout.setBackground(gd3);
+                btnLayout.setOnClickListener(v -> {
+                    if (currentState == 1) {
 						try {
 							startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW,
 							android.net.Uri.parse("market://details?id=moe.shizuku.privileged.api")));
@@ -2641,8 +2637,14 @@ public class MainActivity extends AppCompatActivity {
 						android.content.Intent intent = getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
 						if (intent != null) startActivity(intent);
 					}
-				});
-			}
+                });
+            }
+            if (linear5 != null) {
+                android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
+                gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+            }
+			
+			myDialog.show();
 			
 		} else {
 			if (!toastShown) {
@@ -2655,34 +2657,30 @@ public class MainActivity extends AppCompatActivity {
 					try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
 					shizukuListener = null;
 				}
-				
 				shizukuListener = new rikka.shizuku.Shizuku.OnRequestPermissionResultListener() {
 					@Override
 					public void onRequestPermissionResult(int requestCode, int grantResult) {
 						try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
 						shizukuListener = null;
-						if (grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-							MainActivity.this.checkAllFilesPermission();
-						} else {
+						
+						if (grantResult != android.content.pm.PackageManager.PERMISSION_GRANTED) {
 							MainActivity.this.showShizukuDeniedDialog("Shizuku permission is required.");
 						}
 					}
 				};
 				rikka.shizuku.Shizuku.addRequestPermissionResultListener(shizukuListener);
 				rikka.shizuku.Shizuku.requestPermission(100);
-			} else {
-				this.checkAllFilesPermission();
 			}
 		}
 	}
 	
 	
 	public void _ModX() {
-		linear3.setBackgroundColor(Color.TRANSPARENT);
+		linear3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)45, (int)2, 0x50FFFFFF, 0x15FFFFFF));
 		linear2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, Color.TRANSPARENT, Color.TRANSPARENT));
-		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)20, (int)5, 0xFF03A9F4, Color.TRANSPARENT));
-		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)20, (int)5, 0xFF03A9F4, Color.TRANSPARENT));
-		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)30, (int)0, Color.TRANSPARENT, 0xFF03A9F4));
+		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)2, 0x30FFFFFF, 0x10FFFFFF));
+		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)2, 0x30FFFFFF, 0x10FFFFFF));
+		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)0, Color.TRANSPARENT, 0x802962FF));
 		TextView textView = findViewById(R.id.textview19);
 		ObjectAnimator colorCycle = ObjectAnimator.ofArgb(textView, "textColor", Color.BLUE, Color. YELLOW, Color.GREEN, Color.RED);
 		colorCycle.setDuration(4000);

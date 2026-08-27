@@ -1,0 +1,48 @@
+	public void showShizukuDeniedDialog(String message) {
+		
+		if (shizukuDeniedAlertDialog != null) {
+			try { shizukuDeniedAlertDialog.dismiss(); } catch (Exception ignored) {}
+			shizukuDeniedAlertDialog = null;
+		}
+		
+		if (shizukuListener != null) {
+			try { rikka.shizuku.Shizuku.removeRequestPermissionResultListener(shizukuListener); } catch (Exception ignored) {}
+			shizukuListener = null;
+		}
+		
+		android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+		builder.setTitle("Permission Required");
+		builder.setIcon(android.R.drawable.ic_dialog_alert);
+		builder.setMessage(message);
+		builder.setCancelable(false);
+		builder.setPositiveButton("RETRY", null);
+		
+		shizukuDeniedAlertDialog = builder.create();
+		shizukuDeniedAlertDialog.show();
+		
+		android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+		bg.setColor(android.graphics.Color.WHITE);
+		bg.setCornerRadius(60f);
+		shizukuDeniedAlertDialog.getWindow().setBackgroundDrawable(bg);
+		
+		final android.widget.Button btn = shizukuDeniedAlertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+		if (btn != null) {
+			btn.setTextColor(android.graphics.Color.parseColor("#1A73E8"));
+			btn.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+			android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
+			shape.setCornerRadius(20f);
+			shape.setColor(android.graphics.Color.TRANSPARENT);
+			android.content.res.ColorStateList rippleColor = android.content.res.ColorStateList.valueOf(
+			android.graphics.Color.parseColor("#201A73E8"));
+			btn.setBackground(new android.graphics.drawable.RippleDrawable(rippleColor, shape, null));
+			
+			btn.setOnClickListener(v -> {
+				
+				
+				final android.app.AlertDialog ref = shizukuDeniedAlertDialog;
+				shizukuDeniedAlertDialog = null;
+				if (ref != null) {
+					try { ref.dismiss(); } catch (Exception ignored) {}
+				}
+				
+				
