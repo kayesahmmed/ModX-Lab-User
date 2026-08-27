@@ -16,7 +16,7 @@
 		android:orientation="horizontal"
 		android:paddingLeft="10dp"
 		android:paddingRight="10dp">
-		<View
+		<LinearLayout
 			android:id="@+id/light"
 			android:layout_width="8dp"
 			android:layout_height="8dp"

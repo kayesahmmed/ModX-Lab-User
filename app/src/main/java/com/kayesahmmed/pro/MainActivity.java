@@ -86,7 +86,8 @@ import android.provider.Settings.Secure;
 import android.content.pm.PackageManager;
 import rikka.shizuku.api.*;
 import rikka.shizuku.provider.*;
-import rikka.shizuku.Shizuku;
+import rikka.shizuku.Shizuku;
+
 
 public class MainActivity extends AppCompatActivity {
 	
@@ -142,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
 	
 	private RelativeLayout linear1;
 	private LinearLayout linear2;
-	private LinearLayout login_layout;
 	private LinearLayout linear43;
 	private LinearLayout linear45;
 	private LinearLayout linear3;
@@ -214,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
 	private void initialize(Bundle _savedInstanceState) {
 		linear1 = findViewById(R.id.linear1);
 		linear2 = findViewById(R.id.linear2);
-		login_layout = findViewById(R.id.login_layout);
 		linear43 = findViewById(R.id.linear43);
 		linear45 = findViewById(R.id.linear45);
 		linear3 = findViewById(R.id.linear3);
@@ -548,31 +547,6 @@ public class MainActivity extends AppCompatActivity {
 //		linear2.addView(particleView);
 		_ModX();
 		_Oncreate();
-		linear47.addView(new AutoTypeTextView(MainActivity.this));
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setTypingSpeed((int) 22);
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setTextAutoTyping("CREATOR : MODX LAB\nWORKING FF MAX ONLY \nTYPE : SAFE\n");
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 0);
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setTextSize((float)8);
-		((AutoTypeTextView)linear47.getChildAt((int)0)).setTextColor(0xFFFFEB3B);
-		linear49.addView(new AutoTypeTextView(MainActivity.this));
-		
-		LinearLayout.LayoutParams params49 = new LinearLayout.LayoutParams(
-		LinearLayout.LayoutParams.MATCH_PARENT,
-		LinearLayout.LayoutParams.WRAP_CONTENT
-		);
-		params49.gravity = android.view.Gravity.CENTER_HORIZONTAL;
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setLayoutParams(params49);
-		
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setTypingSpeed((int) 25);
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setTextAutoTyping("Welcome To ModX Lab Pro");
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 1);
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setTextSize((float)12);
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setTextColor(0xFFFFEB3B);
-		
-		((AutoTypeTextView)linear49.getChildAt((int)0)).setGravity(android.view.Gravity.CENTER_HORIZONTAL);
-		
-		linear49.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
 		myDialog = null;
 		checkPanelOpen = false;
 		toastShown = false;
@@ -1482,6 +1456,7 @@ public class MainActivity extends AppCompatActivity {
 		final LinearLayout icon2 = (LinearLayout)myView007.findViewById(R.id.icon2);
 		final LinearLayout l1 = (LinearLayout)myView007.findViewById(R.id.l1);
 		final LinearLayout l2 = (LinearLayout)myView007.findViewById(R.id.l2);
+		final TextView textview2 = (TextView)myView007.findViewById(R.id.textview2);
 		final TextView textview3 = (TextView)myView007.findViewById(R.id.textview3);
 		final TextView textview4 = (TextView)myView007.findViewById(R.id.textview4);
 		final TextView textview12 = (TextView)myView007.findViewById(R.id.textview12);
@@ -1535,7 +1510,7 @@ public class MainActivity extends AppCompatActivity {
 		button1.setText("AUTO HEADSHOT [OFF]");
 		button2.setText("AIM LOCK  [OFF]");
 		button3.setText("HOLOGRAM [OFF]");
-		{
+		try {
 			android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview1); 
 			
 			if (targetView != null) {
@@ -1557,10 +1532,10 @@ public class MainActivity extends AppCompatActivity {
 					new Titanic().start(titanicText);
 				}
 			}
-		}
+		} catch (Exception ignored) {}
 		
 		// Created by ModX Lab
-		{
+		try {
 			android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview17); 
 			
 			if (targetView != null) {
@@ -1582,7 +1557,7 @@ public class MainActivity extends AppCompatActivity {
 					new Titanic().start(titanicText);
 				}
 			}
-		}
+		} catch (Exception ignored) {}
 		
 		// Created by ModX Lab
 		textview12.setText(KEY.getString("User", ""));
@@ -1994,17 +1969,19 @@ public class MainActivity extends AppCompatActivity {
 		params007.y = 0;
 		//Created by ModX Lab
 		
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-			wm.addView(myView007, params007);
-		} else {
+		try {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				if (android.provider.Settings.canDrawOverlays(getApplicationContext())) {
-					wm.addView(myView007, params007);
-				} else {
+				if (!android.provider.Settings.canDrawOverlays(MainActivity.this)) {
 					Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
 					startActivity(intent);
+					android.widget.Toast.makeText(getApplicationContext(), "Please grant overlay permission", android.widget.Toast.LENGTH_SHORT).show();
+					return;
 				}
 			}
+			wm.addView(myView007, params007);
+		} catch (Exception e) {
+			e.printStackTrace();
+			android.widget.Toast.makeText(getApplicationContext(), "Floating menu: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
 		}
 		//Created by ModX Lab
 	}
@@ -2735,18 +2712,10 @@ public class MainActivity extends AppCompatActivity {
 				linear3.setBackground(gd3);
 			}
 			if (linear5 != null) {
-				GradientDrawable gd5 = new GradientDrawable();
-				gd5.setColor(0x28FFFFFF);
-				gd5.setCornerRadius(d * 18);
-				gd5.setStroke(d * 1, 0x40FFFFFF);
-				linear5.setBackground(gd5);
+				linear5.setBackgroundColor(Color.TRANSPARENT);
 			}
 			if (linear6 != null) {
-				GradientDrawable gd6 = new GradientDrawable();
-				gd6.setColor(0x28FFFFFF);
-				gd6.setCornerRadius(d * 18);
-				gd6.setStroke(d * 1, 0x40FFFFFF);
-				linear6.setBackground(gd6);
+				linear6.setBackgroundColor(Color.TRANSPARENT);
 			}
 			if (button1 != null) {
 				GradientDrawable gdB = new GradientDrawable();
@@ -3007,4 +2976,4 @@ public class MainActivity extends AppCompatActivity {
 		
 	}
 	
-}
+}
