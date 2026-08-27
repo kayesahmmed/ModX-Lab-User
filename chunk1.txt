@@ -1,8 +1,0 @@
-		AnimatedParticleView particleView = new AnimatedParticleView(MainActivity.this);
-		particleView.setLineColor(0xFF03A9F4);
-		particleView.setparticleCount(100);
-		particleView.setParticleColor(0xFF03A9F4);
-		particleView.setBackgroundColor(0xFF000000);
-		particleView.setParticleRadiusRange(5.0f, 10.0f);
-		particleView.setAnimationMode(AnimatedParticleView.MODE_BOUNCE);
-		linear2.addView(particleView);
