@@ -2414,8 +2414,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (linear5 != null) {
                         android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
-                        gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+                        gd5.setColor(android.graphics.Color.parseColor("#00B489")); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
                     }
+                    android.widget.ImageView iv2 = inflate.findViewById(R.id.imageview2);
+                    if (iv2 != null) iv2.setColorFilter(0xFFFFFFFF);
 					allFilesAlertDialog.show();
 				}
 			}
@@ -2477,8 +2479,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (linear5 != null) {
                     android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
-                    gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+                    gd5.setColor(android.graphics.Color.parseColor("#00B489")); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
                 }
+                android.widget.ImageView iv2Btn = inflate.findViewById(R.id.imageview2);
+                if (iv2Btn != null) iv2Btn.setColorFilter(0xFFFFFFFF);
 				allFilesAlertDialog.show();
 			}
 		}
@@ -2557,8 +2561,10 @@ public class MainActivity extends AppCompatActivity {
 		}
 		if (linear5 != null) {
 			android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
-			gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+			gd5.setColor(android.graphics.Color.parseColor("#00B489")); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
 		}
+		android.widget.ImageView iv2Denied = inflate.findViewById(R.id.imageview2);
+		if (iv2Denied != null) iv2Denied.setColorFilter(0xFFFFFFFF);
         shizukuDeniedAlertDialog.show();
 	}
 	
@@ -2641,8 +2647,10 @@ public class MainActivity extends AppCompatActivity {
             }
             if (linear5 != null) {
                 android.graphics.drawable.GradientDrawable gd5 = new android.graphics.drawable.GradientDrawable();
-                gd5.setColor(0xFFFFFFFF); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
+                gd5.setColor(android.graphics.Color.parseColor("#00B489")); gd5.setCornerRadius(d * 90); linear5.setBackground(gd5);
             }
+            android.widget.ImageView iv2Start = inflate.findViewById(R.id.imageview2);
+            if (iv2Start != null) iv2Start.setColorFilter(0xFFFFFFFF);
 			
 			myDialog.show();
 			
@@ -2676,16 +2684,46 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _ModX() {
-		linear3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)45, (int)2, 0x50FFFFFF, 0x15FFFFFF));
-		linear2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, Color.TRANSPARENT, Color.TRANSPARENT));
-		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)2, 0x30FFFFFF, 0x10FFFFFF));
-		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)2, 0x30FFFFFF, 0x10FFFFFF));
-		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)0, Color.TRANSPARENT, 0x802962FF));
+		try {
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			if (linear3 != null) {
+				GradientDrawable gd3 = new GradientDrawable();
+				gd3.setColor(0x3510162A);
+				gd3.setCornerRadius(d * 24);
+				gd3.setStroke(d * 1, 0x55FFFFFF);
+				linear3.setBackground(gd3);
+			}
+			if (linear5 != null) {
+				GradientDrawable gd5 = new GradientDrawable();
+				gd5.setColor(0x28FFFFFF);
+				gd5.setCornerRadius(d * 18);
+				gd5.setStroke(d * 1, 0x40FFFFFF);
+				linear5.setBackground(gd5);
+			}
+			if (linear6 != null) {
+				GradientDrawable gd6 = new GradientDrawable();
+				gd6.setColor(0x28FFFFFF);
+				gd6.setCornerRadius(d * 18);
+				gd6.setStroke(d * 1, 0x40FFFFFF);
+				linear6.setBackground(gd6);
+			}
+			if (button1 != null) {
+				GradientDrawable gdB = new GradientDrawable();
+				gdB.setColor(Color.parseColor("#00B489"));
+				gdB.setCornerRadius(d * 20);
+				android.graphics.drawable.RippleDrawable ripple = new android.graphics.drawable.RippleDrawable(
+					new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0x66FFFFFF}),
+					gdB, null);
+				button1.setBackground(ripple);
+			}
+		} catch (Exception ignored) {}
 		TextView textView = findViewById(R.id.textview19);
-		ObjectAnimator colorCycle = ObjectAnimator.ofArgb(textView, "textColor", Color.BLUE, Color. YELLOW, Color.GREEN, Color.RED);
-		colorCycle.setDuration(4000);
-		colorCycle.setRepeatCount(ValueAnimator.INFINITE);
-		colorCycle.start();
+		if (textView != null) {
+			ObjectAnimator colorCycle = ObjectAnimator.ofArgb(textView, "textColor", Color.parseColor("#18FFFF"), Color.parseColor("#FFEB3B"), Color.parseColor("#00E676"), Color.parseColor("#FF4081"));
+			colorCycle.setDuration(4000);
+			colorCycle.setRepeatCount(ValueAnimator.INFINITE);
+			colorCycle.start();
+		}
 	}
 	
 	
