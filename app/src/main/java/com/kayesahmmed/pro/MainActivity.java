@@ -1490,12 +1490,41 @@ public class MainActivity extends AppCompatActivity {
 		final Button button1 = (Button)myView007.findViewById(R.id.button1);
 		final Button button2 = (Button)myView007.findViewById(R.id.button2);
 		final Button button3 = (Button)myView007.findViewById(R.id.button3);
-		textview3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)2, 0x50FFFFFF, 0x80FF1744));
-		bg.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)25, (int)3, 0x60FFFFFF, 0xCC121212));
-		textview4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)2, 0x50FFFFFF, 0x80F44336));
-		button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
-		button2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
-		button3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)15, (int)0, Color.TRANSPARENT, 0x802962FF));
+		float density = getApplicationContext().getResources().getDisplayMetrics().density;
+		int d = (int) density;
+		GradientDrawable exitBg = new GradientDrawable();
+		exitBg.setCornerRadius(d * 12);
+		exitBg.setColor(Color.parseColor("#EF4444"));
+		textview3.setBackground(exitBg);
+		textview3.setTextColor(Color.WHITE);
+		GradientDrawable windowBg = new GradientDrawable();
+		windowBg.setCornerRadius(d * 22);
+		windowBg.setColor(Color.parseColor("#FA0F172A"));
+		windowBg.setStroke((int)(1.5f * density), Color.parseColor("#18FFFF"));
+		bg.setBackground(windowBg);
+		GradientDrawable closeBg = new GradientDrawable();
+		closeBg.setCornerRadius(d * 12);
+		closeBg.setColor(Color.parseColor("#00B489"));
+		textview4.setBackground(closeBg);
+		textview4.setTextColor(Color.WHITE);
+		GradientDrawable btnOff1 = new GradientDrawable();
+		btnOff1.setCornerRadius(d * 10);
+		btnOff1.setColor(Color.parseColor("#1E293B"));
+		btnOff1.setStroke((int)(1 * density), Color.parseColor("#334155"));
+		button1.setBackground(btnOff1);
+		button1.setTextColor(Color.WHITE);
+		GradientDrawable btnOff2 = new GradientDrawable();
+		btnOff2.setCornerRadius(d * 10);
+		btnOff2.setColor(Color.parseColor("#1E293B"));
+		btnOff2.setStroke((int)(1 * density), Color.parseColor("#334155"));
+		button2.setBackground(btnOff2);
+		button2.setTextColor(Color.WHITE);
+		GradientDrawable btnOff3 = new GradientDrawable();
+		btnOff3.setCornerRadius(d * 10);
+		btnOff3.setColor(Color.parseColor("#1E293B"));
+		btnOff3.setStroke((int)(1 * density), Color.parseColor("#334155"));
+		button3.setBackground(btnOff3);
+		button3.setTextColor(Color.WHITE);
 		linear7.setVisibility(View.GONE);
 		
 		l2.setVisibility(View.GONE);
@@ -1741,12 +1770,12 @@ public class MainActivity extends AppCompatActivity {
 				if (!button_1) {
 					
 					button_1 = true;
-					button1.setBackground(new GradientDrawable() {
-						public GradientDrawable getIns(int a, int b, int c, int d) {
-							this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this;
-						}
-					}.getIns((int)5, (int)5, 0xFF76FF03, 0xFF76FF03));
-					button1.setText("Headshot ON");
+					GradientDrawable btnOn1 = new GradientDrawable();
+					btnOn1.setCornerRadius((int)(10 * density));
+					btnOn1.setColor(Color.parseColor("#00B489"));
+					button1.setBackground(btnOn1);
+					button1.setTextColor(Color.WHITE);
+					button1.setText("AUTO HEADSHOT [ON]");
 					_Text("Activated");
 					
 					new Thread(new Runnable() {
@@ -1807,12 +1836,13 @@ public class MainActivity extends AppCompatActivity {
 				} else {
 					
 					button_1 = false;
-					button1.setBackground(new GradientDrawable() {
-						public GradientDrawable getIns(int a, int b, int c, int d) {
-							this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this;
-						}
-					}.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
-					button1.setText("Headshot OFF");
+					GradientDrawable btnOff1 = new GradientDrawable();
+					btnOff1.setCornerRadius((int)(10 * density));
+					btnOff1.setColor(Color.parseColor("#1E293B"));
+					btnOff1.setStroke((int)(1 * density), Color.parseColor("#334155"));
+					button1.setBackground(btnOff1);
+					button1.setTextColor(Color.WHITE);
+					button1.setText("AUTO HEADSHOT [OFF]");
 					_Text("Deactivated");
 					
 					new Thread(new Runnable() {
@@ -2685,12 +2715,23 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void _ModX() {
 		try {
+			eightbitlab.com.blurview.BlurView blurView = findViewById(R.id.blur_view);
+			if (blurView != null) {
+				View decorView = getWindow().getDecorView();
+				ViewGroup rootView = decorView.findViewById(android.R.id.content);
+				Drawable windowBackground = decorView.getBackground();
+				blurView.setupWith(rootView, new eightbitlab.com.blurview.RenderScriptBlur(this))
+						.setFrameClearDrawable(windowBackground)
+						.setBlurRadius(18f);
+			}
+		} catch (Exception ignored) {}
+		try {
 			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
 			if (linear3 != null) {
 				GradientDrawable gd3 = new GradientDrawable();
-				gd3.setColor(0x3510162A);
-				gd3.setCornerRadius(d * 24);
-				gd3.setStroke(d * 1, 0x55FFFFFF);
+				gd3.setColor(0x30FFFFFF);
+				gd3.setCornerRadius(d * 26);
+				gd3.setStroke((int)(d * 1.5f), 0x70FFFFFF);
 				linear3.setBackground(gd3);
 			}
 			if (linear5 != null) {

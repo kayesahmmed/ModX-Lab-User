@@ -19,7 +19,7 @@
 		<View
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="#33000000" />
+			android:background="#44000000" />
 		<LinearLayout
 			android:id="@+id/linear2"
 			android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="center"
-				android:paddingTop="24dp"
+				android:paddingTop="32dp"
 				android:paddingBottom="24dp"
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
@@ -44,22 +44,39 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:gravity="center_horizontal"
-					android:orientation="horizontal">
+					android:orientation="vertical">
 					<TextView
 						android:id="@+id/textview4"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:gravity="center_horizontal"
-						android:text="ModX Lab Pro"
-						android:textSize="26sp"
+						android:text="ModX Lab"
+						android:textSize="32sp"
 						android:textStyle="bold"
 						android:textColor="#18FFFF"
 						android:shadowColor="#80000000"
 						android:shadowDx="2"
 						android:shadowDy="2"
-						android:shadowRadius="6"
+						android:shadowRadius="8"
+						android:layout_gravity="center_horizontal" />
+					<TextView
+						android:id="@+id/textview_welcome"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="4dp"
+						android:gravity="center_horizontal"
+						android:text="WELCOME TO MODX LAB"
+						android:textSize="13sp"
+						android:textStyle="bold"
+						android:letterSpacing="0.08"
+						android:textColor="#FFD700"
+						android:shadowColor="#B0000000"
+						android:shadowDx="1"
+						android:shadowDy="1"
+						android:shadowRadius="4"
 						android:layout_gravity="center_horizontal" />
 				</LinearLayout>
+
 				<LinearLayout
 					android:id="@+id/linear45"
 					android:layout_width="match_parent"
@@ -71,209 +88,230 @@
 						android:layout_height="wrap_content"
 						android:orientation="horizontal" />
 				</LinearLayout>
-				<LinearLayout
-					android:id="@+id/linear3"
+
+				<eightbitlab.com.blurview.BlurView
+					android:id="@+id/blur_view"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:maxWidth="360dp"
-					android:background="@drawable/bg_glass_card"
-					android:padding="20dp"
-					android:gravity="center_horizontal"
-					android:orientation="vertical">
+					app:blurOverlayColor="#200F172A">
 					<LinearLayout
-						android:id="@+id/linear41"
+						android:id="@+id/linear3"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:orientation="horizontal">
-						<TextView
-							android:id="@+id/textview2"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:paddingLeft="6dp"
-							android:paddingTop="4dp"
-							android:paddingBottom="4dp"
-							android:text="Username"
-							android:textSize="13sp"
-							android:textStyle="bold"
-							android:textColor="#E0E0E0" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear5"
-						android:layout_width="match_parent"
-						android:layout_height="48dp"
-						android:layout_marginTop="2dp"
-						android:background="@drawable/bg_glass_input"
-						android:paddingLeft="12dp"
-						android:paddingRight="12dp"
-						android:gravity="center_vertical"
-						android:orientation="horizontal">
-						<EditText
-							android:id="@+id/edittext1"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:background="@android:color/transparent"
-							android:gravity="center_vertical"
-							android:textSize="13sp"
-							android:textColor="#FFFFFF"
-							android:hint="Enter Username"
-							android:textColorHint="#90A4AE"
-							android:singleLine="true" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear37"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="12dp"
-						android:orientation="horizontal">
-						<TextView
-							android:id="@+id/textview0"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:paddingLeft="6dp"
-							android:paddingTop="4dp"
-							android:paddingBottom="4dp"
-							android:text="Password"
-							android:textSize="13sp"
-							android:textStyle="bold"
-							android:textColor="#E0E0E0" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear6"
-						android:layout_width="match_parent"
-						android:layout_height="48dp"
-						android:layout_marginTop="2dp"
-						android:background="@drawable/bg_glass_input"
-						android:paddingLeft="12dp"
-						android:paddingRight="12dp"
-						android:gravity="center_vertical"
-						android:orientation="horizontal">
-						<EditText
-							android:id="@+id/edittext2"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:background="@android:color/transparent"
-							android:gravity="center_vertical"
-							android:textSize="13sp"
-							android:textColor="#FFFFFF"
-							android:hint="Enter Password"
-							android:textColorHint="#90A4AE"
-							android:inputType="textPassword"
-							android:singleLine="true" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear7"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="10dp"
-						android:gravity="center_vertical"
-						android:orientation="horizontal">
-						<CheckBox
-							android:id="@+id/checkbox1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Remember Me"
-							android:textSize="12sp"
-							android:textColor="#FFFFFF"
-							android:buttonTint="#00B489" />
+						android:background="@drawable/bg_glass_card"
+						android:padding="22dp"
+						android:gravity="center_horizontal"
+						android:orientation="vertical">
 						<LinearLayout
-							android:id="@+id/linear31"
-							android:layout_width="0dp"
-							android:layout_height="1dp"
-							android:layout_weight="1"
-							android:orientation="horizontal" />
-						<CheckBox
-							android:id="@+id/checkbox2"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Show Pass"
-							android:textSize="12sp"
-							android:textColor="#FFFFFF"
-							android:buttonTint="#00B489" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear8"
-						android:layout_width="match_parent"
-						android:layout_height="48dp"
-						android:layout_marginTop="16dp"
-						android:gravity="center"
-						android:orientation="horizontal">
-						<Button
-							android:id="@+id/button1"
+							android:id="@+id/linear41"
 							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:background="@drawable/bg_btn_primary"
-							android:text="LOGIN"
-							android:textSize="15sp"
-							android:textStyle="bold"
-							android:textColor="#FFFFFF" />
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+							<TextView
+								android:id="@+id/textview2"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:paddingLeft="6dp"
+								android:paddingTop="4dp"
+								android:paddingBottom="4dp"
+								android:text="Username"
+								android:textSize="13sp"
+								android:textStyle="bold"
+								android:textColor="#E0E0E0" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear5"
+							android:layout_width="match_parent"
+							android:layout_height="48dp"
+							android:layout_marginTop="2dp"
+							android:background="@drawable/bg_glass_input"
+							android:paddingLeft="12dp"
+							android:paddingRight="12dp"
+							android:gravity="center_vertical"
+							android:orientation="horizontal">
+							<EditText
+								android:id="@+id/edittext1"
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:background="@android:color/transparent"
+								android:gravity="center_vertical"
+								android:textSize="13sp"
+								android:textColor="#FFFFFF"
+								android:hint="Enter Username"
+								android:textColorHint="#90A4AE"
+								android:singleLine="true" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear37"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="12dp"
+							android:orientation="horizontal">
+							<TextView
+								android:id="@+id/textview0"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:paddingLeft="6dp"
+								android:paddingTop="4dp"
+								android:paddingBottom="4dp"
+								android:text="Password"
+								android:textSize="13sp"
+								android:textStyle="bold"
+								android:textColor="#E0E0E0" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear6"
+							android:layout_width="match_parent"
+							android:layout_height="48dp"
+							android:layout_marginTop="2dp"
+							android:background="@drawable/bg_glass_input"
+							android:paddingLeft="12dp"
+							android:paddingRight="12dp"
+							android:gravity="center_vertical"
+							android:orientation="horizontal">
+							<EditText
+								android:id="@+id/edittext2"
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:background="@android:color/transparent"
+								android:gravity="center_vertical"
+								android:textSize="13sp"
+								android:textColor="#FFFFFF"
+								android:hint="Enter Password"
+								android:textColorHint="#90A4AE"
+								android:inputType="textPassword"
+								android:singleLine="true" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear7"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="10dp"
+							android:gravity="center_vertical"
+							android:orientation="horizontal">
+							<CheckBox
+								android:id="@+id/checkbox1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Remember Me"
+								android:textSize="12sp"
+								android:textColor="#FFFFFF"
+								android:buttonTint="#00B489" />
+							<LinearLayout
+								android:id="@+id/linear31"
+								android:layout_width="0dp"
+								android:layout_height="1dp"
+								android:layout_weight="1"
+								android:orientation="horizontal" />
+							<CheckBox
+								android:id="@+id/checkbox2"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Show Pass"
+								android:textSize="12sp"
+								android:textColor="#FFFFFF"
+								android:buttonTint="#00B489" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear8"
+							android:layout_width="match_parent"
+							android:layout_height="48dp"
+							android:layout_marginTop="16dp"
+							android:gravity="center"
+							android:orientation="horizontal">
+							<Button
+								android:id="@+id/button1"
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:background="@drawable/bg_btn_primary"
+								android:text="LOGIN"
+								android:textSize="15sp"
+								android:textStyle="bold"
+								android:textColor="#FFFFFF" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear38"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="14dp"
+							android:gravity="center"
+							android:orientation="horizontal">
+							<TextView
+								android:id="@+id/textview6"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Contact ModX Lab"
+								android:textSize="12sp"
+								android:textColor="#B0BEC5" />
+							<TextView
+								android:id="@+id/textview7"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:paddingLeft="8dp"
+								android:text="Contact Now"
+								android:textSize="12sp"
+								android:textStyle="bold"
+								android:textColor="#18FFFF" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear39"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:gravity="center"
+							android:orientation="horizontal">
+							<TextView
+								android:id="@+id/textview8"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Find me on Facebook"
+								android:textSize="12sp"
+								android:textColor="#B0BEC5" />
+							<TextView
+								android:id="@+id/textview9"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:paddingLeft="8dp"
+								android:text="Find Now"
+								android:textSize="12sp"
+								android:textStyle="bold"
+								android:textColor="#18FFFF" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear40"
+							android:layout_width="match_parent"
+							android:layout_height="8dp"
+							android:orientation="horizontal" />
 					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear38"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="14dp"
-						android:gravity="center"
-						android:orientation="horizontal">
-						<TextView
-							android:id="@+id/textview6"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Contact ModX Lab"
-							android:textSize="12sp"
-							android:textColor="#B0BEC5" />
-						<TextView
-							android:id="@+id/textview7"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:paddingLeft="8dp"
-							android:text="Contact Now"
-							android:textSize="12sp"
-							android:textStyle="bold"
-							android:textColor="#18FFFF" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear39"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="4dp"
-						android:gravity="center"
-						android:orientation="horizontal">
-						<TextView
-							android:id="@+id/textview8"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Find me on Facebook"
-							android:textSize="12sp"
-							android:textColor="#B0BEC5" />
-						<TextView
-							android:id="@+id/textview9"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:paddingLeft="8dp"
-							android:text="Find Now"
-							android:textSize="12sp"
-							android:textStyle="bold"
-							android:textColor="#18FFFF" />
-					</LinearLayout>
-					<LinearLayout
-						android:id="@+id/linear40"
-						android:layout_width="match_parent"
-						android:layout_height="8dp"
-						android:orientation="horizontal" />
-				</LinearLayout>
+				</eightbitlab.com.blurview.BlurView>
+
 				<LinearLayout
 					android:id="@+id/linear47"
 					android:layout_width="match_parent"
-					android:layout_height="16dp"
+					android:layout_height="12dp"
 					android:orientation="horizontal" />
+
+				<TextView
+					android:id="@+id/textview_creator_typesafe"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="CREATOR : MODX LAB  •  TYPE : SAFE"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#00E676"
+					android:gravity="center" />
+
 				<TextView
 					android:id="@+id/textview19"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_marginTop="6dp"
 					android:text="COPYRIGHT © ModX Lab 2026"
 					android:textSize="11sp"
 					android:textColor="#FFEE58"
-					android:alpha="0.8" />
+					android:alpha="0.9"
+					android:gravity="center" />
 			</LinearLayout>
 		</ScrollView>
 	</RelativeLayout>
