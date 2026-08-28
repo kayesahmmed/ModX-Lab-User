@@ -2359,13 +2359,13 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 	
 	public void _Check_Subscribe() {
 		checkPanelOpen = true;
-		
+
 		final AlertDialog checkDial = new AlertDialog.Builder(MainActivity.this).create();
 		View inflate = getLayoutInflater().inflate(R.layout.check, null);
 		checkDial.setView(inflate);
 		checkDial.setCancelable(false);
-		applyDialogWindowBlur(checkDial.getWindow());
-		
+		checkDial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 		final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
 		final LinearLayout linear6 = (LinearLayout) inflate.findViewById(R.id.linear6);
 		final ProgressBar pg = (ProgressBar) inflate.findViewById(R.id.progressbar1);
@@ -2373,39 +2373,34 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 		final Button btnYoutube = (Button) inflate.findViewById(R.id.button1);
 		final TextView tvTitle = (TextView) inflate.findViewById(R.id.textview1);
 		final TextView tvSub = (TextView) inflate.findViewById(R.id.textview2);
-		
-		float density = getApplicationContext().getResources().getDisplayMetrics().density;
-		int d = (int) density;
-		
+
+		final SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
+
+		GradientDrawable gd = new GradientDrawable();
+		gd.setColor(0xFF060606);
+		gd.setCornerRadius(30f);
+		gd.setStroke(2, 0xFF18FFFF);
+		linear2.setBackground(gd);
+
 		GradientDrawable sd = new GradientDrawable();
-		sd.setColor(0x30FF3B30);
-		sd.setCornerRadius(d * 12);
-		sd.setStroke((int)(d * 1f), 0x60FF3B30);
+		sd.setColor(0xFF241515);
+		sd.setCornerRadius(15f);
 		linear6.setBackground(sd);
-		
+
 		GradientDrawable initialGd = new GradientDrawable();
-		initialGd.setColor(0x20FFFFFF);
-		initialGd.setCornerRadius(d * 12);
-		initialGd.setStroke((int)(d * 1f), 0x40FFFFFF);
+		initialGd.setColor(0xFF2C2C2C);
+		initialGd.setCornerRadius(30f);
 		btnYoutube.setBackground(initialGd);
 		btnYoutube.setEnabled(false);
 		btnYoutube.setAlpha(0.8f);
 		btnYoutube.setText("PLEASE WAIT...");
-		
-		try {
-			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
-			if (tvTitle != null) tvTitle.setTypeface(tf, Typeface.BOLD);
-			if (tvSub != null) tvSub.setTypeface(tf, Typeface.BOLD);
-			if (tvPercent != null) tvPercent.setTypeface(tf, Typeface.BOLD);
-			if (btnYoutube != null) btnYoutube.setTypeface(tf, Typeface.BOLD);
-		} catch (Exception ignored) {}
-		
+
 		pg.getProgressDrawable().setColorFilter(Color.parseColor("#00FF88"), PorterDuff.Mode.SRC_IN);
-		
+
 		ObjectAnimator anim = ObjectAnimator.ofInt(pg, "progress", 0, 100);
 		anim.setDuration(2500);
 		anim.setInterpolator(new DecelerateInterpolator());
-		
+
 		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
@@ -2416,17 +2411,16 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 				}
 			}
 		});
-		
+
 		anim.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				btnYoutube.setEnabled(true);
 				btnYoutube.setAlpha(1.0f);
+				btnYoutube.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0000")));
 				GradientDrawable redGd = new GradientDrawable();
-				redGd.setColors(new int[]{Color.parseColor("#EF4444"), Color.parseColor("#DC2626")});
-				redGd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-				redGd.setCornerRadius(d * 12);
-				redGd.setStroke((int)(d * 1.2f), Color.parseColor("#FCA5A5"));
+				redGd.setColor(Color.RED);
+				redGd.setCornerRadius(30f);
 				btnYoutube.setBackground(redGd);
 				btnYoutube.setText("SUBSCRIBE TO UNLOCK");
 				btnYoutube.setTextColor(Color.WHITE);
@@ -2437,7 +2431,7 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 			}
 		});
 		anim.start();
-		
+
 		btnYoutube.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -2450,10 +2444,9 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 				checkDial.dismiss();
 			}
 		});
-		
+
 		checkDial.show();
 	}
-	
 	
 	public void _File_Permission() {
 	}
