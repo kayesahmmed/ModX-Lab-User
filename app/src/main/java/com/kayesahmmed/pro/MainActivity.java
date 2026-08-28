@@ -1648,6 +1648,7 @@ final TextView textview15 = (TextView)myView007.findViewById(R.id.textview15);
 final Button button1 = (Button)myView007.findViewById(R.id.button1);
 final Button button2 = (Button)myView007.findViewById(R.id.button2);
 final Button button3 = (Button)myView007.findViewById(R.id.button3);
+final TextView textview2 = (TextView)myView007.findViewById(R.id.textview2);
 
 textview3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, 0xFF000000, Color.TRANSPARENT));
 bg.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)8, (int)4, 0xFFFFFFFF, 0xFF212121));
@@ -1662,7 +1663,9 @@ l2.setVisibility(View.GONE);
 try {
     textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
     textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
-    // textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+    if (textview2 != null) {
+        textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+    }
 } catch (Exception e) {}
 
 button1.setText("Unzip [OFF]");
@@ -1714,6 +1717,17 @@ textview12.setText(KEY.getString("User", ""));
 textview14.setText(KEY.getString("Register", ""));
 textview15.setText(KEY.getString("Valid", ""));
 
+final GradientDrawable highlightDrawable = new GradientDrawable();
+highlightDrawable.setColor(0x2518FFFF);
+highlightDrawable.setCornerRadius(10f);
+
+final GradientDrawable normalDrawable = new GradientDrawable();
+normalDrawable.setColor(0x10FFFFFF);
+normalDrawable.setCornerRadius(10f);
+
+icon1.setBackground(highlightDrawable);
+icon2.setBackground(normalDrawable);
+
 TimerTask timer = new TimerTask() {
 	@Override
 	public void run() {
@@ -1721,28 +1735,28 @@ TimerTask timer = new TimerTask() {
 			@Override
 			public void run() {
 				light.setBackgroundColor(0xFFFF0000);
-				TimerTask Timer2 = new TimerTask() {
+				TimerTask Timer = new TimerTask() {
 					@Override
 					public void run() {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
 								light.setBackgroundColor(0xF000FF00);
-								TimerTask Timer3 = new TimerTask() {
+								TimerTask Timer = new TimerTask() {
 									@Override
 									public void run() {
 										runOnUiThread(new Runnable() {
 											@Override
 											public void run() {
 												light.setBackgroundColor(0xFF0026FE);
-												TimerTask Timer4 = new TimerTask() {
+												TimerTask Timer = new TimerTask() {
 													@Override
 													public void run() {
 														runOnUiThread(new Runnable() {
 															@Override
 															public void run() {
 																light.setBackgroundColor(0xFFFFEB3B);
-																TimerTask Timer5 = new TimerTask() {
+																TimerTask Timer = new TimerTask() {
 																	@Override
 																	public void run() {
 																		runOnUiThread(new Runnable() {
@@ -1753,22 +1767,22 @@ TimerTask timer = new TimerTask() {
 																		});
 																	}
 																};
-																_timer.schedule(Timer5, (int)(12000));
+																_timer.schedule(Timer, (int)(12000));
 															}
 														});
 													}
 												};
-												_timer.schedule(Timer4, (int)(9000));
+												_timer.schedule(Timer, (int)(9000));
 											}
 										});
 									}
 								};
-								_timer.schedule(Timer3, (int)(6000));
+								_timer.schedule(Timer, (int)(6000));
 							}
 						});
 					}
 				};
-				_timer.schedule(Timer2, (int)(3000));
+				_timer.schedule(Timer, (int)(3000));
 			}
 		});
 	}
@@ -1805,6 +1819,8 @@ icon1.setOnClickListener(new View.OnClickListener(){
 	public void onClick(View _view){
 		l1.setVisibility(View.VISIBLE);
 		l2.setVisibility(View.GONE);
+        icon1.setBackground(highlightDrawable);
+        icon2.setBackground(normalDrawable);
 	}
 });
 icon2.setOnClickListener(new View.OnClickListener(){
@@ -1812,6 +1828,8 @@ icon2.setOnClickListener(new View.OnClickListener(){
 	public void onClick(View _view){
 		l1.setVisibility(View.GONE);
 		l2.setVisibility(View.VISIBLE);
+        icon1.setBackground(normalDrawable);
+        icon2.setBackground(highlightDrawable);
 	}
 });
 linear1.setOnClickListener(new View.OnClickListener(){
@@ -2020,6 +2038,7 @@ button1.setOnClickListener(new View.OnClickListener(){
 		}
 	}
 });
+
 
 final boolean[] move = {true};
 View.OnTouchListener dragTouchListener = new View.OnTouchListener() {
