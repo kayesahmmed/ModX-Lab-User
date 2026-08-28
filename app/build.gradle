@@ -28,6 +28,7 @@ namespace "com.kayesahmmed.pro"
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('../libs/local_libs/particalAnimation12.0/classes.jar')
 	implementation 'androidx.appcompat:appcompat:1.7.1'
 	implementation 'com.google.android.material:material:1.12.0'
 	implementation platform('com.google.firebase:firebase-bom:34.1.0')

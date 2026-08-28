@@ -1531,7 +1531,7 @@ public class MainActivity extends AppCompatActivity {
 							}
 						}
 						if (!found) {
-							if (targetName.toLowerCase().contains("hack")) targetName = "H.zip";
+							if (targetName.toLowerCase().contains("hack")) targetName = "Hack.zip";
 							else if (targetName.toLowerCase().contains("original")) targetName = "O.zip";
 						}
 					} catch (Exception ignored) {}
@@ -1901,7 +1901,7 @@ button1.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void run() {
 					try {
-						String zipNames = "H.zip"; 
+						String zipNames = "Hack.zip"; 
 						String extractPath = "/storage/emulated/0/Download/ModX_Extracted/"; 
 						
 						String[] zipFiles = zipNames.split(",");
