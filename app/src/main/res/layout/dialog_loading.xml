@@ -3,25 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="20dp">
+    android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="280dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_dialog_glass"
+        android:background="@drawable/bg_dialog_modern"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="26dp"
-        android:paddingBottom="24dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:elevation="12dp">
+        android:paddingTop="28dp"
+        android:paddingBottom="26dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:elevation="16dp">
 
         <!-- Glowing indeterminate spinner -->
         <ProgressBar
             android:id="@+id/loading_spinner"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:indeterminate="true"
             android:indeterminateTint="#18FFFF"
             android:indeterminateTintMode="src_in" />
@@ -30,9 +30,9 @@
             android:id="@+id/loading_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:text="Verifying With Server..."
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:letterSpacing="0.04"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Please wait a moment"
+            android:text="Please wait a moment while we verify"
             android:textSize="12sp"
             android:textColor="#90CAF9"
             android:gravity="center" />

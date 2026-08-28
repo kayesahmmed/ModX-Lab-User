@@ -1176,6 +1176,18 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
+	private void applyDialogWindowBlur(android.view.Window window) {
+		if (window == null) return;
+		window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		window.setDimAmount(0.72f);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+			try {
+				window.getAttributes().setBlurBehindRadius(25);
+			} catch (Exception ignored) {}
+		}
+	}
+
 	private android.app.AlertDialog customLoadingDialog = null;
 
 	public void _loadingdialog(final boolean _ifShow, final String _title) {
@@ -1184,14 +1196,15 @@ public class MainActivity extends AppCompatActivity {
 				View v = getLayoutInflater().inflate(R.layout.dialog_loading, null);
 				TextView tv = v.findViewById(R.id.loading_title);
 				if (tv != null && _title != null) tv.setText(_title);
+				try {
+					Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+					if (tv != null) tv.setTypeface(tf, Typeface.BOLD);
+				} catch (Exception ignored) {}
 				customLoadingDialog = new android.app.AlertDialog.Builder(this).create();
 				customLoadingDialog.setView(v);
 				customLoadingDialog.setCancelable(false);
 				customLoadingDialog.setCanceledOnTouchOutside(false);
-				if (customLoadingDialog.getWindow() != null) {
-					customLoadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-					customLoadingDialog.getWindow().setDimAmount(0.65f);
-				}
+				applyDialogWindowBlur(customLoadingDialog.getWindow());
 			} else {
 				TextView tv = customLoadingDialog.findViewById(R.id.loading_title);
 				if (tv != null && _title != null) tv.setText(_title);
@@ -1227,17 +1240,26 @@ public class MainActivity extends AppCompatActivity {
 							successDialog.setView(v);
 							successDialog.setCancelable(false);
 							successDialog.setCanceledOnTouchOutside(false);
-							if (successDialog.getWindow() != null) {
-								successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-								successDialog.getWindow().setDimAmount(0.65f);
-							}
+							applyDialogWindowBlur(successDialog.getWindow());
 							
+							TextView tvTitle = v.findViewById(R.id.dialog_success_title);
 							TextView tvUser = v.findViewById(R.id.tv_dialog_username);
 							TextView tvReg = v.findViewById(R.id.tv_dialog_register);
 							TextView tvValid = v.findViewById(R.id.tv_dialog_valid);
 							TextView tvSeller = v.findViewById(R.id.tv_dialog_seller);
 							TextView tvStatus = v.findViewById(R.id.tv_dialog_status);
 							Button btnOkay = v.findViewById(R.id.btn_dialog_okay);
+							
+							try {
+								Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+								if (tvTitle != null) tvTitle.setTypeface(tf, Typeface.BOLD);
+								if (btnOkay != null) btnOkay.setTypeface(tf, Typeface.BOLD);
+								if (tvUser != null) tvUser.setTypeface(tf, Typeface.BOLD);
+								if (tvReg != null) tvReg.setTypeface(tf, Typeface.BOLD);
+								if (tvValid != null) tvValid.setTypeface(tf, Typeface.BOLD);
+								if (tvSeller != null) tvSeller.setTypeface(tf, Typeface.BOLD);
+								if (tvStatus != null) tvStatus.setTypeface(tf, Typeface.BOLD);
+							} catch (Exception ignored) {}
 							
 							String u = KEY.getString("User", "User");
 							String r = KEY.getString("Register", "Active");
@@ -1467,18 +1489,26 @@ public class MainActivity extends AppCompatActivity {
 		int d = (int) density;
 		GradientDrawable gd = new GradientDrawable();
 		gd.setCornerRadius(d * 10);
+		try {
+			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+			btn.setTypeface(tf, Typeface.BOLD);
+		} catch (Exception ignored) {}
+		
 		if (isOn) {
-			gd.setColor(Color.parseColor("#00B489"));
-			gd.setStroke((int)(1.5f * density), Color.parseColor("#00FFCC"));
+			gd.setColors(new int[]{Color.parseColor("#00E676"), Color.parseColor("#00B4D8")});
+			gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+			gd.setStroke((int)(1.8f * density), Color.parseColor("#18FFFF"));
 			btn.setBackground(gd);
 			btn.setTextColor(Color.WHITE);
 			btn.setText(name + "  [ON]");
+			btn.setElevation(d * 4);
 		} else {
-			gd.setColor(Color.parseColor("#141C2E"));
-			gd.setStroke((int)(1.2f * density), Color.parseColor("#2A3A5E"));
+			gd.setColor(Color.parseColor("#0F172A"));
+			gd.setStroke((int)(1.2f * density), Color.parseColor("#1E293B"));
 			btn.setBackground(gd);
-			btn.setTextColor(Color.WHITE);
+			btn.setTextColor(Color.parseColor("#94A3B8"));
 			btn.setText(name + "  [OFF]");
+			btn.setElevation(0);
 		}
 	}
 
@@ -1512,6 +1542,7 @@ public class MainActivity extends AppCompatActivity {
 		final TextView textview2 = (TextView) myView007.findViewById(R.id.textview2);
 		final TextView textview3 = (TextView) myView007.findViewById(R.id.textview3);
 		final TextView textview4 = (TextView) myView007.findViewById(R.id.textview4);
+		final TextView textview5 = (TextView) myView007.findViewById(R.id.textview5);
 		final TextView textview12 = (TextView) myView007.findViewById(R.id.textview12);
 		final TextView textview13 = (TextView) myView007.findViewById(R.id.textview13);
 		final TextView textview14 = (TextView) myView007.findViewById(R.id.textview14);
@@ -1524,17 +1555,29 @@ public class MainActivity extends AppCompatActivity {
 		float density = getApplicationContext().getResources().getDisplayMetrics().density;
 		int d = (int) density;
 		
-		// Exit button (Red gradient)
+		// Status Light in Floating Pill
+		if (light != null) {
+			GradientDrawable lightGd = new GradientDrawable();
+			lightGd.setShape(GradientDrawable.OVAL);
+			lightGd.setColor(Color.parseColor("#00E676"));
+			light.setBackground(lightGd);
+		}
+		
+		// Exit button (Red cyber gradient)
 		GradientDrawable exitBg = new GradientDrawable();
 		exitBg.setCornerRadius(d * 10);
-		exitBg.setColor(Color.parseColor("#EF4444"));
+		exitBg.setColors(new int[]{Color.parseColor("#EF4444"), Color.parseColor("#DC2626")});
+		exitBg.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+		exitBg.setStroke((int)(1.2f * density), Color.parseColor("#FCA5A5"));
 		textview3.setBackground(exitBg);
 		textview3.setTextColor(Color.WHITE);
 		
-		// Close button (Emerald gradient)
+		// Close button (Cyan cyber gradient)
 		GradientDrawable closeBg = new GradientDrawable();
 		closeBg.setCornerRadius(d * 10);
-		closeBg.setColor(Color.parseColor("#00B489"));
+		closeBg.setColors(new int[]{Color.parseColor("#06B6D4"), Color.parseColor("#0284C7")});
+		closeBg.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+		closeBg.setStroke((int)(1.2f * density), Color.parseColor("#A5F3FC"));
 		textview4.setBackground(closeBg);
 		textview4.setTextColor(Color.WHITE);
 		
@@ -1549,11 +1592,16 @@ public class MainActivity extends AppCompatActivity {
 		
 		try {
 			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
-			button1.setTypeface(tf, Typeface.BOLD);
-			button2.setTypeface(tf, Typeface.BOLD);
-			button3.setTypeface(tf, Typeface.BOLD);
-			textview3.setTypeface(tf, Typeface.BOLD);
-			textview4.setTypeface(tf, Typeface.BOLD);
+			if (textview1 != null) textview1.setTypeface(tf, Typeface.BOLD);
+			if (textview2 != null) textview2.setTypeface(tf, Typeface.BOLD);
+			if (textview5 != null) textview5.setTypeface(tf, Typeface.BOLD);
+			if (textview3 != null) textview3.setTypeface(tf, Typeface.BOLD);
+			if (textview4 != null) textview4.setTypeface(tf, Typeface.BOLD);
+			if (textview12 != null) textview12.setTypeface(tf, Typeface.BOLD);
+			if (textview13 != null) textview13.setTypeface(tf, Typeface.BOLD);
+			if (textview14 != null) textview14.setTypeface(tf, Typeface.BOLD);
+			if (textview15 != null) textview15.setTypeface(tf, Typeface.BOLD);
+			if (textview16 != null) textview16.setTypeface(tf, Typeface.BOLD);
 		} catch (Exception ignored) {}
 		
 		if (textview12 != null) textview12.setText(KEY.getString("User", "User"));
@@ -1567,12 +1615,12 @@ public class MainActivity extends AppCompatActivity {
 				l1.setVisibility(View.VISIBLE);
 				l2.setVisibility(View.GONE);
 				GradientDrawable gdTab1 = new GradientDrawable();
-				gdTab1.setCornerRadius((int)(8 * density));
+				gdTab1.setCornerRadius((int)(10 * density));
 				gdTab1.setColor(0x3518FFFF);
-				gdTab1.setStroke((int)(1 * density), Color.parseColor("#18FFFF"));
+				gdTab1.setStroke((int)(1.2f * density), Color.parseColor("#18FFFF"));
 				icon1.setBackground(gdTab1);
 				GradientDrawable gdTab2 = new GradientDrawable();
-				gdTab2.setCornerRadius((int)(8 * density));
+				gdTab2.setCornerRadius((int)(10 * density));
 				gdTab2.setColor(0x10FFFFFF);
 				icon2.setBackground(gdTab2);
 			}
@@ -1584,12 +1632,12 @@ public class MainActivity extends AppCompatActivity {
 				l1.setVisibility(View.GONE);
 				l2.setVisibility(View.VISIBLE);
 				GradientDrawable gdTab2 = new GradientDrawable();
-				gdTab2.setCornerRadius((int)(8 * density));
+				gdTab2.setCornerRadius((int)(10 * density));
 				gdTab2.setColor(0x3518FFFF);
-				gdTab2.setStroke((int)(1 * density), Color.parseColor("#18FFFF"));
+				gdTab2.setStroke((int)(1.2f * density), Color.parseColor("#18FFFF"));
 				icon2.setBackground(gdTab2);
 				GradientDrawable gdTab1 = new GradientDrawable();
-				gdTab1.setCornerRadius((int)(8 * density));
+				gdTab1.setCornerRadius((int)(10 * density));
 				gdTab1.setColor(0x10FFFFFF);
 				icon1.setBackground(gdTab1);
 			}
@@ -2003,10 +2051,7 @@ public class MainActivity extends AppCompatActivity {
 		View inflate = getLayoutInflater().inflate(R.layout.check, null);
 		checkDial.setView(inflate);
 		checkDial.setCancelable(false);
-		if (checkDial.getWindow() != null) {
-			checkDial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-			checkDial.getWindow().setDimAmount(0.75f);
-		}
+		applyDialogWindowBlur(checkDial.getWindow());
 		
 		final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
 		final LinearLayout linear6 = (LinearLayout) inflate.findViewById(R.id.linear6);
@@ -2019,21 +2064,16 @@ public class MainActivity extends AppCompatActivity {
 		float density = getApplicationContext().getResources().getDisplayMetrics().density;
 		int d = (int) density;
 		
-		GradientDrawable gd = new GradientDrawable();
-		gd.setColor(0xF00F172A);
-		gd.setCornerRadius(d * 18);
-		gd.setStroke((int)(d * 1.5f), Color.parseColor("#18FFFF"));
-		linear2.setBackground(gd);
-		
 		GradientDrawable sd = new GradientDrawable();
 		sd.setColor(0x30FF3B30);
-		sd.setCornerRadius(d * 10);
-		sd.setStroke((int)(d * 1f), 0x50FF3B30);
+		sd.setCornerRadius(d * 12);
+		sd.setStroke((int)(d * 1f), 0x60FF3B30);
 		linear6.setBackground(sd);
 		
 		GradientDrawable initialGd = new GradientDrawable();
-		initialGd.setColor(0x40FFFFFF);
+		initialGd.setColor(0x20FFFFFF);
 		initialGd.setCornerRadius(d * 12);
+		initialGd.setStroke((int)(d * 1f), 0x40FFFFFF);
 		btnYoutube.setBackground(initialGd);
 		btnYoutube.setEnabled(false);
 		btnYoutube.setAlpha(0.8f);
@@ -2041,8 +2081,10 @@ public class MainActivity extends AppCompatActivity {
 		
 		try {
 			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
-			tvTitle.setTypeface(tf, Typeface.BOLD);
-			btnYoutube.setTypeface(tf, Typeface.BOLD);
+			if (tvTitle != null) tvTitle.setTypeface(tf, Typeface.BOLD);
+			if (tvSub != null) tvSub.setTypeface(tf, Typeface.BOLD);
+			if (tvPercent != null) tvPercent.setTypeface(tf, Typeface.BOLD);
+			if (btnYoutube != null) btnYoutube.setTypeface(tf, Typeface.BOLD);
 		} catch (Exception ignored) {}
 		
 		pg.getProgressDrawable().setColorFilter(Color.parseColor("#00FF88"), PorterDuff.Mode.SRC_IN);
@@ -2068,8 +2110,10 @@ public class MainActivity extends AppCompatActivity {
 				btnYoutube.setEnabled(true);
 				btnYoutube.setAlpha(1.0f);
 				GradientDrawable redGd = new GradientDrawable();
-				redGd.setColor(Color.parseColor("#EF4444"));
+				redGd.setColors(new int[]{Color.parseColor("#EF4444"), Color.parseColor("#DC2626")});
+				redGd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
 				redGd.setCornerRadius(d * 12);
+				redGd.setStroke((int)(d * 1.2f), Color.parseColor("#FCA5A5"));
 				btnYoutube.setBackground(redGd);
 				btnYoutube.setText("SUBSCRIBE TO UNLOCK");
 				btnYoutube.setTextColor(Color.WHITE);
