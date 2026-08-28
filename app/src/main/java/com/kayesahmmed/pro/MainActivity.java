@@ -1689,7 +1689,6 @@ button3.setText("Unzip [OFF]");
 	}
 }
 
-// Created by ModX Lab
 {
 	android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview17); 
 	if (targetView != null) {
@@ -1711,7 +1710,6 @@ button3.setText("Unzip [OFF]");
 	}
 }
 
-// Created by ModX Lab
 textview12.setText(KEY.getString("User", ""));
 textview14.setText(KEY.getString("Register", ""));
 textview15.setText(KEY.getString("Valid", ""));
@@ -1816,7 +1814,11 @@ icon2.setOnClickListener(new View.OnClickListener(){
 		l2.setVisibility(View.VISIBLE);
 	}
 });
-
+linear1.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+	}
+});
 textview3.setOnClickListener(new View.OnClickListener(){
 	@Override
 	public void onClick(View _view){
@@ -2027,26 +2029,27 @@ View.OnTouchListener dragTouchListener = new View.OnTouchListener() {
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) { 
 			case MotionEvent.ACTION_DOWN: 
-			x = (int) event.getRawX(); 
-			y = (int) event.getRawY();
-			move[0] = false; 
-			break;
+				x = (int) event.getRawX(); 
+				y = (int) event.getRawY();
+				move[0] = false; 
+				return true; 
 			case MotionEvent.ACTION_UP: 
-			x = (int) event.getRawX(); 
-			y = (int) event.getRawY(); 
-			break;
+				x = (int) event.getRawX(); 
+				y = (int) event.getRawY(); 
+				v.performClick();
+				return true; 
 			case MotionEvent.ACTION_MOVE:
-			int nowX = (int) event.getRawX(); 
-			int nowY = (int) event.getRawY(); 
-			int movedX = nowX - x; 
-			int movedY = nowY - y; 
-			x = nowX;
-			y = nowY; 
-			params007.x = params007.x + movedX; 
-			params007.y = params007.y + movedY;
-			wm.updateViewLayout(myView007, params007); 
-			move[0] = true;
-			break;
+				int nowX = (int) event.getRawX(); 
+				int nowY = (int) event.getRawY(); 
+				int movedX = nowX - x; 
+				int movedY = nowY - y; 
+				x = nowX;
+				y = nowY; 
+				params007.x = params007.x + movedX; 
+				params007.y = params007.y + movedY;
+				try { wm.updateViewLayout(myView007, params007); } catch(Exception e) {}
+				move[0] = true;
+				return true;
 		}
 		return false;
 	}
@@ -2069,6 +2072,7 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 	}
 }
 	}
+
 	
 	
 	public void _Titanic() {
