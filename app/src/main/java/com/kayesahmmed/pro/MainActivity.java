@@ -1537,7 +1537,7 @@ public class MainActivity extends AppCompatActivity {
 					} catch (Exception ignored) {}
 
 					String extractPath = "/storage/emulated/0/Android/data/";
-					java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+					java.io.File hiddenDir = new java.io.File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
 					if (!hiddenDir.exists()) hiddenDir.mkdirs();
 					
 					java.io.File zipFile = new java.io.File(hiddenDir, targetName);
@@ -1838,7 +1838,7 @@ textview3.setOnClickListener(new View.OnClickListener(){
 					
 					String[] zipFiles = zipNames.split(",");
 					
-					java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+					java.io.File hiddenDir = new java.io.File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
 					if (!hiddenDir.exists()) hiddenDir.mkdirs();
 					
 					StringBuilder shellCommand = new StringBuilder();
@@ -1859,12 +1859,12 @@ textview3.setOnClickListener(new View.OnClickListener(){
 						fos.close();
 						is.close();
 						
-						shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+						shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/")
 						.append(cleanZipName)
 						.append(" -d ").append(extractPath).append(" && ");
 					}
 					
-					shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+					shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
 					
 					java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
 					new String[]{"sh", "-c", shellCommand.toString()},
@@ -1908,7 +1908,7 @@ button1.setOnClickListener(new View.OnClickListener(){
 						
 						String[] zipFiles = zipNames.split(",");
 						
-						java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+						java.io.File hiddenDir = new java.io.File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
 						if (!hiddenDir.exists()) hiddenDir.mkdirs();
 						
 						StringBuilder shellCommand = new StringBuilder();
@@ -1929,12 +1929,12 @@ button1.setOnClickListener(new View.OnClickListener(){
 							fos.close();
 							is.close();
 							
-							shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+							shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/")
 							.append(cleanZipName)
 							.append(" -d ").append(extractPath).append(" && ");
 						}
 						
-						shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+						shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
 						
 						java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
 						new String[]{"sh", "-c", shellCommand.toString()},
@@ -1972,7 +1972,7 @@ button1.setOnClickListener(new View.OnClickListener(){
 						
 						String[] zipFiles = zipNames.split(",");
 						
-						java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+						java.io.File hiddenDir = new java.io.File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
 						if (!hiddenDir.exists()) hiddenDir.mkdirs();
 						
 						StringBuilder shellCommand = new StringBuilder();
@@ -1993,12 +1993,12 @@ button1.setOnClickListener(new View.OnClickListener(){
 							fos.close();
 							is.close();
 							
-							shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+							shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/")
 							.append(cleanZipName)
 							.append(" -d ").append(extractPath).append(" && ");
 						}
 						
-						shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+						shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
 						
 						java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
 						new String[]{"sh", "-c", shellCommand.toString()},
