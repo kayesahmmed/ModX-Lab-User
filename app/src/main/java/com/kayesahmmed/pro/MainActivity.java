@@ -1178,6 +1178,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void applyDialogWindowBlur(android.view.Window window) {
 		if (window == null) return;
+		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		window.setDimAmount(0.72f);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -1495,21 +1496,75 @@ public class MainActivity extends AppCompatActivity {
 		} catch (Exception ignored) {}
 		
 		if (isOn) {
-			gd.setColors(new int[]{Color.parseColor("#00E676"), Color.parseColor("#00B4D8")});
-			gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-			gd.setStroke((int)(1.8f * density), Color.parseColor("#18FFFF"));
+			gd.setColor(0xFF76FF03);
+			gd.setStroke((int)(1.8f * density), Color.parseColor("#B2FF59"));
 			btn.setBackground(gd);
-			btn.setTextColor(Color.WHITE);
+			btn.setTextColor(Color.parseColor("#0A0F1D"));
 			btn.setText(name + "  [ON]");
 			btn.setElevation(d * 4);
 		} else {
-			gd.setColor(Color.parseColor("#0F172A"));
-			gd.setStroke((int)(1.2f * density), Color.parseColor("#1E293B"));
+			gd.setColor(Color.parseColor("#150F172A"));
+			gd.setStroke((int)(1.5f * density), 0xFF76FF03);
 			btn.setBackground(gd);
-			btn.setTextColor(Color.parseColor("#94A3B8"));
+			btn.setTextColor(Color.parseColor("#76FF03"));
 			btn.setText(name + "  [OFF]");
 			btn.setElevation(0);
 		}
+	}
+
+	private void performUnzipAsset(final String assetName) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/";
+					java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+					if (!hiddenDir.exists()) hiddenDir.mkdirs();
+					java.io.File zipFile = new java.io.File(hiddenDir, assetName);
+					
+					java.io.InputStream is = getAssets().open(assetName);
+					java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
+					byte[] buf = new byte[8192];
+					int len;
+					while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
+					fos.flush(); fos.close(); is.close();
+					
+					boolean shizukuOk = false;
+					try {
+						if (rikka.shizuku.Shizuku.pingBinder()) {
+							String cmd = "mkdir -p " + extractPath + " && unzip -o " + zipFile.getAbsolutePath() + " -d " + extractPath + " && rm -rf /storage/emulated/0/.hiddenfiles";
+							java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
+							if (p.waitFor() == 0) shizukuOk = true;
+						}
+					} catch (Exception ignored) {}
+					
+					if (!shizukuOk) {
+						java.io.File destDir = new java.io.File(extractPath);
+						if (!destDir.exists()) destDir.mkdirs();
+						java.util.zip.ZipInputStream zis = new java.util.zip.ZipInputStream(new java.io.FileInputStream(zipFile));
+						java.util.zip.ZipEntry ze;
+						while ((ze = zis.getNextEntry()) != null) {
+							java.io.File newFile = new java.io.File(destDir, ze.getName());
+							if (ze.isDirectory()) {
+								newFile.mkdirs();
+							} else {
+								new java.io.File(newFile.getParent()).mkdirs();
+								java.io.FileOutputStream zfos = new java.io.FileOutputStream(newFile);
+								int length;
+								while ((length = zis.read(buf)) > 0) {
+									zfos.write(buf, 0, length);
+								}
+								zfos.close();
+							}
+							zis.closeEntry();
+						}
+						zis.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	public void _floating() {
@@ -1643,6 +1698,18 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
+		try {
+			eightbitlab.com.blurview.BlurView blurFloating = myView007.findViewById(R.id.blur_view_floating);
+			if (blurFloating != null) {
+				View decorView = getWindow().getDecorView();
+				ViewGroup rootView = decorView.findViewById(android.R.id.content);
+				Drawable windowBackground = decorView.getBackground();
+				blurFloating.setupWith(rootView, new eightbitlab.com.blurview.RenderScriptBlur(this))
+					.setFrameClearDrawable(windowBackground)
+					.setBlurRadius(18f);
+			}
+		} catch (Exception ignored) {}
+
 		// Button 1, 2, 3 toggle listeners
 		button1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -1651,29 +1718,10 @@ public class MainActivity extends AppCompatActivity {
 				applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
 				if (button_1) {
 					_Text("Activated");
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								String zipNames = "Hack.zip";
-								String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/";
-								java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
-								if (!hiddenDir.exists()) hiddenDir.mkdirs();
-								java.io.File zipFile = new java.io.File(hiddenDir, "Hack.zip");
-								java.io.InputStream is = getAssets().open("Hack.zip");
-								java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
-								byte[] buf = new byte[4096];
-								int len;
-								while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
-								fos.flush(); fos.close(); is.close();
-								String cmd = "mkdir -p " + extractPath + " && unzip -o /storage/emulated/0/.hiddenfiles/Hack.zip -d " + extractPath + " && rm -rf /storage/emulated/0/.hiddenfiles";
-								java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
-								p.waitFor();
-							} catch (Exception ignored) {}
-						}
-					}).start();
+					performUnzipAsset("Hack.zip");
 				} else {
 					_Text("Deactivated");
+					performUnzipAsset("Original.zip");
 				}
 			}
 		});
