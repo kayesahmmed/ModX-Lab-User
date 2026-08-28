@@ -93,6 +93,8 @@
 
 		<!-- CENTER LOGIN CARD (Vertically centered) -->
 		<eightbitlab.com.blurview.BlurView
+			android:background="@drawable/bg_glass_card"
+			android:clipToOutline="true"
 			android:id="@+id/blur_view"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -301,15 +303,10 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="14dp"
-						android:paddingLeft="12dp"
-						android:paddingRight="12dp"
-						android:paddingTop="5dp"
-						android:paddingBottom="5dp"
-						android:background="@drawable/bg_link_pill"
 						android:text="Contact Now"
-						android:textSize="12sp"
+						android:textSize="13sp"
 						android:textStyle="bold"
-						android:textColor="#18FFFF"
+						android:textColor="#00FF88"
 						android:clickable="true"
 						android:focusable="true" />
 				</LinearLayout>
@@ -334,15 +331,10 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="14dp"
-						android:paddingLeft="12dp"
-						android:paddingRight="12dp"
-						android:paddingTop="5dp"
-						android:paddingBottom="5dp"
-						android:background="@drawable/bg_link_pill"
 						android:text="Find Now"
-						android:textSize="12sp"
+						android:textSize="13sp"
 						android:textStyle="bold"
-						android:textColor="#18FFFF"
+						android:textColor="#00FF88"
 						android:clickable="true"
 						android:focusable="true" />
 				</LinearLayout>

@@ -3,49 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="16dp">
-
+    android:padding="24dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_dialog_modern"
+        android:background="@drawable/bg_glass_card"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="28dp"
-        android:paddingBottom="26dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:elevation="16dp">
-
+        android:elevation="20dp">
         <!-- Glowing indeterminate spinner -->
         <ProgressBar
             android:id="@+id/loading_spinner"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:indeterminate="true"
-            android:indeterminateTint="#18FFFF"
+            android:indeterminateTint="#00FF88"
             android:indeterminateTintMode="src_in" />
-
         <TextView
             android:id="@+id/loading_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Verifying With Server..."
-            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:text="VERIFYING WITH SERVER"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:letterSpacing="0.04"
+            android:letterSpacing="0.08"
             android:gravity="center" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="Please wait a moment while we verify"
-            android:textSize="12sp"
-            android:textColor="#90CAF9"
+            android:textSize="13sp"
+            android:textColor="#B0BEC5"
             android:gravity="center" />
-
     </LinearLayout>
 </LinearLayout>

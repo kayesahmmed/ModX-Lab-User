@@ -537,8 +537,8 @@ public class MainActivity extends AppCompatActivity {
 		edittext2.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { Window w = getWindow();  w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); };
 		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ft1.ttf"), 3);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 0);
-		textview0.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/anonymous.ttf"), 0);
+		// removed font
+		// removed font
 //		particleView.setLineColor(0xFF03A9F4);
 //		particleView.setparticleCount(100);
 //		particleView.setParticleColor(0xFF03A9F4);
@@ -2799,7 +2799,17 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 	public void _ModX() {
 		try {
 			eightbitlab.com.blurview.BlurView blurView = findViewById(R.id.blur_view);
+			
 			if (blurView != null) {
+				blurView.setOutlineProvider(new android.view.ViewOutlineProvider() {
+					@Override
+					public void getOutline(View view, android.graphics.Outline outline) {
+						float density = getResources().getDisplayMetrics().density;
+						outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 18f * density);
+					}
+				});
+				blurView.setClipToOutline(true);
+
 				View decorView = getWindow().getDecorView();
 				ViewGroup rootView = decorView.findViewById(android.R.id.content);
 				Drawable windowBackground = decorView.getBackground();
@@ -2872,8 +2882,8 @@ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 
 			try {
 				Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
-				if (etUser != null) etUser.setTypeface(tf);
-				if (etPass != null) etPass.setTypeface(tf);
+				// removed font
+				// removed font
 				if (button1 != null) button1.setTypeface(tf, Typeface.BOLD);
 			} catch (Exception ignored) {}
 

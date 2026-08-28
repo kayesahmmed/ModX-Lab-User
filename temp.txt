@@ -1,0 +1,71 @@
+		}
+	}
+
+	public void _component_dialog() {
+		if (android.provider.Settings.canDrawOverlays(MainActivity.this)) {
+			_loadingdialog(true, "Verifying With Server...");
+			Timer = new TimerTask() {
+				@Override
+				public void run() {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							_loadingdialog(false, "Verifying With Server...");
+							
+							final android.app.AlertDialog successDialog = new android.app.AlertDialog.Builder(MainActivity.this).create();
+							View v = getLayoutInflater().inflate(R.layout.dialog_success, null);
+							successDialog.setView(v);
+							successDialog.setCancelable(false);
+							successDialog.setCanceledOnTouchOutside(false);
+							applyDialogWindowBlur(successDialog.getWindow());
+							
+							TextView tvTitle = v.findViewById(R.id.dialog_success_title);
+							TextView tvUser = v.findViewById(R.id.tv_dialog_username);
+							TextView tvReg = v.findViewById(R.id.tv_dialog_register);
+							TextView tvValid = v.findViewById(R.id.tv_dialog_valid);
+							TextView tvSeller = v.findViewById(R.id.tv_dialog_seller);
+							TextView tvStatus = v.findViewById(R.id.tv_dialog_status);
+							Button btnOkay = v.findViewById(R.id.btn_dialog_okay);
+							
+							try {
+								Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
+								if (tvTitle != null) tvTitle.setTypeface(tf, Typeface.BOLD);
+								if (btnOkay != null) btnOkay.setTypeface(tf, Typeface.BOLD);
+								if (tvUser != null) tvUser.setTypeface(tf, Typeface.BOLD);
+								if (tvReg != null) tvReg.setTypeface(tf, Typeface.BOLD);
+								if (tvValid != null) tvValid.setTypeface(tf, Typeface.BOLD);
+								if (tvSeller != null) tvSeller.setTypeface(tf, Typeface.BOLD);
+								if (tvStatus != null) tvStatus.setTypeface(tf, Typeface.BOLD);
+							} catch (Exception ignored) {}
+							
+							String u = KEY.getString("User", "User");
+							String r = KEY.getString("Register", "Active");
+							String val = KEY.getString("Valid", "24/09/2026");
+							if (tvUser != null) tvUser.setText(u.isEmpty() ? "User" : u);
+							if (tvReg != null) tvReg.setText(r.isEmpty() ? "Active" : r);
+							if (tvValid != null) tvValid.setText(val.isEmpty() ? "Unlimited" : val);
+							if (tvSeller != null) tvSeller.setText("ModX Lab");
+							if (tvStatus != null) tvStatus.setText("ACTIVATED");
+							
+							if (btnOkay != null) {
+								btnOkay.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										successDialog.dismiss();
+										_floating();
+									}
+								});
+							}
+							
+							try {
+								if (!isFinishing()) {
+									successDialog.show();
+								}
+							} catch (Exception ignored) {}
+						}
+					});
+				}
+			};
+			_timer.schedule(Timer, (int)(2500));
+		}
+		else {
