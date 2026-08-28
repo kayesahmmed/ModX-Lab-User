@@ -1215,8 +1215,7 @@ public class MainActivity extends AppCompatActivity {
 				"key",
 				matchedUser.get("key").toString()).commit();
 				
-				SketchwareUtil.showMessage(
-				getApplicationContext(), "Login Success");
+				// removed toast
 				
 				_component_dialog();
 				
