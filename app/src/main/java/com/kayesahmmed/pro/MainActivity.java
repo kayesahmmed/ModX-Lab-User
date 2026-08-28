@@ -1617,244 +1617,457 @@ public class MainActivity extends AppCompatActivity {
 		}
 		
 		final WindowManager.LayoutParams params007 = new WindowManager.LayoutParams(
-			WindowManager.LayoutParams.WRAP_CONTENT,
-			WindowManager.LayoutParams.WRAP_CONTENT,
-			LAYOUT_FLAG,
-			WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-			PixelFormat.TRANSLUCENT);
-		
-		final View myView007 = getLayoutInflater().inflate(R.layout.floating, null);
-		final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-		
-		final RelativeLayout bg = (RelativeLayout) myView007.findViewById(R.id.bg);
-		final LinearLayout linear1 = (LinearLayout) myView007.findViewById(R.id.linear1);
-		final LinearLayout linear7 = (LinearLayout) myView007.findViewById(R.id.linear7);
-		final LinearLayout light = (LinearLayout) myView007.findViewById(R.id.light);
-		final LinearLayout icon1 = (LinearLayout) myView007.findViewById(R.id.icon1);
-		final LinearLayout icon2 = (LinearLayout) myView007.findViewById(R.id.icon2);
-		final LinearLayout l1 = (LinearLayout) myView007.findViewById(R.id.l1);
-		final LinearLayout l2 = (LinearLayout) myView007.findViewById(R.id.l2);
-		final TextView textview1 = (TextView) myView007.findViewById(R.id.textview1);
-		final TextView textview2 = (TextView) myView007.findViewById(R.id.textview2);
-		final TextView textview3 = (TextView) myView007.findViewById(R.id.textview3);
-		final TextView textview4 = (TextView) myView007.findViewById(R.id.textview4);
-		final TextView textview5 = (TextView) myView007.findViewById(R.id.textview5);
-		final TextView textview12 = (TextView) myView007.findViewById(R.id.textview12);
-		final TextView textview13 = (TextView) myView007.findViewById(R.id.textview13);
-		final TextView textview14 = (TextView) myView007.findViewById(R.id.textview14);
-		final TextView textview15 = (TextView) myView007.findViewById(R.id.textview15);
-		final TextView textview16 = (TextView) myView007.findViewById(R.id.textview16);
-		final Button button1 = (Button) myView007.findViewById(R.id.button1);
-		final Button button2 = (Button) myView007.findViewById(R.id.button2);
-		final Button button3 = (Button) myView007.findViewById(R.id.button3);
-		
-		float density = getApplicationContext().getResources().getDisplayMetrics().density;
-		int d = (int) density;
-		
-		// Status Light in Floating Pill
-		if (light != null) {
-			GradientDrawable lightGd = new GradientDrawable();
-			lightGd.setShape(GradientDrawable.OVAL);
-			lightGd.setColor(Color.parseColor("#00E676"));
-			light.setBackground(lightGd);
+WindowManager.LayoutParams.WRAP_CONTENT,
+WindowManager.LayoutParams.WRAP_CONTENT,
+LAYOUT_FLAG,
+WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+PixelFormat.TRANSLUCENT);
+
+final View myView007 = (View) getLayoutInflater().inflate(R.layout.floating, null);
+
+params007.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
+final  WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+final RelativeLayout bg = (RelativeLayout)myView007.findViewById(R.id.bg);
+final LinearLayout main = (LinearLayout)myView007.findViewById(R.id.main);
+final LinearLayout linear1 = (LinearLayout)myView007.findViewById(R.id.linear1);
+final LinearLayout linear2 = (LinearLayout)myView007.findViewById(R.id.linear2);
+final LinearLayout linear7 = (LinearLayout)myView007.findViewById(R.id.linear7);
+final LinearLayout light = (LinearLayout)myView007.findViewById(R.id.light);
+final LinearLayout icon1 = (LinearLayout)myView007.findViewById(R.id.icon1);
+final LinearLayout icon2 = (LinearLayout)myView007.findViewById(R.id.icon2);
+final LinearLayout l1 = (LinearLayout)myView007.findViewById(R.id.l1);
+final LinearLayout l2 = (LinearLayout)myView007.findViewById(R.id.l2);
+final TextView textview3 = (TextView)myView007.findViewById(R.id.textview3);
+final TextView textview4 = (TextView)myView007.findViewById(R.id.textview4);
+final TextView textview12 = (TextView)myView007.findViewById(R.id.textview12);
+final TextView textview14 = (TextView)myView007.findViewById(R.id.textview14);
+final TextView textview15 = (TextView)myView007.findViewById(R.id.textview15);
+final Button button1 = (Button)myView007.findViewById(R.id.button1);
+final Button button2 = (Button)myView007.findViewById(R.id.button2);
+final Button button3 = (Button)myView007.findViewById(R.id.button3);
+
+textview3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, 0xFF000000, Color.TRANSPARENT));
+bg.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)8, (int)4, 0xFFFFFFFF, 0xFF212121));
+textview4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)0, (int)0, 0xFF000000, Color.TRANSPARENT));
+button1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
+button2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
+button3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b, int c, int d) { this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this; } }.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
+
+linear7.setVisibility(View.GONE);
+l2.setVisibility(View.GONE);
+
+try {
+    textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+    textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+    // textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/satisfy.ttf"), 1);
+} catch (Exception e) {}
+
+button1.setText("Unzip [OFF]");
+button2.setText("Unzip  [OFF]");
+button3.setText("Unzip [OFF]");
+
+{
+	android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview1); 
+	if (targetView != null) {
+		final TitanicTextView titanicText = new TitanicTextView(MainActivity.this);
+		titanicText.setText("MODX LAB");
+		titanicText.setTextSize(25);
+		titanicText.setGravity(android.view.Gravity.CENTER);
+		titanicText.setTextColor(0xFF18FFFF);
+		try { titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/satisfy.ttf"), 0); } catch (Exception e) {}
+		titanicText.setLayoutParams(targetView.getLayoutParams());
+		if (targetView.getParent() != null) {
+			android.view.ViewGroup parentGroup = (android.view.ViewGroup) targetView.getParent();
+			int childIndex = parentGroup.indexOfChild(targetView);
+			parentGroup.removeView(targetView); 
+			parentGroup.addView(titanicText, childIndex); 
+			new Titanic().start(titanicText);
 		}
+	}
+}
+
+// Created by ModX Lab
+{
+	android.widget.TextView targetView = (android.widget.TextView) myView007.findViewById(R.id.textview17); 
+	if (targetView != null) {
+		final TitanicTextView titanicText = new TitanicTextView(MainActivity.this);
+		titanicText.setText("PRO");
+		titanicText.setTextSize(25);
+		titanicText.setGravity(android.view.Gravity.CENTER);
+		titanicText.setTextColor(0xFF18FFFF);
+		try { titanicText.setTypeface(android.graphics.Typeface.createFromAsset(getAssets(), "fonts/satisfy.ttf"), 0); } catch (Exception e) {}
+		titanicText.setLayoutParams(targetView.getLayoutParams());
 		
-		// Exit button (Red cyber gradient)
-		GradientDrawable exitBg = new GradientDrawable();
-		exitBg.setCornerRadius(d * 10);
-		exitBg.setColors(new int[]{Color.parseColor("#EF4444"), Color.parseColor("#DC2626")});
-		exitBg.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-		exitBg.setStroke((int)(1.2f * density), Color.parseColor("#FCA5A5"));
-		textview3.setBackground(exitBg);
-		textview3.setTextColor(Color.WHITE);
-		
-		// Close button (Cyan cyber gradient)
-		GradientDrawable closeBg = new GradientDrawable();
-		closeBg.setCornerRadius(d * 10);
-		closeBg.setColors(new int[]{Color.parseColor("#06B6D4"), Color.parseColor("#0284C7")});
-		closeBg.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-		closeBg.setStroke((int)(1.2f * density), Color.parseColor("#A5F3FC"));
-		textview4.setBackground(closeBg);
-		textview4.setTextColor(Color.WHITE);
-		
-		// Initial Button states
-		applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
-		applyFloatingButtonState(button2, button_2, "AIM LOCK", density);
-		applyFloatingButtonState(button3, button_3, "HOLOGRAM", density);
-		
-		linear7.setVisibility(View.GONE);
-		l2.setVisibility(View.GONE);
-		l1.setVisibility(View.VISIBLE);
-		
-		try {
-			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
-			if (textview1 != null) textview1.setTypeface(tf, Typeface.BOLD);
-			if (textview2 != null) textview2.setTypeface(tf, Typeface.BOLD);
-			if (textview5 != null) textview5.setTypeface(tf, Typeface.BOLD);
-			if (textview3 != null) textview3.setTypeface(tf, Typeface.BOLD);
-			if (textview4 != null) textview4.setTypeface(tf, Typeface.BOLD);
-			if (textview12 != null) textview12.setTypeface(tf, Typeface.BOLD);
-			if (textview13 != null) textview13.setTypeface(tf, Typeface.BOLD);
-			if (textview14 != null) textview14.setTypeface(tf, Typeface.BOLD);
-			if (textview15 != null) textview15.setTypeface(tf, Typeface.BOLD);
-			if (textview16 != null) textview16.setTypeface(tf, Typeface.BOLD);
-		} catch (Exception ignored) {}
-		
-		if (textview12 != null) textview12.setText(KEY.getString("User", "User"));
-		if (textview14 != null) textview14.setText(KEY.getString("Register", "Active"));
-		if (textview15 != null) textview15.setText(KEY.getString("Valid", "Unlimited"));
-		
-		// Tab 1 Tab 2 switching
-		icon1.setOnClickListener(new View.OnClickListener() {
+		if (targetView.getParent() != null) {
+			android.view.ViewGroup parentGroup = (android.view.ViewGroup) targetView.getParent();
+			int childIndex = parentGroup.indexOfChild(targetView);
+			parentGroup.removeView(targetView); 
+			parentGroup.addView(titanicText, childIndex); 
+			new Titanic().start(titanicText);
+		}
+	}
+}
+
+// Created by ModX Lab
+textview12.setText(KEY.getString("User", ""));
+textview14.setText(KEY.getString("Register", ""));
+textview15.setText(KEY.getString("Valid", ""));
+
+TimerTask timer = new TimerTask() {
+	@Override
+	public void run() {
+		runOnUiThread(new Runnable() {
 			@Override
-			public void onClick(View _view) {
-				l1.setVisibility(View.VISIBLE);
-				l2.setVisibility(View.GONE);
-				GradientDrawable gdTab1 = new GradientDrawable();
-				gdTab1.setCornerRadius((int)(10 * density));
-				gdTab1.setColor(0x3518FFFF);
-				gdTab1.setStroke((int)(1.2f * density), Color.parseColor("#18FFFF"));
-				icon1.setBackground(gdTab1);
-				GradientDrawable gdTab2 = new GradientDrawable();
-				gdTab2.setCornerRadius((int)(10 * density));
-				gdTab2.setColor(0x10FFFFFF);
-				icon2.setBackground(gdTab2);
-			}
-		});
-		
-		icon2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				l1.setVisibility(View.GONE);
-				l2.setVisibility(View.VISIBLE);
-				GradientDrawable gdTab2 = new GradientDrawable();
-				gdTab2.setCornerRadius((int)(10 * density));
-				gdTab2.setColor(0x3518FFFF);
-				gdTab2.setStroke((int)(1.2f * density), Color.parseColor("#18FFFF"));
-				icon2.setBackground(gdTab2);
-				GradientDrawable gdTab1 = new GradientDrawable();
-				gdTab1.setCornerRadius((int)(10 * density));
-				gdTab1.setColor(0x10FFFFFF);
-				icon1.setBackground(gdTab1);
-			}
-		});
-		
-		// Button 1, 2, 3 toggle listeners
-		button1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				button_1 = !button_1;
-				applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
-				if (button_1) {
-					_Text("Activated");
-					performUnzipAsset("Hack.zip", "Success!");
-				} else {
-					_Text("Deactivated");
-					performUnzipAsset("Original.zip", "Restored!");
-				}
-			}
-		});
-		
-		button2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				button_2 = !button_2;
-				applyFloatingButtonState(button2, button_2, "AIM LOCK", density);
-				if (button_2) {
-					_Text("Activated");
-				} else {
-					_Text("Deactivated");
-				}
-			}
-		});
-		
-		button3.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				button_3 = !button_3;
-				applyFloatingButtonState(button3, button_3, "HOLOGRAM", density);
-				if (button_3) {
-					_Text("Activated");
-				} else {
-					_Text("Deactivated");
-				}
-			}
-		});
-		
-		linear7.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				bg.setVisibility(View.VISIBLE);
-				linear7.setVisibility(View.GONE);
-			}
-		});
-		
-		textview4.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				bg.setVisibility(View.GONE);
-				linear7.setVisibility(View.VISIBLE);
-			}
-		});
-		
-		textview3.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				try {
-					if (myView007 != null) {
-						wm.removeView(myView007);
+			public void run() {
+				light.setBackgroundColor(0xFFFF0000);
+				TimerTask Timer2 = new TimerTask() {
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								light.setBackgroundColor(0xF000FF00);
+								TimerTask Timer3 = new TimerTask() {
+									@Override
+									public void run() {
+										runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												light.setBackgroundColor(0xFF0026FE);
+												TimerTask Timer4 = new TimerTask() {
+													@Override
+													public void run() {
+														runOnUiThread(new Runnable() {
+															@Override
+															public void run() {
+																light.setBackgroundColor(0xFFFFEB3B);
+																TimerTask Timer5 = new TimerTask() {
+																	@Override
+																	public void run() {
+																		runOnUiThread(new Runnable() {
+																			@Override
+																			public void run() {
+																				light.setBackgroundColor(0xFF18FFFF);
+																			}
+																		});
+																	}
+																};
+																_timer.schedule(Timer5, (int)(12000));
+															}
+														});
+													}
+												};
+												_timer.schedule(Timer4, (int)(9000));
+											}
+										});
+									}
+								};
+								_timer.schedule(Timer3, (int)(6000));
+							}
+						});
 					}
-				} catch (Exception ignored) {}
+				};
+				_timer.schedule(Timer2, (int)(3000));
 			}
 		});
-		
-		// Dragging support
-		final int[] touchCoords = new int[2];
-		View.OnTouchListener dragTouchListener = new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-						touchCoords[0] = (int) event.getRawX();
-						touchCoords[1] = (int) event.getRawY();
-						break;
-					case MotionEvent.ACTION_MOVE:
-						int nowX = (int) event.getRawX();
-						int nowY = (int) event.getRawY();
-						params007.x += (nowX - touchCoords[0]);
-						params007.y += (nowY - touchCoords[1]);
-						touchCoords[0] = nowX;
-						touchCoords[1] = nowY;
-						try {
-							wm.updateViewLayout(myView007, params007);
-						} catch (Exception ignored) {}
-						break;
-				}
-				return false;
-			}
-		};
-		
-		linear7.setOnTouchListener(dragTouchListener);
-		linear1.setOnTouchListener(dragTouchListener);
-		
-		params007.gravity = Gravity.TOP | Gravity.LEFT;
-		params007.x = 100;
-		params007.y = 200;
-		
+	}
+};
+_timer.scheduleAtFixedRate(timer, (int)(0), (int)(15000));
+
+try {
+    androidX.Master12.AnimatedParticleView particleView = new androidX.Master12.AnimatedParticleView(MainActivity.this);
+    particleView.setLineColor(0xFF76FF03);
+    particleView.setparticleCount(60);
+    particleView.setParticleColor(0xFF76FF03);
+    particleView.setBackgroundColor(0xFF000000);
+    particleView.setParticleRadiusRange(5.0f, 10.0f);
+    particleView.setAnimationMode(androidX.Master12.AnimatedParticleView.MODE_SWIRL);
+    main.addView(particleView, 0);
+} catch (Exception e) {}
+
+linear7.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+		bg.setVisibility(View.VISIBLE);
+		linear7.setVisibility(View.GONE);
+	}
+});
+textview4.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+		bg.setVisibility(View.GONE);
+		linear7.setVisibility(View.VISIBLE);
+	}
+});
+icon1.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+		l1.setVisibility(View.VISIBLE);
+		l2.setVisibility(View.GONE);
+	}
+});
+icon2.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+		l1.setVisibility(View.GONE);
+		l2.setVisibility(View.VISIBLE);
+	}
+});
+
+textview3.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
 		try {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				if (!android.provider.Settings.canDrawOverlays(MainActivity.this)) {
-					Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-					startActivity(intent);
-					android.widget.Toast.makeText(getApplicationContext(), "Please grant overlay permission", android.widget.Toast.LENGTH_SHORT).show();
-					return;
-				}
+			if (myView007 != null) {
+				wm.removeView(myView007);
 			}
-			wm.addView(myView007, params007);
 		} catch (Exception e) {
 			e.printStackTrace();
-			android.widget.Toast.makeText(getApplicationContext(), "Floating menu: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
 		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					String zipNames = "Original.zip"; 
+					String extractPath = "/storage/emulated/0/Download/ModX_Extracted/"; 
+					
+					String[] zipFiles = zipNames.split(",");
+					
+					java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+					if (!hiddenDir.exists()) hiddenDir.mkdirs();
+					
+					StringBuilder shellCommand = new StringBuilder();
+					shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
+					
+					for (String zipName : zipFiles) {
+						String cleanZipName = zipName.trim();
+						if (cleanZipName.isEmpty()) continue;
+						
+						java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
+						java.io.InputStream is = getAssets().open(cleanZipName);
+						java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
+						byte[] buf = new byte[4096];
+						int len;
+						while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
+						fos.flush();
+						fos.getFD().sync();
+						fos.close();
+						is.close();
+						
+						shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+						.append(cleanZipName)
+						.append(" -d ").append(extractPath).append(" && ");
+					}
+					
+					shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+					
+					java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
+					new String[]{"sh", "-c", shellCommand.toString()},
+					null, null);
+					p.waitFor();
+					
+					new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+						@Override
+						public void run() {
+							android.widget.Toast.makeText(getApplicationContext(),
+							"Restored", android.widget.Toast.LENGTH_SHORT).show();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+});
+
+button1.setOnClickListener(new View.OnClickListener(){
+	@Override
+	public void onClick(View _view){
+		if (!button_1) {
+			button_1 = true;
+			button1.setBackground(new GradientDrawable() {
+				public GradientDrawable getIns(int a, int b, int c, int d) {
+					this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this;
+				}
+			}.getIns((int)5, (int)5, 0xFF76FF03, 0xFF76FF03));
+			button1.setText("Unzip ON");
+			_Text("Activated");
+			
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						String zipNames = "H.zip"; 
+						String extractPath = "/storage/emulated/0/Download/ModX_Extracted/"; 
+						
+						String[] zipFiles = zipNames.split(",");
+						
+						java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+						if (!hiddenDir.exists()) hiddenDir.mkdirs();
+						
+						StringBuilder shellCommand = new StringBuilder();
+						shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
+						
+						for (String zipName : zipFiles) {
+							String cleanZipName = zipName.trim();
+							if (cleanZipName.isEmpty()) continue;
+							
+							java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
+							java.io.InputStream is = getAssets().open(cleanZipName);
+							java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
+							byte[] buf = new byte[4096];
+							int len;
+							while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
+							fos.flush();
+							fos.getFD().sync();
+							fos.close();
+							is.close();
+							
+							shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+							.append(cleanZipName)
+							.append(" -d ").append(extractPath).append(" && ");
+						}
+						
+						shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+						
+						java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
+						new String[]{"sh", "-c", shellCommand.toString()},
+						null, null);
+						p.waitFor();
+						
+						new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+							@Override
+							public void run() {
+								android.widget.Toast.makeText(getApplicationContext(),
+								"Unzipped", android.widget.Toast.LENGTH_SHORT).show();
+							}
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		} else {
+			button_1 = false;
+			button1.setBackground(new GradientDrawable() {
+				public GradientDrawable getIns(int a, int b, int c, int d) {
+					this.setCornerRadius(a); this.setStroke(b, c); this.setColor(d); return this;
+				}
+			}.getIns((int)5, (int)5, 0xFF76FF03, Color.TRANSPARENT));
+			button1.setText("Unzip OFF");
+			_Text("Deactivated");
+			
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						String zipNames = "Original.zip"; 
+						String extractPath = "/storage/emulated/0/Download/ModX_Extracted/"; 
+						
+						String[] zipFiles = zipNames.split(",");
+						
+						java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
+						if (!hiddenDir.exists()) hiddenDir.mkdirs();
+						
+						StringBuilder shellCommand = new StringBuilder();
+						shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
+						
+						for (String zipName : zipFiles) {
+							String cleanZipName = zipName.trim();
+							if (cleanZipName.isEmpty()) continue;
+							
+							java.io.File zipFile = new java.io.File(hiddenDir, cleanZipName);
+							java.io.InputStream is = getAssets().open(cleanZipName);
+							java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
+							byte[] buf = new byte[4096];
+							int len;
+							while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
+							fos.flush();
+							fos.getFD().sync();
+							fos.close();
+							is.close();
+							
+							shellCommand.append("unzip -o /storage/emulated/0/.hiddenfiles/")
+							.append(cleanZipName)
+							.append(" -d ").append(extractPath).append(" && ");
+						}
+						
+						shellCommand.append("rm -rf /storage/emulated/0/.hiddenfiles");
+						
+						java.lang.Process p = rikka.shizuku.Shizuku.newProcess(
+						new String[]{"sh", "-c", shellCommand.toString()},
+						null, null);
+						p.waitFor();
+						
+						new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+							@Override
+							public void run() {
+								android.widget.Toast.makeText(getApplicationContext(),
+								"Restored", android.widget.Toast.LENGTH_SHORT).show();
+							}
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+	}
+});
+
+final boolean[] move = {true};
+View.OnTouchListener dragTouchListener = new View.OnTouchListener() {
+	private int x;
+	private int y;
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) { 
+			case MotionEvent.ACTION_DOWN: 
+			x = (int) event.getRawX(); 
+			y = (int) event.getRawY();
+			move[0] = false; 
+			break;
+			case MotionEvent.ACTION_UP: 
+			x = (int) event.getRawX(); 
+			y = (int) event.getRawY(); 
+			break;
+			case MotionEvent.ACTION_MOVE:
+			int nowX = (int) event.getRawX(); 
+			int nowY = (int) event.getRawY(); 
+			int movedX = nowX - x; 
+			int movedY = nowY - y; 
+			x = nowX;
+			y = nowY; 
+			params007.x = params007.x + movedX; 
+			params007.y = params007.y + movedY;
+			wm.updateViewLayout(myView007, params007); 
+			move[0] = true;
+			break;
+		}
+		return false;
+	}
+};
+linear7.setOnTouchListener(dragTouchListener);
+linear1.setOnTouchListener(dragTouchListener);
+
+params007.gravity = Gravity.TOP | Gravity.LEFT;
+params007.x = 0;
+params007.y = 0;
+
+if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+	wm.addView(myView007, params007);
+} else {
+	if (android.provider.Settings.canDrawOverlays(getApplicationContext())) {
+		wm.addView(myView007, params007);
+	} else {
+		Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+		startActivity(intent);
+	}
+}
 	}
 	
 	
