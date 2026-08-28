@@ -21,7 +21,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:indeterminate="true"
-            android:indeterminateTint="#00FF88"
+            android:indeterminateTint="#18FFFF"
             android:indeterminateTintMode="src_in" />
         <TextView
             android:id="@+id/loading_title"
