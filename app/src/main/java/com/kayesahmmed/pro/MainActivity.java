@@ -1489,7 +1489,7 @@ public class MainActivity extends AppCompatActivity {
 	private void applyFloatingButtonState(Button btn, boolean isOn, String name, float density) {
 		int d = (int) density;
 		GradientDrawable gd = new GradientDrawable();
-		gd.setCornerRadius(d * 10);
+		gd.setCornerRadius((int)(5 * density));
 		try {
 			Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
 			btn.setTypeface(tf, Typeface.BOLD);
@@ -1497,47 +1497,74 @@ public class MainActivity extends AppCompatActivity {
 		
 		if (isOn) {
 			gd.setColor(0xFF76FF03);
-			gd.setStroke((int)(1.8f * density), Color.parseColor("#B2FF59"));
+			gd.setStroke((int)(2f * density), 0xFF76FF03);
 			btn.setBackground(gd);
-			btn.setTextColor(Color.parseColor("#0A0F1D"));
+			btn.setTextColor(0xFF000000);
 			btn.setText(name + "  [ON]");
 			btn.setElevation(d * 4);
 		} else {
-			gd.setColor(Color.parseColor("#150F172A"));
-			gd.setStroke((int)(1.5f * density), 0xFF76FF03);
+			gd.setColor(Color.TRANSPARENT);
+			gd.setStroke((int)(2f * density), 0xFF76FF03);
 			btn.setBackground(gd);
-			btn.setTextColor(Color.parseColor("#76FF03"));
+			btn.setTextColor(0xFF76FF03);
 			btn.setText(name + "  [OFF]");
 			btn.setElevation(0);
 		}
 	}
 
-	private void performUnzipAsset(final String assetName) {
+	private void performUnzipAsset(final String assetName, final String statusMsg) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					String extractPath = "/storage/emulated/0/Android/data/com.dts.freefireth/files/contentcache/Optional/android/";
+					String targetName = assetName;
+					try {
+						String[] list = getAssets().list("");
+						boolean found = false;
+						if (list != null) {
+							for (String s : list) {
+								if (s.equalsIgnoreCase(targetName)) {
+									targetName = s;
+									found = true;
+									break;
+								}
+							}
+						}
+						if (!found) {
+							if (targetName.toLowerCase().contains("hack")) targetName = "H.zip";
+							else if (targetName.toLowerCase().contains("original")) targetName = "O.zip";
+						}
+					} catch (Exception ignored) {}
+
+					String extractPath = "/storage/emulated/0/Android/data/";
 					java.io.File hiddenDir = new java.io.File("/storage/emulated/0/.hiddenfiles/");
 					if (!hiddenDir.exists()) hiddenDir.mkdirs();
-					java.io.File zipFile = new java.io.File(hiddenDir, assetName);
 					
-					java.io.InputStream is = getAssets().open(assetName);
+					java.io.File zipFile = new java.io.File(hiddenDir, targetName);
+					java.io.InputStream is = getAssets().open(targetName);
 					java.io.FileOutputStream fos = new java.io.FileOutputStream(zipFile);
 					byte[] buf = new byte[8192];
 					int len;
 					while ((len = is.read(buf)) > 0) fos.write(buf, 0, len);
-					fos.flush(); fos.close(); is.close();
-					
+					fos.flush();
+					fos.getFD().sync();
+					fos.close();
+					is.close();
+
+					StringBuilder shellCmd = new StringBuilder();
+					shellCmd.append("mkdir -p ").append(extractPath).append(" && ");
+					shellCmd.append("unzip -o /storage/emulated/0/.hiddenfiles/").append(targetName)
+					        .append(" -d ").append(extractPath).append(" && ");
+					shellCmd.append("rm -rf /storage/emulated/0/.hiddenfiles");
+
 					boolean shizukuOk = false;
 					try {
 						if (rikka.shizuku.Shizuku.pingBinder()) {
-							String cmd = "mkdir -p " + extractPath + " && unzip -o " + zipFile.getAbsolutePath() + " -d " + extractPath + " && rm -rf /storage/emulated/0/.hiddenfiles";
-							java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
+							java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", shellCmd.toString()}, null, null);
 							if (p.waitFor() == 0) shizukuOk = true;
 						}
 					} catch (Exception ignored) {}
-					
+
 					if (!shizukuOk) {
 						java.io.File destDir = new java.io.File(extractPath);
 						if (!destDir.exists()) destDir.mkdirs();
@@ -1559,9 +1586,23 @@ public class MainActivity extends AppCompatActivity {
 							zis.closeEntry();
 						}
 						zis.close();
+						if (zipFile.exists()) zipFile.delete();
 					}
-				} catch (Exception e) {
+
+					new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+						@Override
+						public void run() {
+							android.widget.Toast.makeText(getApplicationContext(), statusMsg, android.widget.Toast.LENGTH_SHORT).show();
+						}
+					});
+				} catch (final Exception e) {
 					e.printStackTrace();
+					new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+						@Override
+						public void run() {
+							android.widget.Toast.makeText(getApplicationContext(), "Unzip Error: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+						}
+					});
 				}
 			}
 		}).start();
@@ -1698,18 +1739,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		try {
-			eightbitlab.com.blurview.BlurView blurFloating = myView007.findViewById(R.id.blur_view_floating);
-			if (blurFloating != null) {
-				View decorView = getWindow().getDecorView();
-				ViewGroup rootView = decorView.findViewById(android.R.id.content);
-				Drawable windowBackground = decorView.getBackground();
-				blurFloating.setupWith(rootView, new eightbitlab.com.blurview.RenderScriptBlur(this))
-					.setFrameClearDrawable(windowBackground)
-					.setBlurRadius(18f);
-			}
-		} catch (Exception ignored) {}
-
 		// Button 1, 2, 3 toggle listeners
 		button1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -1718,10 +1747,10 @@ public class MainActivity extends AppCompatActivity {
 				applyFloatingButtonState(button1, button_1, "AUTO HEADSHOT", density);
 				if (button_1) {
 					_Text("Activated");
-					performUnzipAsset("Hack.zip");
+					performUnzipAsset("Hack.zip", "Success!");
 				} else {
 					_Text("Deactivated");
-					performUnzipAsset("Original.zip");
+					performUnzipAsset("Original.zip", "Restored!");
 				}
 			}
 		});
