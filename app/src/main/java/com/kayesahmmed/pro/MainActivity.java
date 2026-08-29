@@ -352,6 +352,16 @@ public class MainActivity extends AppCompatActivity {
 				startActivity(i);
 			}
 		});
+		if (textview6 != null) {
+			textview6.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View _view) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(AppConfig.TELEGRAM_URL));
+					startActivity(i);
+				}
+			});
+		}
 		
 		textview9.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -361,6 +371,16 @@ public class MainActivity extends AppCompatActivity {
 				startActivity(i);
 			}
 		});
+		if (textview8 != null) {
+			textview8.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View _view) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(AppConfig.FACEBOOK_URL));
+					startActivity(i);
+				}
+			});
+		}
 		
 		_update_child_listener = new ChildEventListener() {
 			@Override
@@ -598,16 +618,22 @@ public class MainActivity extends AppCompatActivity {
 		edittext2.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { Window w = getWindow();  w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); };
 		if (textview4 != null) {
-			textview4.setText(AppConfig.APP_BRAND_NAME);
+			textview4.setText(AppConfig.MAIN_BRAND_NAME);
 			textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ft1.ttf"), 3);
 		}
 		TextView tvWelcome = findViewById(R.id.textview_welcome);
 		if (tvWelcome != null) {
-			tvWelcome.setText(AppConfig.APP_WELCOME_TEXT);
+			tvWelcome.setText(AppConfig.MAIN_WELCOME_TEXT);
+		}
+		if (textview6 != null) {
+			textview6.setText(AppConfig.TELEGRAM_LABEL);
+		}
+		if (textview8 != null) {
+			textview8.setText(AppConfig.FACEBOOK_LABEL);
 		}
 		TextView tvCreator = findViewById(R.id.textview_creator_typesafe);
 		if (tvCreator != null) {
-			tvCreator.setText("CREATOR : " + AppConfig.CREATOR_NAME.toUpperCase() + "  •  TYPE : SAFE");
+			tvCreator.setText(AppConfig.MAIN_CREATOR_TEXT);
 		}
 		if (textview19 != null) {
 			textview19.setText(AppConfig.COPYRIGHT_TEXT);
@@ -1428,7 +1454,7 @@ public void _Oncreate() {
                                                     dial.dismiss();
                                                     try {
                                                         Intent freshIntent = new Intent("android.intent.action.VIEW");
-                                                        freshIntent.setData(Uri.parse((String)"https://t.me/kayesahmmedpro"));
+                                                        freshIntent.setData(Uri.parse((String)AppConfig.TELEGRAM_URL));
                                                         freshIntent.addFlags(0x10000000);
                                                         startActivity(freshIntent);
                                                     }
@@ -1567,13 +1593,13 @@ public void _floating() {
         catch (Exception exception) {
             // empty catch block
         }
-        button1.setText((CharSequence)"Unzip [OFF]");
-        button2.setText((CharSequence)"Unzip  [OFF]");
-        button3.setText((CharSequence)"Unzip [OFF]");
+        button1.setText((CharSequence)(AppConfig.BUTTON_1_NAME + "  [OFF]"));
+        button2.setText((CharSequence)(AppConfig.BUTTON_2_NAME + "  [OFF]"));
+        button3.setText((CharSequence)(AppConfig.BUTTON_3_NAME + "  [OFF]"));
         TextView targetView = (TextView)myView007.findViewById(R.id.textview1);
         if (targetView != null) {
             titanicText = new TitanicTextView((Context)this);
-            titanicText.setText(AppConfig.APP_FULL_TITLE);
+            titanicText.setText(AppConfig.FLOATING_TITLE);
             titanicText.setTextSize(30.0f);
             titanicText.setGravity(17);
             titanicText.setTextColor(-15138817);
@@ -1594,14 +1620,14 @@ public void _floating() {
         }
         TextView tvCreatorFloating = (TextView)myView007.findViewById(R.id.textview13);
         if (tvCreatorFloating != null) {
-            tvCreatorFloating.setText(AppConfig.CREATOR_NAME);
+            tvCreatorFloating.setText(AppConfig.SYSTEM_INFO_CREATOR);
         }
         TextView tvPill = (TextView)myView007.findViewById(R.id.textview5);
         if (tvPill != null) {
-            tvPill.setText(AppConfig.APP_BRAND_NAME);
+            tvPill.setText(AppConfig.MAIN_BRAND_NAME);
         }
         if (textview2 != null) {
-            textview2.setText(AppConfig.APP_SUB_TITLE);
+            textview2.setText(AppConfig.FLOATING_SUB_TITLE);
         }
         textview12.setText((CharSequence)this.KEY.getString("User", ""));
         textview14.setText((CharSequence)this.KEY.getString("Register", ""));
@@ -1745,53 +1771,7 @@ public void _floating() {
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-                new Thread(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        try {
-                            String zipNames = "Original.zip";
-                            String extractPath = "/storage/emulated/0/Download/ModX_Extracted/";
-                            String[] zipFiles = zipNames.split(",");
-                            File hiddenDir = new File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
-                            if (!hiddenDir.exists()) {
-                                hiddenDir.mkdirs();
-                            }
-                            StringBuilder shellCommand = new StringBuilder();
-                            shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-                            for (String zipName : zipFiles) {
-                                int len;
-                                String cleanZipName = zipName.trim();
-                                if (cleanZipName.isEmpty()) continue;
-                                File zipFile = new File(hiddenDir, cleanZipName);
-                                InputStream is = getAssets().open(cleanZipName);
-                                FileOutputStream fos = new FileOutputStream(zipFile);
-                                byte[] buf = new byte[4096];
-                                while ((len = is.read(buf)) > 0) {
-                                    fos.write(buf, 0, len);
-                                }
-                                fos.flush();
-                                fos.getFD().sync();
-                                fos.close();
-                                is.close();
-                                shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/").append(cleanZipName).append(" -d ").append(extractPath).append(" && ");
-                            }
-                            shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
-                            rikka.shizuku.ShizukuRemoteProcess p = rikka.shizuku.Shizuku.newProcess((String[])new String[]{"sh", "-c", shellCommand.toString()}, null, null);
-                            p.waitFor();
-                            new Handler(Looper.getMainLooper()).post(new Runnable(){
-
-                                @Override
-                                public void run() {
-                                    Toast.makeText((Context)getApplicationContext(), (CharSequence)"Restored", (int)0).show();
-                                }
-                            });
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+                executeZipExtraction(AppConfig.EXIT_RESTORE_ZIP, AppConfig.EXIT_RESTORE_UNZIP_PATH, "Restored");
             }
         });
         button1.setOnClickListener(new View.OnClickListener(){
@@ -1808,55 +1788,9 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, -8978685));
-                    button1.setText((CharSequence)"Unzip ON");
+                    button1.setText((CharSequence)(AppConfig.BUTTON_1_NAME + "  [ON]"));
                     _Text("Activated");
-                    new Thread(new Runnable(){
-
-                        @Override
-                        public void run() {
-                            try {
-                                String zipNames = "Hack.zip";
-                                String extractPath = "/storage/emulated/0/Download/ModX_Extracted/";
-                                String[] zipFiles = zipNames.split(",");
-                                File hiddenDir = new File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
-                                if (!hiddenDir.exists()) {
-                                    hiddenDir.mkdirs();
-                                }
-                                StringBuilder shellCommand = new StringBuilder();
-                                shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-                                for (String zipName : zipFiles) {
-                                    int len;
-                                    String cleanZipName = zipName.trim();
-                                    if (cleanZipName.isEmpty()) continue;
-                                    File zipFile = new File(hiddenDir, cleanZipName);
-                                    InputStream is = getAssets().open(cleanZipName);
-                                    FileOutputStream fos = new FileOutputStream(zipFile);
-                                    byte[] buf = new byte[4096];
-                                    while ((len = is.read(buf)) > 0) {
-                                        fos.write(buf, 0, len);
-                                    }
-                                    fos.flush();
-                                    fos.getFD().sync();
-                                    fos.close();
-                                    is.close();
-                                    shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/").append(cleanZipName).append(" -d ").append(extractPath).append(" && ");
-                                }
-                                shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
-                                rikka.shizuku.ShizukuRemoteProcess p = rikka.shizuku.Shizuku.newProcess((String[])new String[]{"sh", "-c", shellCommand.toString()}, null, null);
-                                p.waitFor();
-                                new Handler(Looper.getMainLooper()).post(new Runnable(){
-
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText((Context)getApplicationContext(), (CharSequence)"Unzipped", (int)0).show();
-                                    }
-                                });
-                            }
-                            catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
+                    executeZipExtraction(AppConfig.BUTTON_1_ON_ZIP, AppConfig.BUTTON_1_ON_UNZIP_PATH, "Unzipped");
                 } else {
                     button_1 = false;
                     button1.setBackground((Drawable)new GradientDrawable(){
@@ -1868,55 +1802,77 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, 0));
-                    button1.setText((CharSequence)"Unzip OFF");
+                    button1.setText((CharSequence)(AppConfig.BUTTON_1_NAME + "  [OFF]"));
                     _Text("Deactivated");
-                    new Thread(new Runnable(){
+                    executeZipExtraction(AppConfig.BUTTON_1_OFF_ZIP, AppConfig.BUTTON_1_OFF_UNZIP_PATH, "Restored");
+                }
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener(){
 
-                        @Override
-                        public void run() {
-                            try {
-                                String zipNames = "Original.zip";
-                                String extractPath = "/storage/emulated/0/Download/ModX_Extracted/";
-                                String[] zipFiles = zipNames.split(",");
-                                File hiddenDir = new File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
-                                if (!hiddenDir.exists()) {
-                                    hiddenDir.mkdirs();
-                                }
-                                StringBuilder shellCommand = new StringBuilder();
-                                shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
-                                for (String zipName : zipFiles) {
-                                    int len;
-                                    String cleanZipName = zipName.trim();
-                                    if (cleanZipName.isEmpty()) continue;
-                                    File zipFile = new File(hiddenDir, cleanZipName);
-                                    InputStream is = getAssets().open(cleanZipName);
-                                    FileOutputStream fos = new FileOutputStream(zipFile);
-                                    byte[] buf = new byte[4096];
-                                    while ((len = is.read(buf)) > 0) {
-                                        fos.write(buf, 0, len);
-                                    }
-                                    fos.flush();
-                                    fos.getFD().sync();
-                                    fos.close();
-                                    is.close();
-                                    shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/").append(cleanZipName).append(" -d ").append(extractPath).append(" && ");
-                                }
-                                shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
-                                rikka.shizuku.ShizukuRemoteProcess p = rikka.shizuku.Shizuku.newProcess((String[])new String[]{"sh", "-c", shellCommand.toString()}, null, null);
-                                p.waitFor();
-                                new Handler(Looper.getMainLooper()).post(new Runnable(){
+            public void onClick(View _view) {
+                if (!button_2) {
+                    button_2 = true;
+                    button2.setBackground((Drawable)new GradientDrawable(){
 
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText((Context)getApplicationContext(), (CharSequence)"Restored", (int)0).show();
-                                    }
-                                });
-                            }
-                            catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                        public GradientDrawable getIns(int a, int b, int c, int d) {
+                            this.setCornerRadius(a);
+                            this.setStroke(b, c);
+                            this.setColor(d);
+                            return this;
                         }
-                    }).start();
+                    }.getIns(5, 5, -8978685, -8978685));
+                    button2.setText((CharSequence)(AppConfig.BUTTON_2_NAME + "  [ON]"));
+                    _Text("Activated");
+                    executeZipExtraction(AppConfig.BUTTON_2_ON_ZIP, AppConfig.BUTTON_2_ON_UNZIP_PATH, "Unzipped");
+                } else {
+                    button_2 = false;
+                    button2.setBackground((Drawable)new GradientDrawable(){
+
+                        public GradientDrawable getIns(int a, int b, int c, int d) {
+                            this.setCornerRadius(a);
+                            this.setStroke(b, c);
+                            this.setColor(d);
+                            return this;
+                        }
+                    }.getIns(5, 5, -8978685, 0));
+                    button2.setText((CharSequence)(AppConfig.BUTTON_2_NAME + "  [OFF]"));
+                    _Text("Deactivated");
+                    executeZipExtraction(AppConfig.BUTTON_2_OFF_ZIP, AppConfig.BUTTON_2_OFF_UNZIP_PATH, "Restored");
+                }
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View _view) {
+                if (!button_3) {
+                    button_3 = true;
+                    button3.setBackground((Drawable)new GradientDrawable(){
+
+                        public GradientDrawable getIns(int a, int b, int c, int d) {
+                            this.setCornerRadius(a);
+                            this.setStroke(b, c);
+                            this.setColor(d);
+                            return this;
+                        }
+                    }.getIns(5, 5, -8978685, -8978685));
+                    button3.setText((CharSequence)(AppConfig.BUTTON_3_NAME + "  [ON]"));
+                    _Text("Activated");
+                    executeZipExtraction(AppConfig.BUTTON_3_ON_ZIP, AppConfig.BUTTON_3_ON_UNZIP_PATH, "Unzipped");
+                } else {
+                    button_3 = false;
+                    button3.setBackground((Drawable)new GradientDrawable(){
+
+                        public GradientDrawable getIns(int a, int b, int c, int d) {
+                            this.setCornerRadius(a);
+                            this.setStroke(b, c);
+                            this.setColor(d);
+                            return this;
+                        }
+                    }.getIns(5, 5, -8978685, 0));
+                    button3.setText((CharSequence)(AppConfig.BUTTON_3_NAME + "  [OFF]"));
+                    _Text("Deactivated");
+                    executeZipExtraction(AppConfig.BUTTON_3_OFF_ZIP, AppConfig.BUTTON_3_OFF_UNZIP_PATH, "Restored");
                 }
             }
         });
@@ -2061,6 +2017,62 @@ public void _Check_Subscribe() {
     }
 
 public void _File_Permission() {
+    }
+
+    public void executeZipExtraction(final String zipNames, final String extractPath, final String toastMsg) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (zipNames == null || zipNames.trim().isEmpty()) return;
+                    String[] zipFiles = zipNames.split(",");
+                    File hiddenDir = new File(getExternalFilesDir(null).getAbsolutePath() + "/.hiddenfiles/");
+                    if (!hiddenDir.exists()) {
+                        hiddenDir.mkdirs();
+                    }
+                    StringBuilder shellCommand = new StringBuilder();
+                    if (extractPath != null && !extractPath.trim().isEmpty()) {
+                        shellCommand.append("mkdir -p ").append(extractPath).append(" && ");
+                    }
+                    for (String zipName : zipFiles) {
+                        String cleanZipName = zipName.trim();
+                        if (cleanZipName.isEmpty()) continue;
+                        File zipFile = new File(hiddenDir, cleanZipName);
+                        try {
+                            InputStream is = getAssets().open(cleanZipName);
+                            FileOutputStream fos = new FileOutputStream(zipFile);
+                            byte[] buf = new byte[4096];
+                            int len;
+                            while ((len = is.read(buf)) > 0) {
+                                fos.write(buf, 0, len);
+                            }
+                            fos.flush();
+                            fos.getFD().sync();
+                            fos.close();
+                            is.close();
+                        } catch (Exception eAsset) {
+                            eAsset.printStackTrace();
+                        }
+                        if (extractPath != null && !extractPath.trim().isEmpty()) {
+                            shellCommand.append("unzip -o ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles/").append(cleanZipName).append(" -d ").append(extractPath).append(" && ");
+                        }
+                    }
+                    shellCommand.append("rm -rf ").append(getExternalFilesDir(null).getAbsolutePath()).append("/.hiddenfiles");
+                    rikka.shizuku.ShizukuRemoteProcess p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", shellCommand.toString()}, null, null);
+                    p.waitFor();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (toastMsg != null && !toastMsg.isEmpty()) {
+                                Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 public void checkAllFilesPermission() {

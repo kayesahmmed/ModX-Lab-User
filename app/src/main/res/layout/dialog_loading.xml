@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="20dp">
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="280dp"
@@ -11,40 +11,95 @@
         android:background="@drawable/bg_loading_dialog"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="26dp"
+        android:paddingTop="28dp"
         android:paddingBottom="24dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:elevation="16dp">
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:elevation="20dp">
 
-        <ProgressBar
-            android:id="@+id/loading_spinner"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:indeterminate="true"
-            android:indeterminateTint="#18FFFF"
-            android:indeterminateTintMode="src_in" />
+        <!-- APEX GLOWING PROGRESS RING -->
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center">
 
+            <!-- Background subtle glow circle -->
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle_cyan_glow" />
+
+            <!-- Animated Apex Progress Ring -->
+            <ProgressBar
+                android:id="@+id/loading_spinner"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_ring_apex" />
+
+            <!-- Inner tech cyber dot -->
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_dot_cyan" />
+        </FrameLayout>
+
+        <!-- MAIN TITLE -->
         <TextView
             android:id="@+id/loading_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:text="VERIFYING WITH SERVER"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:letterSpacing="0.06"
+            android:letterSpacing="0.08"
             android:gravity="center" />
 
+        <!-- SUBTITLE / STATUS -->
         <TextView
+            android:id="@+id/loading_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Please wait a moment while we verify"
-            android:textSize="12sp"
-            android:textColor="#94A3B8"
+            android:layout_marginTop="5dp"
+            android:text="Establishing secure handshake..."
+            android:textSize="11.5sp"
+            android:textColor="#80E0FF"
+            android:alpha="0.85"
             android:gravity="center" />
+
+        <!-- ENCRYPTED PROTOCOL BADGE -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_badge_secure"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/bg_dot_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:text="SECURE SSL • PROTOCOL V2"
+                android:textSize="9.5sp"
+                android:textStyle="bold"
+                android:textColor="#00FF88"
+                android:letterSpacing="0.05" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
