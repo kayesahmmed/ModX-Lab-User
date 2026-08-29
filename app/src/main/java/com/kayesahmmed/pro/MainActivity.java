@@ -1600,9 +1600,9 @@ public void _floating() {
         if (targetView != null) {
             titanicText = new TitanicTextView((Context)this);
             titanicText.setText(AppConfig.FLOATING_TITLE);
-            titanicText.setTextSize(30.0f);
+            titanicText.setTextSize(26.0f);
             titanicText.setGravity(17);
-            titanicText.setTextColor(-15138817);
+            titanicText.setTextColor(Color.parseColor("#18FFFF"));
             try {
                 titanicText.setTypeface(Typeface.createFromAsset((AssetManager)this.getAssets(), (String)"fonts/satisfy.ttf"), 0);
             }
@@ -2583,13 +2583,29 @@ public void _Pro() {
         private float maskX;
         private float maskY;
         private boolean sinking;
+        private boolean setUp;
+        private BitmapShader shader;
+        private Matrix shaderMatrix;
+        private Drawable wave;
+        private float offsetY;
 
-        public TitanicTextView(android.content.Context context) {
+        public TitanicTextView(Context context) {
             super(context);
+            this.init();
         }
 
-        public TitanicTextView(android.content.Context context, android.util.AttributeSet attrs) {
+        public TitanicTextView(Context context, AttributeSet attrs) {
             super(context, attrs);
+            this.init();
+        }
+
+        public TitanicTextView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+            this.init();
+        }
+
+        private void init() {
+            this.shaderMatrix = new Matrix();
         }
 
         public AnimationSetupCallback getAnimationSetupCallback() {
@@ -2599,11 +2615,172 @@ public void _Pro() {
         public void setAnimationSetupCallback(AnimationSetupCallback animationSetupCallback) {
             this.animationSetupCallback = animationSetupCallback;
         }
+
+        public float getMaskX() {
+            return this.maskX;
+        }
+
+        public void setMaskX(float maskX) {
+            this.maskX = maskX;
+            this.invalidate();
+        }
+
+        public float getMaskY() {
+            return this.maskY;
+        }
+
+        public void setMaskY(float maskY) {
+            this.maskY = maskY;
+            this.invalidate();
+        }
+
+        public boolean isSinking() {
+            return this.sinking;
+        }
+
+        public void setSinking(boolean sinking) {
+            this.sinking = sinking;
+        }
+
+        public boolean isSetUp() {
+            return this.setUp;
+        }
+
+        public void setTextColor(int color2) {
+            super.setTextColor(color2);
+            this.createShader();
+        }
+
+        public void setTextColor(ColorStateList colors) {
+            super.setTextColor(colors);
+            this.createShader();
+        }
+
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            super.onSizeChanged(w, h, oldw, oldh);
+            this.createShader();
+            if (!this.setUp) {
+                this.setUp = true;
+                if (this.animationSetupCallback != null) {
+                    this.animationSetupCallback.onSetupAnimation(this);
+                }
+            }
+        }
+
+        private void createShader() {
+            if (this.wave == null) {
+                try {
+                    this.wave = this.getResources().getDrawable(R.drawable.wave);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (this.wave == null) return;
+            int waveW = this.wave.getIntrinsicWidth();
+            int waveH = this.wave.getIntrinsicHeight();
+            if (waveW <= 0 || waveH <= 0) {
+                waveW = 200;
+                waveH = 50;
+            }
+            Bitmap b = Bitmap.createBitmap((int)waveW, (int)waveH, (Bitmap.Config)Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(b);
+            c.drawColor(this.getCurrentTextColor());
+            this.wave.setBounds(0, 0, waveW, waveH);
+            this.wave.draw(c);
+            this.shader = new BitmapShader(b, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
+            this.getPaint().setShader((Shader)this.shader);
+            this.offsetY = (this.getHeight() - waveH) / 2;
+        }
+
+        protected void onDraw(Canvas canvas) {
+            if (this.sinking && this.shader != null) {
+                if (this.getPaint().getShader() == null) {
+                    this.getPaint().setShader((Shader)this.shader);
+                }
+                this.shaderMatrix.setTranslate(this.maskX, this.maskY + this.offsetY);
+                this.shader.setLocalMatrix(this.shaderMatrix);
+            } else {
+                this.getPaint().setShader(null);
+            }
+            super.onDraw(canvas);
+        }
     }
 
     public class Titanic {
-        public void start(TitanicTextView titanicText) {
-            // Stub to make it compile
+        private AnimatorSet animatorSet;
+        private Animator.AnimatorListener animatorListener;
+
+        public Animator.AnimatorListener getAnimatorListener() {
+            return this.animatorListener;
+        }
+
+        public void setAnimatorListener(Animator.AnimatorListener animatorListener) {
+            this.animatorListener = animatorListener;
+        }
+
+        public void start(final TitanicTextView textView) {
+            final Runnable animate = new Runnable(){
+
+                @Override
+                public void run() {
+                    textView.setSinking(true);
+                    ObjectAnimator maskXAnimator = ObjectAnimator.ofFloat((Object)((Object)textView), (String)"maskX", (float[])new float[]{0.0f, 200.0f});
+                    maskXAnimator.setRepeatCount(-1);
+                    maskXAnimator.setDuration(1000L);
+                    maskXAnimator.setStartDelay(0L);
+                    int h = textView.getHeight();
+                    ObjectAnimator maskYAnimator = ObjectAnimator.ofFloat((Object)((Object)textView), (String)"maskY", (float[])new float[]{h / 2, -h / 2});
+                    maskYAnimator.setRepeatCount(-1);
+                    maskYAnimator.setRepeatMode(2);
+                    maskYAnimator.setDuration(10000L);
+                    maskYAnimator.setStartDelay(0L);
+                    Titanic.this.animatorSet = new AnimatorSet();
+                    Titanic.this.animatorSet.playTogether(new Animator[]{maskXAnimator, maskYAnimator});
+                    Titanic.this.animatorSet.setInterpolator((TimeInterpolator)new LinearInterpolator());
+                    Titanic.this.animatorSet.addListener(new Animator.AnimatorListener(){
+
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        public void onAnimationEnd(Animator animation) {
+                            textView.setSinking(false);
+                            if (Build.VERSION.SDK_INT < 16) {
+                                textView.postInvalidate();
+                            } else {
+                                textView.postInvalidateOnAnimation();
+                            }
+                            Titanic.this.animatorSet = null;
+                        }
+
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
+                    if (Titanic.this.animatorListener != null) {
+                        Titanic.this.animatorSet.addListener(Titanic.this.animatorListener);
+                    }
+                    Titanic.this.animatorSet.start();
+                }
+            };
+            if (!textView.isSetUp()) {
+                textView.setAnimationSetupCallback(new AnimationSetupCallback(){
+
+                    @Override
+                    public void onSetupAnimation(TitanicTextView target) {
+                        animate.run();
+                    }
+                });
+            } else {
+                animate.run();
+            }
+        }
+
+        public void cancel() {
+            if (this.animatorSet != null) {
+                this.animatorSet.cancel();
+            }
         }
     }
 }
