@@ -270,20 +270,23 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// If key expired dialog failed to show previously, we need to show it here.
-		// (This covers cases where the user was banned/expired while app was in background)
-		if (isExpiredActionDone && !keyExpiredDialogShowing) {
-			showKeyExpiredDialog();
-		}
-		
-		// If update dialog failed to show previously, we need to check here.
-		if (isUpdateActionDone && !isDialogShowing) {
-			SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
-			String cachedVersion = sp.getString("cached_app_version", "");
-			if (!cachedVersion.equals("") && !ModXLab().equals(cachedVersion)) {
-				_dialog(cachedVersion, "Please update the app to continue", "Exit", "Update");
+		// Run dialog showing logic with a small delay to avoid WindowManager$BadTokenException
+		new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (isExpiredActionDone && !keyExpiredDialogShowing) {
+					showKeyExpiredDialog();
+				}
+				
+				if (isUpdateActionDone && !isDialogShowing) {
+					SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
+					String cachedVersion = sp.getString("cached_app_version", "");
+					if (!cachedVersion.equals("") && !ModXLab().equals(cachedVersion)) {
+						_dialog(cachedVersion, "Please update the app to continue", "Exit", "Update");
+					}
+				}
 			}
-		}
+		}, 500);
 	}
 	
 	@Override
@@ -426,6 +429,8 @@ public class MainActivity extends AppCompatActivity {
 						if (!ModXLab().equals(app_version)) {
 							_dialog(app_version, message, "Exit", "Update");
 						} else {
+							isUpdateActionDone = false;
+							isDialogShowing = false;
 							final SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
 							String lastSavedVersion = sp.getString("last_version_subscribed", "");
 							
@@ -459,6 +464,8 @@ public class MainActivity extends AppCompatActivity {
 						if (!ModXLab().equals(app_version)) {
 							_dialog(app_version, message, "Exit", "Update");
 						} else {
+							isUpdateActionDone = false;
+							isDialogShowing = false;
 							final SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
 							String lastSavedVersion = sp.getString("last_version_subscribed", "");
 							
@@ -1320,7 +1327,9 @@ public class MainActivity extends AppCompatActivity {
 				"key",
 				matchedUser.get("key").toString()).commit();
 				
-				// removed toast
+				// reset flag so it works next time they are banned/expired
+				isExpiredActionDone = false;
+				keyExpiredDialogShowing = false;
 				
 				_component_dialog();
 				
