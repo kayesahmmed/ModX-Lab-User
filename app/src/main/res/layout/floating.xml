@@ -40,8 +40,8 @@
 	<!-- Main Floating Panel -->
 	<RelativeLayout
 		android:id="@+id/bg"
-		android:layout_width="280dp"
-		android:layout_height="340dp"
+		android:layout_width="252dp"
+		android:layout_height="310dp"
 		android:background="@drawable/bg_floating_glass"
 		android:elevation="16dp">
 
@@ -65,7 +65,8 @@
 				android:layout_height="wrap_content"
 				android:gravity="center_horizontal"
 				android:orientation="vertical"
-				android:paddingBottom="8dp">
+				android:paddingTop="14dp"
+				android:paddingBottom="6dp">
 
 				<TextView
 					android:id="@+id/textview1"
@@ -74,7 +75,7 @@
 					android:layout_height="wrap_content"
 					android:gravity="center_horizontal"
 					android:text="MODX LAB PRO"
-					android:textSize="18sp"
+					android:textSize="22sp"
 					android:textStyle="bold"
 					android:textColor="#18FFFF"
 					android:paddingLeft="16dp"
@@ -164,15 +165,15 @@
 				<ScrollView
 					android:id="@+id/vscroll1"
 					android:layout_width="match_parent"
-					android:paddingLeft="14dp"
-					android:paddingRight="14dp"
+					android:paddingLeft="10dp"
+					android:paddingRight="10dp"
 					android:layout_height="match_parent"
 					android:fillViewport="true">
 					<LinearLayout
 						android:id="@+id/linear6"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:paddingLeft="8dp"
+						android:paddingLeft="4dp"
 						android:paddingRight="2dp"
 						android:orientation="vertical">
 
@@ -186,10 +187,10 @@
 							<Button
 								android:id="@+id/button1"
 								android:layout_width="match_parent"
-								android:layout_height="42dp"
-								android:layout_marginBottom="8dp"
+								android:layout_height="35dp"
+								android:layout_marginBottom="6dp"
 								android:text="AUTO HEADSHOT  [OFF]"
-								android:textSize="11sp"
+								android:textSize="10.5sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
 								android:textAllCaps="false"
@@ -198,10 +199,10 @@
 							<Button
 								android:id="@+id/button2"
 								android:layout_width="match_parent"
-								android:layout_height="42dp"
-								android:layout_marginBottom="8dp"
+								android:layout_height="35dp"
+								android:layout_marginBottom="6dp"
 								android:text="AIM LOCK  [OFF]"
-								android:textSize="11sp"
+								android:textSize="10.5sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
 								android:textAllCaps="false"
@@ -210,10 +211,10 @@
 							<Button
 								android:id="@+id/button3"
 								android:layout_width="match_parent"
-								android:layout_height="42dp"
-								android:layout_marginBottom="8dp"
+								android:layout_height="35dp"
+								android:layout_marginBottom="6dp"
 								android:text="HOLOGRAM  [OFF]"
-								android:textSize="11sp"
+								android:textSize="10.5sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
 								android:textAllCaps="false"
@@ -377,10 +378,10 @@
 				android:id="@+id/linear4"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="5dp"
-				android:paddingLeft="6dp"
-				android:paddingRight="6dp"
-				android:paddingBottom="6dp"
+				android:layout_marginTop="4dp"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:paddingBottom="8dp"
 				android:gravity="bottom"
 				android:orientation="horizontal">
 				<TextView
@@ -389,10 +390,12 @@
 					android:layout_height="wrap_content"
 					android:gravity="bottom|left"
 					android:text="EXIT"
-					android:textSize="18sp"
+					android:textSize="20sp"
 					android:textStyle="bold"
 					android:textColor="#18FFFF"
-					android:padding="0dp"
+					android:paddingLeft="2dp"
+					android:paddingRight="6dp"
+					android:paddingBottom="2dp"
 					android:focusable="false" />
 				<LinearLayout
 					android:id="@+id/linear14"
@@ -405,10 +408,12 @@
 					android:layout_height="wrap_content"
 					android:gravity="bottom|right"
 					android:text="CLOSE"
-					android:textSize="18sp"
+					android:textSize="20sp"
 					android:textStyle="bold"
 					android:textColor="#18FFFF"
-					android:padding="0dp"
+					android:paddingLeft="6dp"
+					android:paddingRight="2dp"
+					android:paddingBottom="2dp"
 					android:focusable="false" />
 			</LinearLayout>
 

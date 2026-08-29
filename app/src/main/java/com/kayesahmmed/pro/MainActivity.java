@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse("https://t.me/kayesahmmedpro"));
+				i.setData(Uri.parse(AppConfig.TELEGRAM_URL));
 				startActivity(i);
 			}
 		});
@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse("https://www.facebook.com/kayesahmmed00"));
+				i.setData(Uri.parse(AppConfig.FACEBOOK_URL));
 				startActivity(i);
 			}
 		});
@@ -597,15 +597,21 @@ public class MainActivity extends AppCompatActivity {
 		}
 		edittext2.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { Window w = getWindow();  w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); };
-		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ft1.ttf"), 3);
-		// removed font
-		// removed font
-//		particleView.setLineColor(0xFF03A9F4);
-//		particleView.setparticleCount(100);
-//		particleView.setParticleColor(0xFF03A9F4);
-//		particleView.setBackgroundColor(0xFF000000);
-//		particleView.setParticleRadiusRange(5.0f, 10.0f);
-//		linear2.addView(particleView);
+		if (textview4 != null) {
+			textview4.setText(AppConfig.APP_BRAND_NAME);
+			textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ft1.ttf"), 3);
+		}
+		TextView tvWelcome = findViewById(R.id.textview_welcome);
+		if (tvWelcome != null) {
+			tvWelcome.setText(AppConfig.APP_WELCOME_TEXT);
+		}
+		TextView tvCreator = findViewById(R.id.textview_creator_typesafe);
+		if (tvCreator != null) {
+			tvCreator.setText("CREATOR : " + AppConfig.CREATOR_NAME.toUpperCase() + "  •  TYPE : SAFE");
+		}
+		if (textview19 != null) {
+			textview19.setText(AppConfig.COPYRIGHT_TEXT);
+		}
 		_ModX();
 		_Oncreate();
 		myDialog = null;
@@ -1240,13 +1246,7 @@ public class MainActivity extends AppCompatActivity {
 		if (window == null) return;
 		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		window.setDimAmount(0.72f);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-			try {
-				window.getAttributes().setBlurBehindRadius(25);
-			} catch (Exception ignored) {}
-		}
+		window.setDimAmount(0.6f);
 	}
 
 	private android.app.AlertDialog customLoadingDialog = null;
@@ -1287,15 +1287,15 @@ public class MainActivity extends AppCompatActivity {
 
 	public void _component_dialog() {
 		if (android.provider.Settings.canDrawOverlays(MainActivity.this)) {
-			_loadingdialog(true, "Verifying With Server...");
+			_loadingdialog(true, AppConfig.LOADING_SERVER_TEXT);
 			Timer = new TimerTask() {
 				@Override
 				public void run() {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							_loadingdialog(false, "Verifying With Server...");
-							android.widget.Toast.makeText(getApplicationContext(), "Login Success", android.widget.Toast.LENGTH_SHORT).show();
+							_loadingdialog(false, AppConfig.LOADING_SERVER_TEXT);
+							android.widget.Toast.makeText(getApplicationContext(), AppConfig.LOGIN_SUCCESS_TOAST, android.widget.Toast.LENGTH_SHORT).show();
 							_floating();
 						}
 					});
@@ -1573,8 +1573,8 @@ public void _floating() {
         TextView targetView = (TextView)myView007.findViewById(R.id.textview1);
         if (targetView != null) {
             titanicText = new TitanicTextView((Context)this);
-            titanicText.setText("MODX LAB");
-            titanicText.setTextSize(25.0f);
+            titanicText.setText(AppConfig.APP_FULL_TITLE);
+            titanicText.setTextSize(30.0f);
             titanicText.setGravity(17);
             titanicText.setTextColor(-15138817);
             try {
@@ -1592,26 +1592,16 @@ public void _floating() {
                 new Titanic().start(titanicText);
             }
         }
-        if ((targetView = (TextView)myView007.findViewById(R.id.textview17)) != null) {
-            titanicText = new TitanicTextView((Context)this);
-            titanicText.setText("PRO");
-            titanicText.setTextSize(25.0f);
-            titanicText.setGravity(17);
-            titanicText.setTextColor(-15138817);
-            try {
-                titanicText.setTypeface(Typeface.createFromAsset((AssetManager)this.getAssets(), (String)"fonts/satisfy.ttf"), 0);
-            }
-            catch (Exception e_parentGroup2) {
-                // empty catch block
-            }
-            titanicText.setLayoutParams(targetView.getLayoutParams());
-            if (targetView.getParent() != null) {
-                parentGroup2 = (ViewGroup)targetView.getParent();
-                childIndex = parentGroup2.indexOfChild((View)targetView);
-                parentGroup2.removeView((View)targetView);
-                parentGroup2.addView((View)titanicText, childIndex);
-                new Titanic().start(titanicText);
-            }
+        TextView tvCreatorFloating = (TextView)myView007.findViewById(R.id.textview13);
+        if (tvCreatorFloating != null) {
+            tvCreatorFloating.setText(AppConfig.CREATOR_NAME);
+        }
+        TextView tvPill = (TextView)myView007.findViewById(R.id.textview5);
+        if (tvPill != null) {
+            tvPill.setText(AppConfig.APP_BRAND_NAME);
+        }
+        if (textview2 != null) {
+            textview2.setText(AppConfig.APP_SUB_TITLE);
         }
         textview12.setText((CharSequence)this.KEY.getString("User", ""));
         textview14.setText((CharSequence)this.KEY.getString("Register", ""));
@@ -2059,7 +2049,7 @@ public void _Check_Subscribe() {
         btnYoutube.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View v) {
-                Intent i = new Intent("android.intent.action.VIEW", Uri.parse((String)"https://youtube.com/@kayesahmmed-xs3hk?si=CgDSuPLsj_AOuSRH"));
+                Intent i = new Intent("android.intent.action.VIEW", Uri.parse((String)AppConfig.YOUTUBE_URL));
                 startActivity(i);
                 SharedPreferences sp = getSharedPreferences("data", 0);
                 sp.edit().putString("last_version_subscribed", app_version).commit();
