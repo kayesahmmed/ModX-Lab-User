@@ -70,7 +70,7 @@
 				android:textSize="12sp"
 				android:textStyle="bold"
 				android:letterSpacing="0.1"
-				android:textColor="#FFD700"
+				android:textColor="#00FF88"
 				android:shadowColor="#E0000000"
 				android:shadowDx="1"
 				android:shadowDy="1"

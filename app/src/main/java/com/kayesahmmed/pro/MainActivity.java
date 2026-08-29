@@ -334,6 +334,9 @@ public class MainActivity extends AppCompatActivity {
 				} else {
 					edittext2.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 				}
+				if (edittext2.getText() != null) {
+					edittext2.setSelection(edittext2.getText().length());
+				}
 			}
 		});
 		
@@ -1287,6 +1290,26 @@ public class MainActivity extends AppCompatActivity {
 					Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/sansation_regular.ttf");
 					if (tv != null) tv.setTypeface(tf, Typeface.BOLD);
 				} catch (Exception ignored) {}
+				BlurView blurView = v.findViewById(R.id.dialog_blur_view);
+				if (blurView != null) {
+					try {
+						blurView.setOutlineProvider(new ViewOutlineProvider() {
+							public void getOutline(View view, Outline outline) {
+								float density = getResources().getDisplayMetrics().density;
+								outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 18.0f * density);
+							}
+						});
+						blurView.setClipToOutline(true);
+						View decorView = getWindow().getDecorView();
+						ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
+						Drawable windowBackground = decorView.getBackground();
+						blurView.setupWith(rootView, (BlurAlgorithm) new RenderScriptBlur(MainActivity.this))
+								.setFrameClearDrawable(windowBackground)
+								.setBlurRadius(18.0f);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 				customLoadingDialog = new android.app.AlertDialog.Builder(this).create();
 				customLoadingDialog.setView(v);
 				customLoadingDialog.setCancelable(false);
@@ -1788,9 +1811,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, -8978685));
-                    button1.setText((CharSequence)(AppConfig.BUTTON_1_NAME + "  [ON]"));
+                    String onText = AppConfig.BUTTON_1_NAME + "  [ON]";
+                    button1.setText((CharSequence)onText);
                     _Text("Activated");
-                    executeZipExtraction(AppConfig.BUTTON_1_ON_ZIP, AppConfig.BUTTON_1_ON_UNZIP_PATH, "Unzipped");
+                    executeZipExtraction(AppConfig.BUTTON_1_ON_ZIP, AppConfig.BUTTON_1_ON_UNZIP_PATH, onText);
                 } else {
                     button_1 = false;
                     button1.setBackground((Drawable)new GradientDrawable(){
@@ -1802,9 +1826,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, 0));
-                    button1.setText((CharSequence)(AppConfig.BUTTON_1_NAME + "  [OFF]"));
+                    String offText = AppConfig.BUTTON_1_NAME + "  [OFF]";
+                    button1.setText((CharSequence)offText);
                     _Text("Deactivated");
-                    executeZipExtraction(AppConfig.BUTTON_1_OFF_ZIP, AppConfig.BUTTON_1_OFF_UNZIP_PATH, "Restored");
+                    executeZipExtraction(AppConfig.BUTTON_1_OFF_ZIP, AppConfig.BUTTON_1_OFF_UNZIP_PATH, offText);
                 }
             }
         });
@@ -1822,9 +1847,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, -8978685));
-                    button2.setText((CharSequence)(AppConfig.BUTTON_2_NAME + "  [ON]"));
+                    String onText = AppConfig.BUTTON_2_NAME + "  [ON]";
+                    button2.setText((CharSequence)onText);
                     _Text("Activated");
-                    executeZipExtraction(AppConfig.BUTTON_2_ON_ZIP, AppConfig.BUTTON_2_ON_UNZIP_PATH, "Unzipped");
+                    executeZipExtraction(AppConfig.BUTTON_2_ON_ZIP, AppConfig.BUTTON_2_ON_UNZIP_PATH, onText);
                 } else {
                     button_2 = false;
                     button2.setBackground((Drawable)new GradientDrawable(){
@@ -1836,9 +1862,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, 0));
-                    button2.setText((CharSequence)(AppConfig.BUTTON_2_NAME + "  [OFF]"));
+                    String offText = AppConfig.BUTTON_2_NAME + "  [OFF]";
+                    button2.setText((CharSequence)offText);
                     _Text("Deactivated");
-                    executeZipExtraction(AppConfig.BUTTON_2_OFF_ZIP, AppConfig.BUTTON_2_OFF_UNZIP_PATH, "Restored");
+                    executeZipExtraction(AppConfig.BUTTON_2_OFF_ZIP, AppConfig.BUTTON_2_OFF_UNZIP_PATH, offText);
                 }
             }
         });
@@ -1856,9 +1883,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, -8978685));
-                    button3.setText((CharSequence)(AppConfig.BUTTON_3_NAME + "  [ON]"));
+                    String onText = AppConfig.BUTTON_3_NAME + "  [ON]";
+                    button3.setText((CharSequence)onText);
                     _Text("Activated");
-                    executeZipExtraction(AppConfig.BUTTON_3_ON_ZIP, AppConfig.BUTTON_3_ON_UNZIP_PATH, "Unzipped");
+                    executeZipExtraction(AppConfig.BUTTON_3_ON_ZIP, AppConfig.BUTTON_3_ON_UNZIP_PATH, onText);
                 } else {
                     button_3 = false;
                     button3.setBackground((Drawable)new GradientDrawable(){
@@ -1870,9 +1898,10 @@ public void _floating() {
                             return this;
                         }
                     }.getIns(5, 5, -8978685, 0));
-                    button3.setText((CharSequence)(AppConfig.BUTTON_3_NAME + "  [OFF]"));
+                    String offText = AppConfig.BUTTON_3_NAME + "  [OFF]";
+                    button3.setText((CharSequence)offText);
                     _Text("Deactivated");
-                    executeZipExtraction(AppConfig.BUTTON_3_OFF_ZIP, AppConfig.BUTTON_3_OFF_UNZIP_PATH, "Restored");
+                    executeZipExtraction(AppConfig.BUTTON_3_OFF_ZIP, AppConfig.BUTTON_3_OFF_UNZIP_PATH, offText);
                 }
             }
         });
