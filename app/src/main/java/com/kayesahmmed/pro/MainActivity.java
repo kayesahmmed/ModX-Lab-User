@@ -197,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
 	public static boolean isDialogShowing = false;
 	public static View activeFloatingView = null;
 	public static WindowManager activeWindowManager = null;
+	public static boolean isExpiredActionDone = false;
+	public static boolean isUpdateActionDone = false;
 	private boolean keyExpiredDialogShowing = false;
 	private boolean loginInProgress = false;
 	private boolean isShizukuDialogShowing = false;
@@ -264,6 +266,25 @@ public class MainActivity extends AppCompatActivity {
 	private AlertDialog.Builder dg;
 	private SharedPreferences KEY;
 	private ShizukuMaster Shizuku;
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// If key expired dialog failed to show previously, we need to show it here.
+		// (This covers cases where the user was banned/expired while app was in background)
+		if (isExpiredActionDone && !keyExpiredDialogShowing) {
+			showKeyExpiredDialog();
+		}
+		
+		// If update dialog failed to show previously, we need to check here.
+		if (isUpdateActionDone && !isDialogShowing) {
+			SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
+			String cachedVersion = sp.getString("cached_app_version", "");
+			if (!cachedVersion.equals("") && !ModXLab().equals(cachedVersion)) {
+				_dialog(cachedVersion, "Please update the app to continue", "Exit", "Update");
+			}
+		}
+	}
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -922,13 +943,22 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _dialog(final String _title, final String _message, final String _button1text, final String _button2text) {
-		closeFloatingMenu();
-		executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
-		final AlertDialog dial = new AlertDialog.Builder(MainActivity.this).create();
-		LayoutInflater inflater = getLayoutInflater();
-		View inflate = inflater.inflate(R.layout.dialog, null);
-		dial.setView(inflate);
-		dial.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		if (!isUpdateActionDone) {
+			closeFloatingMenu();
+			executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
+			isUpdateActionDone = true;
+		}
+		
+		if (isDialogShowing) {
+			return;
+		}
+		
+		try {
+			final AlertDialog dial = new AlertDialog.Builder(MainActivity.this).create();
+			LayoutInflater inflater = getLayoutInflater();
+			View inflate = inflater.inflate(R.layout.dialog, null);
+			dial.setView(inflate);
+			dial.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		
 		final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
 		final LinearLayout linear3 = (LinearLayout) inflate.findViewById(R.id.linear3);
@@ -1015,6 +1045,11 @@ public class MainActivity extends AppCompatActivity {
 		});
 		
 		dial.show();
+			isDialogShowing = true;
+		} catch (Exception e) {
+			isDialogShowing = false;
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -1149,19 +1184,20 @@ public class MainActivity extends AppCompatActivity {
 				
 				// ✅ KEY EXPIRED
 				if (!statusObj.toString().equals("true") || isExpired) {
-					closeFloatingMenu();
-					executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
+					if (!isExpiredActionDone) {
+						closeFloatingMenu();
+						executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
+						isExpiredActionDone = true;
+					}
 					
 					if (keyExpiredDialogShowing) {
 						return;
 					}
 					
-					keyExpiredDialogShowing = true;
-					
-					// --- Custom Dialog from expired.xml ---
-					final android.app.AlertDialog dial = new android.app.AlertDialog.Builder(MainActivity.this).create();
-					LayoutInflater inflater = getLayoutInflater();
-					View inflate = inflater.inflate(R.layout.expired, null);
+					try {
+						final android.app.AlertDialog dial = new android.app.AlertDialog.Builder(MainActivity.this).create();
+						LayoutInflater inflater = getLayoutInflater();
+						View inflate = inflater.inflate(R.layout.expired, null);
 					dial.setView(inflate);
 					dial.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 					
@@ -1249,6 +1285,11 @@ public class MainActivity extends AppCompatActivity {
 					});
 					
 					dial.show();
+						keyExpiredDialogShowing = true;
+					} catch (Exception e) {
+						keyExpiredDialogShowing = false;
+						e.printStackTrace();
+					}
 					// --- End of Custom Dialog ---
 					
 					return;
@@ -1437,103 +1478,16 @@ public void _Oncreate() {
                             }
                             if (hh.concat(mm.concat(ss)).contains("-")) {
                                 _Pro();
-                                closeFloatingMenu();
-                                executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
+                                if (!isExpiredActionDone) {
+                                    closeFloatingMenu();
+                                    executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
+                                    isExpiredActionDone = true;
+                                }
                                 if (keyExpiredDialogShowing) {
                                     return;
                                 }
-                                keyExpiredDialogShowing = true;
                                 if (!isFinishing() && !isDestroyed()) {
-                                    try {
-                                        final AlertDialog dial = new AlertDialog.Builder((Context)MainActivity.this).create();
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View inflate = inflater.inflate(R.layout.expired, null);
-                                        dial.setView(inflate);
-                                        dial.getWindow().setBackgroundDrawableResource(17170445);
-                                        LinearLayout linear2 = (LinearLayout)inflate.findViewById(R.id.linear2);
-                                        LinearLayout linear3 = (LinearLayout)inflate.findViewById(R.id.linear3);
-                                        LinearLayout linear5 = (LinearLayout)inflate.findViewById(R.id.linear5);
-                                        TextView textview4 = (TextView)inflate.findViewById(R.id.textview4);
-                                        if (textview4 != null) {
-                                            textview4.setText((CharSequence)"CONTACT");
-                                            try {
-                                                Typeface tf = Typeface.createFromAsset((AssetManager)getAssets(), (String)"fonts/tajawal_medium.ttf");
-                                                textview4.setTypeface(tf, 1);
-                                            }
-                                            catch (Exception tf) {
-                                                // empty catch block
-                                            }
-                                        }
-                                        try {
-                                            int d = (int)getApplicationContext().getResources().getDisplayMetrics().density;
-                                            if (linear2 != null) {
-                                                GradientDrawable gd2 = new GradientDrawable();
-                                                gd2.setColor(-1);
-                                                gd2.setCornerRadius((float)(d * 20));
-                                                linear2.setBackground((Drawable)gd2);
-                                            }
-                                            if (linear3 != null) {
-                                                GradientDrawable gd3 = new GradientDrawable();
-                                                gd3.setColor(Color.parseColor((String)"#00B489"));
-                                                gd3.setCornerRadius((float)(d * 25));
-                                                RippleDrawable ripple = new RippleDrawable(new ColorStateList((int[][])new int[][]{new int[0]}, new int[]{-1996488705}), (Drawable)gd3, null);
-                                                linear3.setBackground((Drawable)ripple);
-                                                linear3.setElevation(0.0f);
-                                                linear3.setClickable(true);
-                                                linear3.setFocusable(true);
-                                            }
-                                            if (linear5 != null) {
-                                                linear5.setBackground((Drawable)new GradientDrawable(){
-
-                                                    public GradientDrawable getIns(int a, int b, int c, int d) {
-                                                        this.setCornerRadius(a);
-                                                        this.setStroke(b, c);
-                                                        this.setColor(d);
-                                                        return this;
-                                                    }
-                                                }.getIns(360, 0, -16730999, -16730999));
-                                            }
-                                            if (textview4 != null) {
-                                                textview4.setBackgroundColor(0);
-                                                textview4.setTextColor(-1);
-                                            }
-                                        }
-                                        catch (Exception exception) {
-                                            // empty catch block
-                                        }
-                                        if (linear3 != null) {
-                                            linear3.setOnClickListener(new View.OnClickListener(){
-
-                                                public void onClick(View v) {
-                                                    keyExpiredDialogShowing = false;
-                                                    dial.dismiss();
-                                                    try {
-                                                        Intent freshIntent = new Intent("android.intent.action.VIEW");
-                                                        freshIntent.setData(Uri.parse((String)AppConfig.EXPIRED_CONTACT_URL));
-                                                        freshIntent.addFlags(0x10000000);
-                                                        startActivity(freshIntent);
-                                                    }
-                                                    catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                        dial.setCanceledOnTouchOutside(false);
-                                        dial.setCancelable(true);
-                                        dial.setOnCancelListener(new DialogInterface.OnCancelListener(){
-
-                                            public void onCancel(DialogInterface dialogInterface) {
-                                                keyExpiredDialogShowing = false;
-                                                finish();
-                                            }
-                                        });
-                                        dial.show();
-                                    }
-                                    catch (Exception e) {
-                                        keyExpiredDialogShowing = false;
-                                        e.printStackTrace();
-                                    }
+                                    showKeyExpiredDialog();
                                 }
                             }
                         }
@@ -2624,6 +2578,100 @@ public void _ModX() {
             colorCycle.start();
         }
     }
+
+public void showKeyExpiredDialog() {
+	if (keyExpiredDialogShowing) return;
+	try {
+		final android.app.AlertDialog dial = new android.app.AlertDialog.Builder(MainActivity.this).create();
+		LayoutInflater inflater = getLayoutInflater();
+		View inflate = inflater.inflate(R.layout.expired, null);
+		dial.setView(inflate);
+		dial.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		
+		final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
+		final LinearLayout linear3 = (LinearLayout) inflate.findViewById(R.id.linear3);
+		final LinearLayout linear5 = (LinearLayout) inflate.findViewById(R.id.linear5);
+		final TextView textview4 = (TextView) inflate.findViewById(R.id.textview4);
+		
+		if (textview4 != null) {
+			textview4.setText("CONTACT");
+			try {
+				android.graphics.Typeface tf = android.graphics.Typeface.createFromAsset(getAssets(), "fonts/tajawal_medium.ttf");
+				textview4.setTypeface(tf, 1);
+			} catch (Exception e) {}
+		}
+		
+		try {
+			int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
+			if (linear2 != null) {
+				android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
+				gd2.setColor(0xFFFFFFFF);
+				gd2.setCornerRadius(d * 20);
+				linear2.setBackground(gd2);
+			}
+			if (linear3 != null) {
+				android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
+				gd3.setColor(android.graphics.Color.parseColor("#00B489"));
+				gd3.setCornerRadius(d * 25);
+				android.graphics.drawable.RippleDrawable ripple = new android.graphics.drawable.RippleDrawable(
+				new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0x88FFFFFF}),
+				gd3, null);
+				linear3.setBackground(ripple);
+				linear3.setElevation(0);
+				linear3.setClickable(true);
+				linear3.setFocusable(true);
+			}
+			if (linear5 != null) {
+				linear5.setBackground(new android.graphics.drawable.GradientDrawable() {
+					public android.graphics.drawable.GradientDrawable getIns(int a, int b, int c, int d) {
+						this.setCornerRadius(a);
+						this.setStroke(b, c);
+						this.setColor(d);
+						return this;
+					}
+				}.getIns((int)360, (int)0, 0xFF00B489, 0xFF00B489));
+			}
+			if (textview4 != null) {
+				textview4.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+				textview4.setTextColor(android.graphics.Color.WHITE);
+			}
+		} catch (Exception e) {}
+		
+		if (linear3 != null) {
+			linear3.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					keyExpiredDialogShowing = false;
+					dial.dismiss();
+					try {
+						Intent freshIntent = new Intent(Intent.ACTION_VIEW);
+						freshIntent.setData(Uri.parse(AppConfig.EXPIRED_CONTACT_URL));
+						freshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(freshIntent);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		
+		dial.setCanceledOnTouchOutside(false);
+		dial.setCancelable(true);
+		dial.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialogInterface) {
+				keyExpiredDialogShowing = false;
+				finishAffinity();
+			}
+		});
+		
+		dial.show();
+		keyExpiredDialogShowing = true;
+	} catch (Exception e) {
+		keyExpiredDialogShowing = false;
+		e.printStackTrace();
+	}
+}
 
 public void _Lab() {
     }
