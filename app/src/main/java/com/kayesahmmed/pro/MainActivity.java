@@ -1305,8 +1305,8 @@ public class MainActivity extends AppCompatActivity {
 						Drawable windowBackground = decorView.getBackground();
 						blurView.setupWith(rootView, (BlurAlgorithm) new RenderScriptBlur(MainActivity.this))
 								.setFrameClearDrawable(windowBackground)
-								.setBlurRadius(18.0f)
-								.setOverlayColor(Color.parseColor("#18FFFFFF"));
+								.setBlurRadius(16.0f)
+								.setOverlayColor(Color.parseColor("#E0FFFFFF"));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

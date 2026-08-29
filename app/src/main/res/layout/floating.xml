@@ -255,7 +255,7 @@
 									android:layout_height="wrap_content"
 									android:text="User :"
 									android:textSize="10sp"
-									android:textColor="#FFEB3B"
+									android:textColor="#FFFFFF"
 									android:focusable="false" />
 								<TextView
 									android:id="@+id/textview12"
@@ -281,7 +281,7 @@
 									android:layout_height="wrap_content"
 									android:text="Creator :"
 									android:textSize="10sp"
-									android:textColor="#76FF03"
+									android:textColor="#FFFFFF"
 									android:focusable="false" />
 								<TextView
 									android:id="@+id/textview13"
@@ -307,7 +307,7 @@
 									android:layout_height="wrap_content"
 									android:text="Register :"
 									android:textSize="10sp"
-									android:textColor="#673AB7"
+									android:textColor="#FFFFFF"
 									android:focusable="false" />
 								<TextView
 									android:id="@+id/textview14"
@@ -333,7 +333,7 @@
 									android:layout_height="wrap_content"
 									android:text="Valid :"
 									android:textSize="10sp"
-									android:textColor="#E91E63"
+									android:textColor="#FFFFFF"
 									android:focusable="false" />
 								<TextView
 									android:id="@+id/textview15"
@@ -359,7 +359,7 @@
 									android:layout_height="wrap_content"
 									android:text="Status :"
 									android:textSize="10sp"
-									android:textColor="#18FFFF"
+									android:textColor="#FFFFFF"
 									android:focusable="false" />
 								<TextView
 									android:id="@+id/textview16"

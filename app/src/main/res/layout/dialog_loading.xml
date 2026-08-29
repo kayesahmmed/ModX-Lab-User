@@ -32,7 +32,7 @@
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:indeterminate="true"
-                android:indeterminateTint="#18FFFF"
+                android:indeterminateTint="#00B0FF"
                 android:indeterminateTintMode="src_in"
                 android:layout_gravity="center" />
 
@@ -45,7 +45,7 @@
                 android:text="Verifying With Server..."
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#1A1A2E"
                 android:letterSpacing="0.04"
                 android:gravity="center" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginTop="4dp"
                 android:text="Please wait a moment"
                 android:textSize="12sp"
-                android:textColor="#CCFFFFFF"
+                android:textColor="#555566"
                 android:gravity="center" />
 
         </LinearLayout>
