@@ -6,31 +6,31 @@
     android:gravity="center"
     android:padding="24dp">
 
-    <!-- Blurred Glass Dialog Card matching Login Card -->
+    <!-- Blurred Pure White Glass Dialog Card -->
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/dialog_blur_view"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_glass_card"
+        android:background="@drawable/bg_dialog_white_blur"
         android:clipToOutline="true"
-        app:blurOverlayColor="#250F172A">
+        app:blurOverlayColor="#15FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_glass_card"
+            android:background="@android:color/transparent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingTop="26dp"
-            android:paddingBottom="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="22dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
             <!-- Smooth Glowing Circular Spinner -->
             <ProgressBar
                 android:id="@+id/loading_spinner"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
                 android:indeterminate="true"
                 android:indeterminateTint="#18FFFF"
                 android:indeterminateTintMode="src_in"
@@ -41,7 +41,7 @@
                 android:id="@+id/loading_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="14dp"
                 android:text="Verifying With Server..."
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -54,10 +54,10 @@
                 android:id="@+id/loading_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:text="Please wait a moment"
                 android:textSize="12sp"
-                android:textColor="#80FFFFFF"
+                android:textColor="#CCFFFFFF"
                 android:gravity="center" />
 
         </LinearLayout>
