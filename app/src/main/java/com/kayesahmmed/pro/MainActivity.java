@@ -271,6 +271,31 @@ public class MainActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 		// Run dialog showing logic with a small delay to avoid WindowManager$BadTokenException
+		// Manually trigger a single-value check for Firebase update to bypass slow WebSocket reconnection
+		if (update != null) {
+			update.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(DataSnapshot _dataSnapshot) {
+					try {
+						if (_dataSnapshot.hasChild("up")) {
+							DataSnapshot upNode = _dataSnapshot.child("up");
+							if (upNode.hasChild("version")) {
+								String fetchedVersion = upNode.child("version").getValue().toString();
+								getSharedPreferences("data", MODE_PRIVATE)
+									.edit().putString("cached_app_version", fetchedVersion).apply();
+								
+								if (!ModXLab().equals(fetchedVersion)) {
+									_dialog(fetchedVersion, "Please update the app to continue", "Exit", "Update");
+								}
+							}
+						}
+					} catch (Exception ignored) {}
+				}
+				@Override
+				public void onCancelled(DatabaseError _databaseError) {}
+			});
+		}
+		
 		new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -1461,14 +1486,10 @@ public void _Oncreate() {
         if (this.KEY.getString("Status", "").equals("false")) {
             this._Pro();
         }
-        this.Timer = new TimerTask(){
-
+        final android.os.Handler expiryHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+        Runnable expiryRunnable = new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable(){
-
-                    @Override
-                    public void run() {
                         if (!KEY.getString("time", "").equals("")) {
                             calendar_1 = Calendar.getInstance();
                             calendar_2.setTimeInMillis((long)Double.parseDouble(KEY.getString("time", "")));
@@ -1500,11 +1521,10 @@ public void _Oncreate() {
                                 }
                             }
                         }
-                    }
-                });
+                expiryHandler.postDelayed(this, 1000L);
             }
         };
-        this._timer.scheduleAtFixedRate(this.Timer, 0L, 1000L);
+        expiryHandler.post(expiryRunnable);
     }
 
 public void _Time_Difference(Calendar _Calendar1, Calendar _Calendar2) {
