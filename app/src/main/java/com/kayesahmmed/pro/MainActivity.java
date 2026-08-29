@@ -151,6 +151,14 @@ import rikka.shizuku.Shizuku;
 
 
 public class MainActivity extends AppCompatActivity {
+
+	public static void showToastSafe(Context ctx, String msg) {
+		if (keyExpiredDialogShowing || isDialogShowing) return;
+		try {
+		    Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {}
+	}
+
 	
 	private Timer _timer = new Timer();
 	private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
@@ -199,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 	public static WindowManager activeWindowManager = null;
 	public static boolean isExpiredActionDone = false;
 	public static boolean isUpdateActionDone = false;
-	private boolean keyExpiredDialogShowing = false;
+	public static boolean keyExpiredDialogShowing = false;
 	private boolean loginInProgress = false;
 	private boolean isShizukuDialogShowing = false;
 	private int lastShizukuState = -1;
@@ -747,7 +755,7 @@ public class MainActivity extends AppCompatActivity {
 				
 			}
 		} else {
-			android.widget.Toast.makeText(getApplicationContext(), "GIVE PERMISSION", android.widget.Toast.LENGTH_LONG).show();
+			MainActivity.showToastSafe(getApplicationContext(), "GIVE PERMISSION");
 		}
 		switch (_requestCode) {
 			
@@ -831,7 +839,7 @@ public class MainActivity extends AppCompatActivity {
 			String version_app = pinfo.versionName;
 			return version_app;
 		} catch (Exception e) {
-			SketchwareUtil.showMessage(getApplicationContext(), e.toString());
+			MainActivity.showToastSafe(getApplicationContext(), e.toString());
 		}
 		return "1.0";
 	}
@@ -973,10 +981,10 @@ public class MainActivity extends AppCompatActivity {
 			if (copyFileFromAssets2(_asset, desturi)) {
 				
 			} else {
-				android.widget.Toast.makeText(getApplicationContext(), "Something Went Wrong", android.widget.Toast.LENGTH_LONG).show();
+				MainActivity.showToastSafe(getApplicationContext(), "Something Went Wrong");
 			}
 		}catch(Exception e){
-			android.widget.Toast.makeText(getApplicationContext(), e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+			MainActivity.showToastSafe(getApplicationContext(), e.getMessage());
 		}
 	}
 	
@@ -1105,7 +1113,7 @@ public class MainActivity extends AppCompatActivity {
 		if (!SketchwareUtil.isConnected(getApplicationContext())) {
 			loginInProgress = false;
 			button1.setEnabled(true);
-			SketchwareUtil.showMessage(getApplicationContext(), "No internet connection. Please turn on your internet connection to log in.");
+			MainActivity.showToastSafe(getApplicationContext(), "No internet connection. Please turn on your internet connection to log in.");
 			return;
 		}
 		
@@ -1115,7 +1123,7 @@ public class MainActivity extends AppCompatActivity {
 		edittext2.getText().toString().trim().equals("")) {
 			loginInProgress = false;
 			button1.setEnabled(true);
-			SketchwareUtil.showMessage(getApplicationContext(), "Please Fill Details");
+			MainActivity.showToastSafe(getApplicationContext(), "Please Fill Details");
 			return;
 		}
 		
@@ -1155,7 +1163,7 @@ public class MainActivity extends AppCompatActivity {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					SketchwareUtil.showMessage(getApplicationContext(), "Database Error");
+					MainActivity.showToastSafe(getApplicationContext(), "Database Error");
 					return;
 				}
 				
@@ -1182,9 +1190,8 @@ public class MainActivity extends AppCompatActivity {
 				
 				// ✅ Invalid Login
 				if (matchedUser == null) {
-					SketchwareUtil.showMessage(
-					getApplicationContext(),
-					"Invalid Username or Password!");
+					MainActivity.showToastSafe(
+					getApplicationContext(), "Invalid Username or Password!");
 					return;
 				}
 				
@@ -1192,7 +1199,7 @@ public class MainActivity extends AppCompatActivity {
 				// ✅ Status Check
 				Object statusObj = matchedUser.get("status");
 				if (statusObj == null) {
-					SketchwareUtil.showMessage(
+					MainActivity.showToastSafe(
 					getApplicationContext(), "Account Error!");
 					return;
 				}
@@ -1201,7 +1208,7 @@ public class MainActivity extends AppCompatActivity {
 				// ✅ Time Check
 				Object timeObj = matchedUser.get("time");
 				if (timeObj == null) {
-					SketchwareUtil.showMessage(
+					MainActivity.showToastSafe(
 					getApplicationContext(), "Time Error!");
 					return;
 				}
@@ -1297,8 +1304,6 @@ public class MainActivity extends AppCompatActivity {
 						linear3.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								keyExpiredDialogShowing = false;
-								dial.dismiss();
 								
 								try {
 									Intent freshIntent = new Intent(Intent.ACTION_VIEW);
@@ -1307,7 +1312,7 @@ public class MainActivity extends AppCompatActivity {
 									startActivity(freshIntent);
 								} catch (Exception e) {
 									e.printStackTrace();
-									SketchwareUtil.showMessage(getApplicationContext(), "Could not open contact link!");
+									MainActivity.showToastSafe(getApplicationContext(), "Could not open contact link!");
 								}
 							}
 						});
@@ -1375,7 +1380,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onCancelled(DatabaseError _databaseError) {
 				loginInProgress = false;
 				button1.setEnabled(true);
-				SketchwareUtil.showMessage(
+				MainActivity.showToastSafe(
 				getApplicationContext(), "Connection Error !");
 			}
 		});
@@ -1456,7 +1461,7 @@ public class MainActivity extends AppCompatActivity {
 						@Override
 						public void run() {
 							_loadingdialog(false, AppConfig.LOADING_SERVER_TEXT);
-							android.widget.Toast.makeText(getApplicationContext(), AppConfig.LOGIN_SUCCESS_TOAST, android.widget.Toast.LENGTH_SHORT).show();
+							MainActivity.showToastSafe(getApplicationContext(), AppConfig.LOGIN_SUCCESS_TOAST);
 							_floating();
 						}
 					});
@@ -1464,7 +1469,7 @@ public class MainActivity extends AppCompatActivity {
 			};
 			_timer.schedule(Timer, (int)(1500));
 		        } else {
-            android.widget.Toast.makeText(getApplicationContext(), "Please grant Display over other apps permission", android.widget.Toast.LENGTH_LONG).show();
+            MainActivity.showToastSafe(getApplicationContext(), "Please grant Display over other apps permission");
             try {
                 android.content.Intent intent = new android.content.Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, android.net.Uri.parse("package:" + getPackageName()));
                 startActivity(intent);
@@ -2119,7 +2124,7 @@ public void _File_Permission() {
                         @Override
                         public void run() {
                             if (toastMsg != null && !toastMsg.isEmpty()) {
-                                Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
+                                MainActivity.showToastSafe(getApplicationContext(), toastMsg);
                             }
                         }
                     });
@@ -2272,6 +2277,7 @@ public void checkAllFilesPermissionForButton() {
     }
 
 public void showShizukuDeniedDialog(String message) {
+        if (keyExpiredDialogShowing || isDialogShowing) return;
         ImageView iv2Denied;
         if (shizukuDeniedAlertDialog != null) {
             try {
@@ -2356,7 +2362,7 @@ public void showShizukuDeniedDialog(String message) {
                             }
                             shizukuListener = null;
                             if (grantResult == 0) {
-                                runOnUiThread(() -> Toast.makeText((Context)getApplicationContext(), (CharSequence)"Shizuku is running \u2705", (int)0).show());
+                                runOnUiThread(() -> MainActivity.showToastSafe(getApplicationContext(), "Shizuku is running \u2705"));
                             } else {
                                 runOnUiThread(() -> showShizukuDeniedDialog("Shizuku permission is required to activate the app features. Click retry to grant permission."));
                             }
@@ -2474,7 +2480,7 @@ public void _Start_Shizuku() {
             this.myDialog.show();
         } else {
             if (!toastShown) {
-                Toast.makeText((Context)this.getApplicationContext(), (CharSequence)"Shizuku is running \u2705", (int)0).show();
+                MainActivity.showToastSafe(getApplicationContext(), "Shizuku is running \u2705");
                 toastShown = true;
             }
             if (rikka.shizuku.Shizuku.checkSelfPermission() != 0) {
@@ -2684,8 +2690,6 @@ public void showKeyExpiredDialog() {
 			linear3.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					keyExpiredDialogShowing = false;
-					dial.dismiss();
 					try {
 						Intent freshIntent = new Intent(Intent.ACTION_VIEW);
 						freshIntent.setData(Uri.parse(AppConfig.EXPIRED_CONTACT_URL));
