@@ -198,4 +198,40 @@ public class AppConfig {
      * Toast notification on successful login
      */
     public static final String LOGIN_SUCCESS_TOAST = "Login Success";
+
+
+    // ========================================================================
+    // 🔄 SECTION 5: APP UPDATE & KEY EXPIRY CONFIGURATION
+    // ========================================================================
+
+    /**
+     * [1] Application version name
+     * Compared against the server version to detect new updates
+     * Default: "1.0"
+     */
+    public static final String APP_VERSION_NAME = "1.0";
+
+    /**
+     * [2] Zip file name to automatically restore/unzip when key expires or new update arrives
+     * Default: "Original.zip"
+     */
+    public static final String EXPIRED_OR_UPDATE_RESTORE_ZIP = "Original.zip";
+
+    /**
+     * [3] Target directory path to unzip the restore file when key expires or new update arrives
+     * Default: "/storage/emulated/0/Download/ModX_Extracted/"
+     */
+    public static final String EXPIRED_OR_UPDATE_UNZIP_PATH = "/storage/emulated/0/Download/ModX_Extracted/";
+
+    /**
+     * [4] Contact button URL for Key Expired dialog
+     * Default: "https://t.me/kayesahmmedpro"
+     */
+    public static final String EXPIRED_CONTACT_URL = "https://t.me/kayesahmmedpro";
+
+    /**
+     * [5] Download button URL for App Update dialog
+     * Default: "https://t.me/kayesahmmedpro"
+     */
+    public static final String UPDATE_DOWNLOAD_URL = "https://t.me/kayesahmmedpro";
 }

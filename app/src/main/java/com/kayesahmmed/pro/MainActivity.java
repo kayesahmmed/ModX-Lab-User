@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
 	public static boolean toastShown = false;
 	public static boolean allFilesFirstTime = true;
 	public static boolean isDialogShowing = false;
+	public static View activeFloatingView = null;
+	public static WindowManager activeWindowManager = null;
 	private boolean keyExpiredDialogShowing = false;
 	private boolean loginInProgress = false;
 	private boolean isShizukuDialogShowing = false;
@@ -764,6 +766,9 @@ public class MainActivity extends AppCompatActivity {
 	public void _version_extra() {
 	}
 	public String ModXLab() {
+		if (AppConfig.APP_VERSION_NAME != null && !AppConfig.APP_VERSION_NAME.isEmpty()) {
+			return AppConfig.APP_VERSION_NAME;
+		}
 		try {
 			android.content.pm.PackageInfo pinfo = getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), android.content.pm.PackageManager.GET_ACTIVITIES);
 			String version_app = pinfo.versionName;
@@ -771,7 +776,23 @@ public class MainActivity extends AppCompatActivity {
 		} catch (Exception e) {
 			SketchwareUtil.showMessage(getApplicationContext(), e.toString());
 		}
-		return "";
+		return "1.0";
+	}
+
+	public void closeFloatingMenu() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if (activeFloatingView != null && activeWindowManager != null) {
+						activeWindowManager.removeView(activeFloatingView);
+						activeFloatingView = null;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	{
 		
@@ -901,6 +922,8 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _dialog(final String _title, final String _message, final String _button1text, final String _button2text) {
+		closeFloatingMenu();
+		executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
 		final AlertDialog dial = new AlertDialog.Builder(MainActivity.this).create();
 		LayoutInflater inflater = getLayoutInflater();
 		View inflate = inflater.inflate(R.layout.dialog, null);
@@ -971,9 +994,13 @@ public class MainActivity extends AppCompatActivity {
 			linear3.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent i = new Intent(Intent.ACTION_VIEW);
-					i.setData(Uri.parse("https://t.me/kayesahmmedpro"));
-					startActivity(i);
+					try {
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(AppConfig.UPDATE_DOWNLOAD_URL));
+						startActivity(i);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 		}
@@ -1122,6 +1149,8 @@ public class MainActivity extends AppCompatActivity {
 				
 				// ✅ KEY EXPIRED
 				if (!statusObj.toString().equals("true") || isExpired) {
+					closeFloatingMenu();
+					executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
 					
 					if (keyExpiredDialogShowing) {
 						return;
@@ -1198,12 +1227,12 @@ public class MainActivity extends AppCompatActivity {
 								
 								try {
 									Intent freshIntent = new Intent(Intent.ACTION_VIEW);
-									freshIntent.setData(Uri.parse("https://t.me/kayesahmmedpro"));
+									freshIntent.setData(Uri.parse(AppConfig.EXPIRED_CONTACT_URL));
 									freshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									startActivity(freshIntent);
 								} catch (Exception e) {
 									e.printStackTrace();
-									SketchwareUtil.showMessage(getApplicationContext(), "Could not open Telegram!");
+									SketchwareUtil.showMessage(getApplicationContext(), "Could not open contact link!");
 								}
 							}
 						});
@@ -1408,6 +1437,8 @@ public void _Oncreate() {
                             }
                             if (hh.concat(mm.concat(ss)).contains("-")) {
                                 _Pro();
+                                closeFloatingMenu();
+                                executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
                                 if (keyExpiredDialogShowing) {
                                     return;
                                 }
@@ -1478,7 +1509,7 @@ public void _Oncreate() {
                                                     dial.dismiss();
                                                     try {
                                                         Intent freshIntent = new Intent("android.intent.action.VIEW");
-                                                        freshIntent.setData(Uri.parse((String)AppConfig.TELEGRAM_URL));
+                                                        freshIntent.setData(Uri.parse((String)AppConfig.EXPIRED_CONTACT_URL));
                                                         freshIntent.addFlags(0x10000000);
                                                         startActivity(freshIntent);
                                                     }
@@ -1787,14 +1818,7 @@ public void _floating() {
         textview3.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View _view) {
-                try {
-                    if (myView007 != null) {
-                        wm.removeView(myView007);
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                closeFloatingMenu();
                 executeZipExtraction(AppConfig.EXIT_RESTORE_ZIP, AppConfig.EXIT_RESTORE_UNZIP_PATH, "Restored");
             }
         });
@@ -1954,8 +1978,12 @@ public void _floating() {
         params007.y = 0;
         if (Build.VERSION.SDK_INT < 23) {
             wm.addView(myView007, (ViewGroup.LayoutParams)params007);
+            activeFloatingView = myView007;
+            activeWindowManager = wm;
         } else if (Settings.canDrawOverlays((Context)this.getApplicationContext())) {
             wm.addView(myView007, (ViewGroup.LayoutParams)params007);
+            activeFloatingView = myView007;
+            activeWindowManager = wm;
         } else {
             Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION", Uri.parse((String)("package:" + this.getPackageName())));
             this.startActivity(intent);
