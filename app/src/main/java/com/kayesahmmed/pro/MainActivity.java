@@ -532,18 +532,22 @@ public class MainActivity extends AppCompatActivity {
 		_User_child_listener = new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot _param1, String _param2) {
-				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
-				final String _childKey = _param1.getKey();
-				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
-				
 			}
 			
 			@Override
 			public void onChildChanged(DataSnapshot _param1, String _param2) {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
-				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
-				
+				if (_childValue != null && _childValue.containsKey("user")) {
+					if (KEY.getString("User", "").equals(_childValue.get("user").toString())) {
+						if (_childValue.containsKey("status")) {
+							KEY.edit().putString("Status", _childValue.get("status").toString()).apply();
+						}
+						if (_childValue.containsKey("time")) {
+							KEY.edit().putString("time", _childValue.get("time").toString()).apply();
+						}
+					}
+				}
 			}
 			
 			@Override
@@ -833,6 +837,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void closeFloatingMenu() {
+		try {
+			stopService(new Intent(this, KeepAliveService.class));
+		} catch (Exception ignored) {}
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -1506,7 +1513,7 @@ public void _Oncreate() {
                             if (1 > ss.length()) {
                                 ss = "0".concat(ss);
                             }
-                            if (hh.concat(mm.concat(ss)).contains("-")) {
+                            if (hh.concat(mm.concat(ss)).contains("-") || KEY.getString("Status", "").equals("false")) {
                                 _Pro();
                                 if (!isExpiredActionDone) {
                                     closeFloatingMenu();
@@ -1537,6 +1544,13 @@ public void _Time_Difference(Calendar _Calendar1, Calendar _Calendar2) {
     }
 
 public void _floating() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(new Intent(this, KeepAliveService.class));
+            } else {
+                startService(new Intent(this, KeepAliveService.class));
+            }
+        } catch (Exception ignored) {}
         int childIndex;
         ViewGroup parentGroup2;
         TitanicTextView titanicText;
