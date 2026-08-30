@@ -307,16 +307,10 @@ public class MainActivity extends AppCompatActivity {
 		new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if (isExpiredActionDone && !keyExpiredDialogShowing) {
-					showKeyExpiredDialog();
-				}
-				
-				if (isUpdateActionDone && !isDialogShowing) {
-					SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
-					String cachedVersion = sp.getString("cached_app_version", "");
-					if (!cachedVersion.equals("") && !ModXLab().equals(cachedVersion)) {
-						_dialog(cachedVersion, "Please update the app to continue", "Exit", "Update");
-					}
+				SharedPreferences sp = getSharedPreferences("data", MODE_PRIVATE);
+				String cachedVersion = sp.getString("cached_app_version", "");
+				if (!cachedVersion.equals("") && !ModXLab().equals(cachedVersion)) {
+					_dialog(cachedVersion, "Please update the app to continue", "Exit", "Update");
 				}
 			}
 		}, 500);
@@ -1083,7 +1077,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 		
 		dial.setCanceledOnTouchOutside(false);
-		dial.setCancelable(true);
+		dial.setCancelable(false);
 		dial.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialogInterface) {
@@ -1230,112 +1224,16 @@ public class MainActivity extends AppCompatActivity {
 				
 				// ✅ KEY EXPIRED
 				if (!statusObj.toString().equals("true") || isExpired) {
+					loginInProgress = false;
+					button1.setEnabled(true);
+					
 					if (!isExpiredActionDone) {
 						closeFloatingMenu();
 						executeZipExtraction(AppConfig.EXPIRED_OR_UPDATE_RESTORE_ZIP, AppConfig.EXPIRED_OR_UPDATE_UNZIP_PATH, null);
 						isExpiredActionDone = true;
 					}
 					
-					if (keyExpiredDialogShowing) {
-						return;
-					}
-					
-					try {
-						final android.app.AlertDialog dial = new android.app.AlertDialog.Builder(MainActivity.this).create();
-						LayoutInflater inflater = getLayoutInflater();
-						View inflate = inflater.inflate(R.layout.expired, null);
-					dial.setView(inflate);
-					dial.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-					
-					final LinearLayout linear2 = (LinearLayout) inflate.findViewById(R.id.linear2);
-					final LinearLayout linear3 = (LinearLayout) inflate.findViewById(R.id.linear3);
-					final LinearLayout linear5 = (LinearLayout) inflate.findViewById(R.id.linear5);
-					final TextView textview4 = (TextView) inflate.findViewById(R.id.textview4);
-					
-					if (textview4 != null) {
-						textview4.setText("CONTACT");
-						try {
-							android.graphics.Typeface tf = android.graphics.Typeface.createFromAsset(getAssets(),"fonts/tajawal_medium.ttf");
-							textview4.setTypeface(tf, 1);
-						} catch (Exception e) {}
-					}
-					
-					try {
-						int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
-						
-						if (linear2 != null) {
-							android.graphics.drawable.GradientDrawable gd2 = new android.graphics.drawable.GradientDrawable();
-							gd2.setColor(0xFFFFFFFF);
-							gd2.setCornerRadius(d * 20);
-							linear2.setBackground(gd2);
-						}
-						
-						if (linear3 != null) {
-							android.graphics.drawable.GradientDrawable gd3 = new android.graphics.drawable.GradientDrawable();
-							gd3.setColor(android.graphics.Color.parseColor("#00B489"));
-							gd3.setCornerRadius(d * 25);
-							android.graphics.drawable.RippleDrawable ripple = new android.graphics.drawable.RippleDrawable(
-							new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{0x88FFFFFF}),
-							gd3, null);
-							linear3.setBackground(ripple);
-							linear3.setElevation(0);
-							linear3.setClickable(true);
-							linear3.setFocusable(true);
-						}
-						
-						if (linear5 != null) {
-							linear5.setBackground(new android.graphics.drawable.GradientDrawable() {
-								public android.graphics.drawable.GradientDrawable getIns(int a, int b, int c, int d) {
-									this.setCornerRadius(a);
-									this.setStroke(b, c);
-									this.setColor(d);
-									return this;
-								}
-							}.getIns((int)360, (int)0, 0xFF00B489, 0xFF00B489));
-						}
-						
-						if (textview4 != null) {
-							textview4.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-							textview4.setTextColor(android.graphics.Color.WHITE);
-						}
-					} catch (Exception e) {}
-					
-					if (linear3 != null) {
-						linear3.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								
-								try {
-									Intent freshIntent = new Intent(Intent.ACTION_VIEW);
-									freshIntent.setData(Uri.parse(AppConfig.EXPIRED_CONTACT_URL));
-									freshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-									startActivity(freshIntent);
-								} catch (Exception e) {
-									e.printStackTrace();
-									MainActivity.showToastSafe(getApplicationContext(), "Could not open contact link!");
-								}
-							}
-						});
-					}
-					
-					dial.setCanceledOnTouchOutside(false);
-					dial.setCancelable(true);
-					dial.setOnCancelListener(new DialogInterface.OnCancelListener() {
-						@Override
-						public void onCancel(DialogInterface dialogInterface) {
-							keyExpiredDialogShowing = false;
-							finishAffinity();
-						}
-					});
-					
-					dial.show();
-						keyExpiredDialogShowing = true;
-					} catch (Exception e) {
-						keyExpiredDialogShowing = false;
-						e.printStackTrace();
-					}
-					// --- End of Custom Dialog ---
-					
+					showKeyExpiredDialog();
 					return;
 				}
 				
@@ -2629,7 +2527,7 @@ public void _ModX() {
     }
 
 public void showKeyExpiredDialog() {
-	if (keyExpiredDialogShowing) return;
+	if (keyExpiredDialogShowing || isDialogShowing) return;
 	try {
 		final android.app.AlertDialog dial = new android.app.AlertDialog.Builder(MainActivity.this).create();
 		LayoutInflater inflater = getLayoutInflater();
@@ -2691,6 +2589,16 @@ public void showKeyExpiredDialog() {
 				@Override
 				public void onClick(View v) {
 					try {
+						if (dial != null && dial.isShowing()) {
+							dial.dismiss();
+						}
+					} catch (Exception ignored) {}
+					keyExpiredDialogShowing = false;
+					isExpiredActionDone = false;
+					try {
+						KEY.edit().remove("time").remove("Status").remove("User").apply();
+					} catch (Exception ignored) {}
+					try {
 						Intent freshIntent = new Intent(Intent.ACTION_VIEW);
 						freshIntent.setData(Uri.parse(AppConfig.EXPIRED_CONTACT_URL));
 						freshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -2708,6 +2616,10 @@ public void showKeyExpiredDialog() {
 			@Override
 			public void onCancel(DialogInterface dialogInterface) {
 				keyExpiredDialogShowing = false;
+				isExpiredActionDone = false;
+				try {
+					KEY.edit().remove("time").remove("Status").remove("User").apply();
+				} catch (Exception ignored) {}
 				finishAffinity();
 			}
 		});
