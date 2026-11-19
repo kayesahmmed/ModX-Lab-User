@@ -4,7 +4,7 @@ android {
 	compileSdk 34
 namespace "com.kayesahmmed.pro"
 	defaultConfig {
-		applicationId "com.kayesahmmed.pro"
+		applicationId "com.modxlab"
 		minSdkVersion 23
 		targetSdkVersion 34
 		versionCode 1
@@ -39,4 +39,6 @@ dependencies {
 	implementation 'dev.rikka.shizuku:provider:12.2.0'
 	implementation "com.github.Dimezis:BlurView:version-2.0.3"
 }
+
+apply plugin: 'com.google.gms.google-services'
 

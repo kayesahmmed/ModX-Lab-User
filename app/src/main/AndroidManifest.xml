@@ -55,7 +55,7 @@
 			android:theme="@style/AppTheme.DebugActivity" />
 		<provider
 			android:name="androidx.startup.InitializationProvider"
-			android:authorities="com.kayesahmmed.pro.androidx-startup"
+			android:authorities="${applicationId}.androidx-startup"
 			android:exported="false">
 			<meta-data
 				android:name="androidx.lifecycle.ProcessLifecycleInitializer"
@@ -69,7 +69,7 @@
 			android:value="@integer/google_play_services_version" />
 		<provider
 			android:name="com.google.firebase.provider.FirebaseInitProvider"
-			android:authorities="com.kayesahmmed.pro.firebaseinitprovider"
+			android:authorities="${applicationId}.firebaseinitprovider"
 			android:exported="false"
 			android:initOrder="100" />
 		<service
@@ -87,7 +87,7 @@
 			android:required="false" />
 <provider
     android:name="rikka.shizuku.ShizukuProvider"
-    android:authorities="com.kayesahmmed.pro.shizuku"
+    android:authorities="${applicationId}.shizuku"
     android:multiprocess="false"
     android:enabled="true"
     android:exported="true"
