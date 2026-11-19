@@ -32,6 +32,20 @@ jobs:
         with:
           packages: platform-tools platforms;android-34 build-tools;34.0.0
 
+      - name: Check google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ ! -f app/google-services.json ]; then
+            if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+              printf '%s\n' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+              echo "Restored app/google-services.json from GOOGLE_SERVICES_JSON secret."
+            else
+              echo "::error::app/google-services.json is missing! Upload app/google-services.json on GitHub or set the GOOGLE_SERVICES_JSON repository secret."
+              exit 1
+            fi
+          fi
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
