@@ -1,4 +1,4 @@
-package com.kayesahmmed.pro;
+package com.modxlab.pro;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

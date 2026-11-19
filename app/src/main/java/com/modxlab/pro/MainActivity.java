@@ -1,4 +1,4 @@
-package com.kayesahmmed.pro;
+package com.modxlab.pro;
 import android.graphics.Shader;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import java.io.File;
 import android.util.AttributeSet;
 import eightbitlab.com.blurview.RenderScriptBlur;
-import com.kayesahmmed.pro.R;
+import com.modxlab.pro.R;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Parcelable;
 import android.text.method.PasswordTransformationMethod;
@@ -53,7 +53,7 @@ import android.graphics.Bitmap;
 import android.view.Window;
 import android.animation.ObjectAnimator;
 import android.os.Environment;
-import com.kayesahmmed.pro.SketchwareUtil;
+import com.modxlab.pro.SketchwareUtil;
 import java.util.zip.ZipInputStream;
 import android.animation.Animator;
 import android.view.MotionEvent;
@@ -1595,76 +1595,15 @@ public void _floating() {
         normalDrawable.setCornerRadius(10.0f);
         icon1.setBackground((Drawable)highlightDrawable);
         icon2.setBackground((Drawable)normalDrawable);
-        TimerTask timer = new TimerTask(){
-
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        light.setBackgroundColor(-65536);
-                        TimerTask Timer2 = new TimerTask(){
-
-                            @Override
-                            public void run() {
-                                runOnUiThread(new Runnable(){
-
-                                    @Override
-                                    public void run() {
-                                        light.setBackgroundColor(-268370176);
-                                        TimerTask Timer2 = new TimerTask(){
-
-                                            @Override
-                                            public void run() {
-                                                runOnUiThread(new Runnable(){
-
-                                                    @Override
-                                                    public void run() {
-                                                        light.setBackgroundColor(-16767234);
-                                                        TimerTask Timer2 = new TimerTask(){
-
-                                                            @Override
-                                                            public void run() {
-                                                                runOnUiThread(new Runnable(){
-
-                                                                    @Override
-                                                                    public void run() {
-                                                                        light.setBackgroundColor(-5317);
-                                                                        TimerTask Timer2 = new TimerTask(){
-
-                                                                            @Override
-                                                                            public void run() {
-                                                                                runOnUiThread(new Runnable(){
-
-                                                                                    @Override
-                                                                                    public void run() {
-                                                                                        light.setBackgroundColor(-15138817);
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        };
-                                                                        _timer.schedule(Timer2, 12000L);
-                                                                    }
-                                                                });
-                                                            }
-                                                        };
-                                                        _timer.schedule(Timer2, 9000L);
-                                                    }
-                                                });
-                                            }
-                                        };
-                                        _timer.schedule(Timer2, 6000L);
-                                    }
-                                });
-                            }
-                        };
-                        _timer.schedule(Timer2, 3000L);
-                    }
-                });
-            }
-        };
-        this._timer.scheduleAtFixedRate(timer, 0L, 15000L);
+        if (light != null) {
+            try {
+                ObjectAnimator pulseAnim = ObjectAnimator.ofFloat(light, "alpha", 0.55f, 1.0f);
+                pulseAnim.setDuration(1200L);
+                pulseAnim.setRepeatCount(ValueAnimator.INFINITE);
+                pulseAnim.setRepeatMode(ValueAnimator.REVERSE);
+                pulseAnim.start();
+            } catch (Exception ignored) {}
+        }
         try {
             AnimatedParticleView particleView = new AnimatedParticleView((Context)this);
             particleView.setLineColor(-8978685);

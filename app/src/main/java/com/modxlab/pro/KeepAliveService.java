@@ -1,4 +1,4 @@
-package com.kayesahmmed.pro;
+package com.modxlab.pro;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
